@@ -1,0 +1,44 @@
+{
+  "name": "anime",
+  "main": "js/anime.js",
+  "license": "MIT",
+  "ignore": [
+    "bower.json",
+    "gulpfile.js",
+    "package.json",
+    ".gitignore",
+    "source",
+    "node_module",
+    "gulp-tasks"
+  ],
+  "keywords": [
+    "anime",
+    "animation",
+    "animate",
+    "reveal",
+    "wow",
+    "event",
+    "appear",
+    "disappear"
+  ],
+  "dependencies": {
+    "jquery": ">=1.6",
+    "jquery_appear": ">=0.3.6",
+    "animate-css": ">=3.5.1"
+  },
+  "homepage": "https://github.com/reatlat/ANIME.js",
+  "authors": [
+    "Alex Zappa <reatlat@gmail.com>"
+  ],
+  "description": "Reveal CSS animation as you scroll down a page.",
+  "_release": "17be75c2a0",
+  "_resolution": {
+    "type": "branch",
+    "branch": "master",
+    "commit": "17be75c2a0814f15890a737c2bd0bcd00e258f3b"
+  },
+  "_source": "https://github.com/reatlat/ANIME.js.git",
+  "_target": "*",
+  "_originalSource": "anime",
+  "_direct": true
+}

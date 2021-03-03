@@ -1,0 +1,15 @@
+{
+  "name": "fullcalendar",
+  "homepage": "https://github.com/fullcalendar/fullcalendar",
+  "version": "5.5.1",
+  "_release": "5.5.1",
+  "_resolution": {
+    "type": "version",
+    "tag": "v5.5.1",
+    "commit": "6f1154b146cbeed3ef9208e77625e5a4ff9115a8"
+  },
+  "_source": "https://github.com/fullcalendar/fullcalendar.git",
+  "_target": "^5.5.1",
+  "_originalSource": "fullcalendar",
+  "_direct": true
+}
