@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 03, 2021 at 05:51 AM
+-- Generation Time: Mar 03, 2021 at 07:18 AM
 -- Server version: 10.1.36-MariaDB
 -- PHP Version: 7.2.11
 
@@ -25,27 +25,31 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
--- Table structure for table `broadcasts`
+-- Table structure for table `awards`
 --
 
-CREATE TABLE `broadcasts` (
+CREATE TABLE `awards` (
   `id` int(11) NOT NULL,
-  `event` varchar(500) COLLATE utf8_unicode_ci NOT NULL,
-  `images` text COLLATE utf8_unicode_ci,
-  `expiry_date` date DEFAULT NULL,
-  `action` text COLLATE utf8_unicode_ci,
-  `frequency` int(11) DEFAULT NULL,
-  `isHeadline` tinyint(1) DEFAULT NULL,
-  `isEvent` tinyint(1) DEFAULT NULL,
-  `isMessage` tinyint(1) DEFAULT NULL,
-  `department_id` int(11) DEFAULT NULL,
-  `group_id` int(11) DEFAULT NULL,
-  `team_id` int(11) DEFAULT NULL,
-  `created_by` int(11) DEFAULT NULL,
+  `award` varchar(100) COLLATE utf8_unicode_ci NOT NULL,
+  `description` varchar(500) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `reward` float DEFAULT NULL,
+  `active` tinyint(1) NOT NULL DEFAULT '1',
   `created_date` datetime DEFAULT NULL,
-  `changed_by` int(11) DEFAULT NULL,
   `last_change` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+--
+-- Dumping data for table `awards`
+--
+
+INSERT INTO `awards` (`id`, `award`, `description`, `reward`, `active`, `created_date`, `last_change`) VALUES
+(1, 'Excellent-1', 'Hoàn thành Xuất sắc - Nhóm 1', 1.2, 1, '2021-03-03 13:10:00', NULL),
+(2, 'Excellent-2', 'Hoàn thành Xuất sắc - Nhóm 2', 1.15, 1, '2021-03-03 13:11:00', NULL),
+(3, 'Good-1', 'Hoàn thành Tốt - Nhóm 1', 1.1, 1, '2021-03-03 13:12:00', NULL),
+(4, 'Good-1', 'Hoàn thành Tốt - Nhóm 1', 1.05, 1, '2021-03-03 13:11:00', NULL),
+(5, 'Acceptable-1', 'Hoàn thành - Nhóm 1', 1, 1, '2021-03-03 13:14:00', NULL),
+(6, 'Acceptable-1', 'Hoàn thành - Nhóm 2', 0.95, 1, '2021-03-03 13:14:00', NULL),
+(7, 'Not completed', 'Không hoàn thành', 0.7, 1, '2021-03-03 13:16:00', NULL);
 
 -- --------------------------------------------------------
 
@@ -101,40 +105,6 @@ CREATE TABLE `groups` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `jobs`
---
-
-CREATE TABLE `jobs` (
-  `id` int(11) NOT NULL,
-  `description` text COLLATE utf8_unicode_ci NOT NULL,
-  `type` varchar(100) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `project` varchar(100) COLLATE utf8_unicode_ci NOT NULL,
-  `user_id` int(11) NOT NULL,
-  `deadline` date NOT NULL,
-  `plan_start` date DEFAULT NULL,
-  `plan_complete` date DEFAULT NULL,
-  `actual_start` date DEFAULT NULL,
-  `actual_complete` date DEFAULT NULL,
-  `priority` int(3) DEFAULT NULL,
-  `weight` int(3) NOT NULL,
-  `status` int(3) DEFAULT NULL,
-  `leader_score` int(3) DEFAULT NULL,
-  `efficiency` int(3) DEFAULT NULL,
-  `productivity` int(3) DEFAULT NULL,
-  `overall_score` int(3) NOT NULL,
-  `active` tinyint(1) NOT NULL DEFAULT '1',
-  `isAssigned` tinyint(1) DEFAULT NULL,
-  `assigned_by` int(11) DEFAULT NULL,
-  `assigned_date` datetime DEFAULT NULL,
-  `created_by` int(11) DEFAULT NULL,
-  `created_date` datetime DEFAULT NULL,
-  `approved_by` int(11) DEFAULT NULL,
-  `approved_date` datetime DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
-
--- --------------------------------------------------------
-
---
 -- Table structure for table `logging`
 --
 
@@ -158,22 +128,42 @@ CREATE TABLE `men_of_the_month` (
   `id` int(11) NOT NULL,
   `user_id` int(11) NOT NULL,
   `slot` int(11) DEFAULT NULL,
-  `reward1` int(11) DEFAULT NULL,
-  `reward2` int(11) DEFAULT NULL,
-  `reward3` int(11) DEFAULT NULL,
-  `reward4` int(11) DEFAULT NULL,
-  `reward5` int(11) DEFAULT NULL,
-  `reward6` int(11) DEFAULT NULL,
-  `reward7` int(11) DEFAULT NULL,
-  `reward8` int(11) DEFAULT NULL,
+  `award_id` int(11) DEFAULT NULL,
   `year` int(11) NOT NULL,
   `month` int(11) NOT NULL,
   `department_id` int(11) NOT NULL,
   `team_id` int(11) NOT NULL,
   `reason` text COLLATE utf8_unicode_ci,
   `proves` text COLLATE utf8_unicode_ci,
+  `acive` tinyint(1) NOT NULL DEFAULT '1',
   `created_by` int(11) NOT NULL,
   `created_date` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `messages`
+--
+
+CREATE TABLE `messages` (
+  `id` int(11) NOT NULL,
+  `event` varchar(500) COLLATE utf8_unicode_ci NOT NULL,
+  `images` text COLLATE utf8_unicode_ci,
+  `expiry_date` date DEFAULT NULL,
+  `action` text COLLATE utf8_unicode_ci,
+  `frequency` int(11) DEFAULT NULL,
+  `isHeadline` tinyint(1) DEFAULT NULL,
+  `isEvent` tinyint(1) DEFAULT NULL,
+  `isMessage` tinyint(1) DEFAULT NULL,
+  `department_id` int(11) DEFAULT NULL,
+  `group_id` int(11) DEFAULT NULL,
+  `team_id` int(11) DEFAULT NULL,
+  `active` tinyint(1) NOT NULL DEFAULT '1',
+  `created_by` int(11) DEFAULT NULL,
+  `created_date` datetime DEFAULT NULL,
+  `changed_by` int(11) DEFAULT NULL,
+  `last_change` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- --------------------------------------------------------
@@ -222,6 +212,29 @@ CREATE TABLE `regulation` (
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `reports`
+--
+
+CREATE TABLE `reports` (
+  `id` int(11) NOT NULL,
+  `user_id` int(11) DEFAULT NULL,
+  `year` int(11) DEFAULT NULL,
+  `month` int(11) DEFAULT NULL,
+  `total` int(11) DEFAULT NULL,
+  `completed` int(11) DEFAULT NULL,
+  `pending` int(11) DEFAULT NULL,
+  `overdue` int(11) DEFAULT NULL,
+  `regulation` int(11) DEFAULT NULL,
+  `overall` int(11) DEFAULT NULL,
+  `award_id` int(11) DEFAULT NULL,
+  `active` tinyint(1) NOT NULL DEFAULT '1',
+  `created_date` datetime DEFAULT NULL,
+  `last_change` datetime DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `squads`
 --
 
@@ -241,6 +254,41 @@ CREATE TABLE `squads` (
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `tasks`
+--
+
+CREATE TABLE `tasks` (
+  `id` int(11) NOT NULL,
+  `description` text COLLATE utf8_unicode_ci NOT NULL,
+  `type` varchar(100) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `project` varchar(100) COLLATE utf8_unicode_ci NOT NULL,
+  `user_id` int(11) NOT NULL,
+  `team_target_id` int(11) DEFAULT NULL,
+  `deadline` date NOT NULL,
+  `plan_start` date DEFAULT NULL,
+  `plan_complete` date DEFAULT NULL,
+  `actual_start` date DEFAULT NULL,
+  `actual_complete` date DEFAULT NULL,
+  `priority` int(3) DEFAULT NULL,
+  `weight` int(3) NOT NULL,
+  `status` int(3) DEFAULT NULL,
+  `leader_score` int(3) DEFAULT NULL,
+  `efficiency` int(3) DEFAULT NULL,
+  `productivity` int(3) DEFAULT NULL,
+  `overall_score` int(3) NOT NULL,
+  `active` tinyint(1) NOT NULL DEFAULT '1',
+  `isAssigned` tinyint(1) DEFAULT NULL,
+  `assigned_by` int(11) DEFAULT NULL,
+  `assigned_date` datetime DEFAULT NULL,
+  `created_by` int(11) DEFAULT NULL,
+  `created_date` datetime DEFAULT NULL,
+  `approved_by` int(11) DEFAULT NULL,
+  `approved_date` datetime DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `teams`
 --
 
@@ -255,6 +303,57 @@ CREATE TABLE `teams` (
   `changed_by` int(11) DEFAULT NULL,
   `last_change` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `team_targets`
+--
+
+CREATE TABLE `team_targets` (
+  `id` int(11) NOT NULL,
+  `team_id` int(11) NOT NULL,
+  `seq_no` varchar(100) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `year` int(11) DEFAULT NULL,
+  `task` text COLLATE utf8_unicode_ci NOT NULL,
+  `pic` text COLLATE utf8_unicode_ci NOT NULL,
+  `status` int(11) DEFAULT NULL,
+  `priority` int(11) DEFAULT NULL,
+  `remarks` text COLLATE utf8_unicode_ci,
+  `deadline` date DEFAULT NULL,
+  `plan_start` date DEFAULT NULL,
+  `plan_complete` date DEFAULT NULL,
+  `actual_start` date DEFAULT NULL,
+  `actual_complete` date DEFAULT NULL,
+  `created_by` int(11) DEFAULT NULL,
+  `created_date` date DEFAULT NULL,
+  `changed_by` int(11) DEFAULT NULL,
+  `last_change` datetime DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `templates`
+--
+
+CREATE TABLE `templates` (
+  `id` int(11) NOT NULL,
+  `template_name` varchar(200) COLLATE utf8_unicode_ci NOT NULL,
+  `template_file` text COLLATE utf8_unicode_ci NOT NULL,
+  `active` tinyint(1) NOT NULL,
+  `created_by` int(11) DEFAULT NULL,
+  `created_date` datetime DEFAULT NULL,
+  `changed_by` int(11) DEFAULT NULL,
+  `last_change` datetime DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+--
+-- Dumping data for table `templates`
+--
+
+INSERT INTO `templates` (`id`, `template_name`, `template_file`, `active`, `created_by`, `created_date`, `changed_by`, `last_change`) VALUES
+(1, 'BM02', '/templates/BM02.xlsx', 1, 0, '0000-00-00 00:00:00', 0, '0000-00-00 00:00:00');
 
 -- --------------------------------------------------------
 
@@ -337,9 +436,9 @@ CREATE TABLE `user_group` (
 --
 
 --
--- Indexes for table `broadcasts`
+-- Indexes for table `awards`
 --
-ALTER TABLE `broadcasts`
+ALTER TABLE `awards`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -361,12 +460,6 @@ ALTER TABLE `groups`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indexes for table `jobs`
---
-ALTER TABLE `jobs`
-  ADD PRIMARY KEY (`id`);
-
---
 -- Indexes for table `logging`
 --
 ALTER TABLE `logging`
@@ -376,6 +469,12 @@ ALTER TABLE `logging`
 -- Indexes for table `men_of_the_month`
 --
 ALTER TABLE `men_of_the_month`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `messages`
+--
+ALTER TABLE `messages`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -391,15 +490,39 @@ ALTER TABLE `regulation`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indexes for table `reports`
+--
+ALTER TABLE `reports`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `squads`
 --
 ALTER TABLE `squads`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indexes for table `tasks`
+--
+ALTER TABLE `tasks`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `teams`
 --
 ALTER TABLE `teams`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `team_targets`
+--
+ALTER TABLE `team_targets`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `templates`
+--
+ALTER TABLE `templates`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -425,10 +548,10 @@ ALTER TABLE `user_group`
 --
 
 --
--- AUTO_INCREMENT for table `broadcasts`
+-- AUTO_INCREMENT for table `awards`
 --
-ALTER TABLE `broadcasts`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+ALTER TABLE `awards`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT for table `comments`
@@ -449,12 +572,6 @@ ALTER TABLE `groups`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT for table `jobs`
---
-ALTER TABLE `jobs`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
-
---
 -- AUTO_INCREMENT for table `logging`
 --
 ALTER TABLE `logging`
@@ -464,6 +581,12 @@ ALTER TABLE `logging`
 -- AUTO_INCREMENT for table `men_of_the_month`
 --
 ALTER TABLE `men_of_the_month`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `messages`
+--
+ALTER TABLE `messages`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
@@ -479,9 +602,21 @@ ALTER TABLE `regulation`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
+-- AUTO_INCREMENT for table `reports`
+--
+ALTER TABLE `reports`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT for table `squads`
 --
 ALTER TABLE `squads`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `tasks`
+--
+ALTER TABLE `tasks`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
@@ -489,6 +624,18 @@ ALTER TABLE `squads`
 --
 ALTER TABLE `teams`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `team_targets`
+--
+ALTER TABLE `team_targets`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `templates`
+--
+ALTER TABLE `templates`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `themes`
