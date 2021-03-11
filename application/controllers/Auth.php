@@ -38,11 +38,15 @@ class Auth extends Admin_Controller
                         'login_id'  => $login['login_id'],
                         'fullname'  => $login['fullname'],                        
                         'email'     => $login['email'],
-                        'department'=>$login['department'],
-                        'position'=>$login['position'],
-                        'image' => $login['image'],
-                        'logged_in' => TRUE,
+                        // 'department'=>$login['department'],
+                        // 'team'=>$login['team'],
+                        // 'squad'=>$login['squad'],
                         'group_id'=> $group['group_id'],
+                        'position'=>$login['position'],
+                        'avatar' => $login['avatar'],
+                        'images' => $login['images'],
+                        'logged_in' => TRUE,
+                        
                     );                                      
 
                     $this->session->set_userdata($logged_in_sess);
@@ -50,16 +54,18 @@ class Auth extends Admin_Controller
                     //echo "Logged in";
                     redirect('dashboard', 'refresh');
                 } else {
-                    $this->data['errors'] = 'Incorrect username/password combination';
-                    $this->load->view('login', $this->data);
+                    $this->session->set_flashdata('error', 'Incorrect username/password');
+                    $this->data['errors'] = 'Incorrect username/password';
+                    $this->load->view('auth/login', $this->data);
                 }
             } else {
+                $this->session->set_flashdata('error', 'Login ID does not exists');
                 $this->data['errors'] = 'Login ID does not exists';
-                $this->load->view('login', $this->data);
+                $this->load->view('auth/login', $this->data);
             }
         } else {
             // false case
-            $this->load->view('login');
+            $this->load->view('auth/login');
         }
     }
 
@@ -79,8 +85,7 @@ class Auth extends Admin_Controller
 
     public function saveDataToSession($key){        
         
-        $this->session->set_userdata($key, $this->input->post($key));
-        
+        $this->session->set_userdata($key, $this->input->post($key));        
         // echo json_encode($this->input->post($key)) ;
     }
 

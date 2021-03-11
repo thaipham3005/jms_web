@@ -35,8 +35,7 @@
         {
             $session_data = $this->session->userdata();
             if ($session_data['logged_in'] == TRUE){                
-                redirect('dashboard', 'refresh');
-                
+                redirect('dashboard', 'refresh');                
             }
         }
 
@@ -55,10 +54,7 @@
             $this->load->view('templates/sidebar', $data);
             $this->load->view($page,$data);
             $this->load->view('templates/footer', $data);
-
-        }
-
-        
+        }        
     }
 
     class User_Controller extends MY_Controller
