@@ -10,30 +10,30 @@
         class="sidebar os-host os-theme-light os-host-overflow os-host-overflow-y os-host-resize-disabled os-host-scrollbar-horizontal-hidden os-host-transition">
         <div class="user-panel mt-2 pb-2 mb-2 d-flex">
             <div class="image mt-1 pl-1">
-                <img src="<?php echo base_url('assets/images/admin.jpg')?>" class="img-circle elevation-3"
+                <img src="<?php echo base_url($this->session->userdata('avatar')); ?>" class="img-circle elevation-3"
                     alt="User Image" style="width:3rem;">
             </div>
             <div class="info">
                 <a href="#" class="d-block">
-                    <div>Admin</div> 
-                    <div class="text-sm font-weight-light font-italic">Administrator</div>
+                    <div><?php echo $this->session->userdata('department'); ?></div> 
+                    <div class="text-sm font-weight-light font-italic"><?php echo $this->session->userdata('team'); ?></div>
                 </a>
                 
             </div>
         </div>
         <nav class="mt-2">
-            <ul class="nav nav-pill nav-sidebar flex-column" data-widget="treeview" role="menu" dât-accordion="false">
+            <ul class="nav nav-pill nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
                 <!-- Dashboard  -->
-                <li id="dashboard" class="nav-item">
-                    <a href="<?php echo base_url('dashboard') ?>" class="nav-link active">
+                <li class="nav-item">
+                    <a href="<?php echo base_url('dashboard') ?>" id="dashboard" class="nav-link">
                         <i class="nav-icon fa fa-chart-line"></i>
                         <p>Dashboard</p>
                     </a>
                 </li>
 
-                <!-- Dashboard  -->
-                <li id="timeline" class="nav-item">
-                    <a href="<?php echo base_url('timeline') ?>" class="nav-link">
+                <!-- Timeline  -->
+                <li class="nav-item">
+                    <a href="<?php echo base_url('timeline') ?>" id="timeline" class="nav-link">
                         <i class="nav-icon fas fa-heartbeat"></i>
                         <p>Timeline</p>
                     </a>
@@ -41,16 +41,16 @@
 
                 <!-- Individual Task List  -->
                 <?php // if(in_array('viewMemberTasks', $user_permission) || in_array('editMemberTasks', $user_permission)): ?>
-                <li id="member-tasks" class="nav-item has-treview">
-                    <a href="<?php echo base_url('tasks') ?>" class="nav-link">
-                        <i class="nav-icon fas fa-tasks"></i>
+                <li class="nav-item has-treeview" id="member-tasks">
+                    <a href="<?php echo base_url('tasks') ?>"  class="nav-link">
+                        <i class="nav-icon fas fa-user-check"></i>
                         <p>Member Tasks
                         <i class="fas fa-angle-left right"></i>
                         </p>
                     </a>
                     <ul class="nav nav-treeview" style="display:none;">
-                        <li id="tasks-list" class="nav-item">
-                            <a href="<?php echo base_url('tasks/index'); ?>" class="nav-link">
+                        <li class="nav-item">
+                            <a href="<?php echo base_url('tasks/member_tasks'); ?>" id="tasks-list" class="nav-link">
                                 <i class="nav-icon fas fa-clipboard-check"></i>
                                 <p>Tasks List
                                     <span class="badge badge-danger badge-pill right" id="noti-task">3</span>
@@ -58,8 +58,37 @@
                             </a>
                         </li>
 
-                        <li id="tasks-summary" class="nav-item">
-                            <a href="<?php echo base_url('task/summary') ?>" class="nav-link">
+                        <li class="nav-item">
+                            <a href="<?php echo base_url('tasks/summary') ?>" id="tasks-summary"  class="nav-link">
+                                <i class="nav-icon far fa-calendar-check"></i>
+                                <p>Tasks Summary</p>
+                            </a>
+                        </li>
+
+                    </ul>
+                </li>
+                <?php // endif; ?>
+
+                <!-- Team Task List  -->
+                <?php // if(in_array('viewTeamTasks', $user_permission) || in_array('approveTeamTasks', $user_permission)): ?>
+                <li class="nav-item has-treeview" id="team-tasks" >
+                    <a href="<?php echo base_url('tasks') ?>" class="nav-link">
+                        <i class="nav-icon fas fa-tasks"></i>
+                        <p>Team Tasks
+                        <i class="fas fa-angle-left right"></i>
+                        </p>
+                    </a>
+                    <ul class="nav nav-treeview" style="display:none;">
+                        <li class="nav-item">
+                            <a href="<?php echo base_url('tasks/team_tasks'); ?>" id="team-tasks-list" class="nav-link">
+                                <i class="nav-icon fas fa-clipboard-check"></i>
+                                <p>Tasks List
+                                    <span class="badge badge-danger badge-pill right" id="team-noti-task">3</span>
+                                </p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="<?php echo base_url('tasks/team_tasks_summary') ?>" id="team-tasks-summary"  class="nav-link">
                                 <i class="nav-icon far fa-calendar-check"></i>
                                 <p>Tasks Summary</p>
                             </a>
@@ -71,32 +100,39 @@
 
                 <!-- Admininstration Settings  -->
                 <?php // if(in_array('viewMemberTasks', $user_permission) || in_array('editMemberTasks', $user_permission)): ?>
-                <li id="settings" class="nav-item has-treview">
-                    <a href="<?php echo base_url('tasks') ?>" class="nav-link">
+                <li class="nav-item has-treeview">
+                    <a href="<?php echo base_url('tasks') ?>" id="settings" class="nav-link">
                         <i class="nav-icon fas fa-toolbox"></i>
                         <p>Settings
                         <i class="fas fa-angle-left right"></i>
                         </p>
                     </a>
                     <ul class="nav nav-treeview" style="display:none;">
-                        <li id="user-list" class="nav-item">
-                            <a href="<?php echo base_url('users/index'); ?>" class="nav-link">
-                                <i class="nav-icon fas fa-user-cog"></i>
+                        <li class="nav-item">
+                            <a href="<?php echo base_url('users'); ?>" id="user-list" class="nav-link">
+                                <i class="nav-icon far fa-address-book"></i>
                                 <p>Users Config</p>
                             </a>
                         </li>
 
-                        <li id="groups-list" class="nav-item">
-                            <a href="<?php echo base_url('groups/index') ?>" class="nav-link">
+                        <li class="nav-item">
+                            <a href="<?php echo base_url('groups') ?>" id="group-list" class="nav-link">
                                 <i class="nav-icon fas fa-users-cog"></i>
                                 <p>Groups Config</p>
                             </a>
                         </li>
 
-                        <li id="department-list" class="nav-item">
-                            <a href="<?php echo base_url('departments/index') ?>" class="nav-link">
+                        <li class="nav-item">
+                            <a href="<?php echo base_url('departments') ?>" id="department-list" class="nav-link">
                                 <i class="nav-icon far fa-building"></i>
-                                <p>Departments Config</p>
+                                <p>Organization Config</p>
+                            </a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a href="<?php echo base_url('projects') ?>" id="project-list" class="nav-link">
+                                <i class="nav-icon far fa-lightbulb"></i>
+                                <p>Projects Config</p>
                             </a>
                         </li>
 

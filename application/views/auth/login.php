@@ -131,7 +131,7 @@
 <script type="text/javascript">
 $(document).ready(function() {
 
-    showSnackbar('error', 'rewqrewq');
+    showSnackbar();
     $('#submit').on('click', function(e) {
 
         loginID = $('#login_id').val();

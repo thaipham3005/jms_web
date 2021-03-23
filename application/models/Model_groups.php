@@ -6,25 +6,26 @@
             // parent::__construct();
         }
 
-        public function getGroupData($groupId=null, $all=false)
+        public function getGroupData($company_id=null)
         {
-            if($groupId){
-                $sql = "SELECT * FROM groups WHERE id = ? AND active='1'";
-                $query = $this->db->query($sql, array($groupId));
-                return $query->row_array();
-            }
-
-            if ($all){
-                $sql = "SELECT * FROM groups where active='1' ORDER BY id DESC";
-                $query = $this->db->query($sql,array());
-                return $query->result_array();
-            }else{
-                $sql = "SELECT * FROM groups where id != ? AND active='1' ORDER BY id DESC";
-                $query = $this->db->query($sql,array(1));
+            if($company_id){
+                $sql = "SELECT * FROM groups WHERE company_id = ? AND active='1'
+                ORDER BY id ASC";
+                $query = $this->db->query($sql, array($company_id));
                 return $query->result_array();
             }
 
-            
+            $sql = "SELECT * FROM groups 
+            ORDER BY company_id, id ASC";
+            $query = $this->db->query($sql,array(1));
+            return $query->result_array(); 
+        }
+
+        public function getGroupByID($group_id)
+        {
+            $sql = "SELECT * FROM groups WHERE id = ? AND active='1'";
+            $query = $this->db->query($sql, array($group_id));
+            return $query->row_array();
         }
 
         public function create($data)
@@ -43,7 +44,11 @@
         public function disable($id)
         {
             $this->db->where('id', $id);
-            $data = array('active'=>0, 'last_change' => date('Y-m-d H:i:s'));
+            $data = array(
+                'active'=>0, 
+                'changed_by'=>$this->session->userdata('id'),
+                'last_change' => date('Y-m-d H:i:s')
+            );
             
             $update = $this->db->update('groups', $data);
             return ($update == true) ? true : false;
@@ -84,7 +89,7 @@
 
         public function getCreateGroup()
         {
-            $sql = "SELECT id, group_name FROM groups
+            $sql = "SELECT id, name FROM groups
             WHERE permission LIKE '%create%'";
             $query = $this->db->query($sql, array());
             return $query->result_array();

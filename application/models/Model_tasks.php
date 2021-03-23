@@ -3,40 +3,82 @@ class Model_tasks extends CI_Model
 {
     public function __construct()
     {
-        parent::__construct();
+        // parent::__construct();
     }
 
-    public function getUserJobData($user_id, $from = null, $to = null)
-    {
-        if ($id)
+    public function getTaskById($task_id){
+        if ($from && $to)
         {
-            $sql = 'SELECT * FROM tasks WHERE id=?';
-            $query = $this->db->query($sql,array($id));
+            $sql = 'SELECT * FROM tasks WHERE id = ?';
+            $query = $this->db->query($sql,array($task_id));
             return $query->row_array();
         }
+    }
 
-        $sql = "SELECT * FROM tasks WHERE active = '1' ORDER BY id DESC";
-        $query = $this->db->query($sql, array());
+    public function getTaskDataByUser($compnay_id, $user_id, $from = null, $to = null)
+    {
+        if ($from && $to)
+        {
+            $sql = 'SELECT * FROM tasks 
+            WHERE compnay_id = ? AND4 user_id = ? AND active = "1" 
+            AND plan_complete >= ? AND plan_complete <= ? 
+            ORDER BY id DESC';
+            $query = $this->db->query($sql,array($user_id, $from, $to));
+            return $query->result_array();
+        }
+
+        $sql = "SELECT * FROM tasks WHERE user_id = ? AND active = '1' 
+        ORDER BY id DESC";
+        $query = $this->db->query($sql, array($user_id));
         return $query->result_array();
     } 
 
-    public function getTeamJobData($team_id, $from = null, $to = null)
+    public function getTaskDataByTeam($team_id, $from = null, $to = null)
     {
-        if ($id)
+        if ($from && $to)
         {
-            $sql = 'SELECT * FROM tasks WHERE id=?';
-            $query = $this->db->query($sql,array($id));
-            return $query->row_array();
+            $sql = 'SELECT * FROM tasks 
+            WHERE team_id = ? AND active = "1" 
+            AND plan_complete >= ? AND plan_complete <= ? 
+            ORDER BY id DESC';
+            $query = $this->db->query($sql,array($team_id, $from, $to));
+            return $query->result_array();
         }
 
-        $sql = "SELECT * FROM tasks WHERE active = '1' ORDER BY id DESC";
-        $query = $this->db->query($sql, array());
+        $sql = "SELECT * FROM tasks WHERE team_id = ? AND active = '1' 
+        ORDER BY id DESC";
+        $query = $this->db->query($sql, array($team_id));
+        return $query->result_array();
+    } 
+
+    public function getTaskDataByDepartment($department_id, $from = null, $to = null)
+    {
+        if ($from && $to)
+        {
+            $sql = 'SELECT * FROM tasks 
+            WHERE department_id = ? AND active = "1" 
+            AND plan_complete >= ? AND plan_complete <= ? 
+            ORDER BY id DESC';
+            $query = $this->db->query($sql,array($department_id, $from, $to));
+            return $query->result_array();
+        }
+
+        $sql = "SELECT * FROM tasks WHERE department_id = ? AND active = '1' 
+        ORDER BY id DESC";
+        $query = $this->db->query($sql, array($department_id));
         return $query->result_array();
     } 
 
     public function create($data)
 	{
 		if($data) {
+			$insert = $this->db->insert('tasks', $data);
+			return ($insert == true) ? true : false;
+		}
+    }
+
+    public function assign($data){
+        if($data) {
 			$insert = $this->db->insert('tasks', $data);
 			return ($insert == true) ? true : false;
 		}

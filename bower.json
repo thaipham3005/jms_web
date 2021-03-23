@@ -46,6 +46,7 @@
     "parsleyjs": "^2.9.2",
     "screenfull": "screenfull.js#^1.0.4",
     "slick": "*",
-    "select2": "^4.0.13"
+    "select2": "^4.0.13",
+    "datatables.net-dt": "^3.2.2"
   }
 }

@@ -34,7 +34,8 @@
   <!-- AdminLTE Skins. Choose a skin from the css/skins
        folder instead of downloading all of them to reduce the load. -->
   <link rel="stylesheet" href="<?php echo base_url('bower_components/adminlte/dist/css/skins/_all-skins.min.css') ?>">
-  <link rel="stylesheet" href="<?php echo base_url('bower_components/jquery-bar-rating/dist/themes/fontawesome-stars.css') ?>">
+  <link rel="stylesheet" href="<?php echo base_url('bower_components/jquery-bar-rating/dist/themes/bars-square.css') ?>">
+  <link rel="stylesheet" href="<?php echo base_url('bower_components/jquery-bar-rating/dist/themes/bars-movie.css') ?>">
 
   <!-- Chart js -->
   <link rel="stylesheet" href="<?php echo base_url('bower_components/chart.js/dist/chart.min.css') ?>">  
@@ -54,9 +55,13 @@
   <link rel="stylesheet" href="<?php echo base_url('bower_components/bootstrap-wysihtml5/dist/bootstrap-wysihtml5-0.0.2.css') ?>">
   <!-- Datatable stylesheet  -->
   <link rel="stylesheet" type="text/css" href="<?php echo base_url('bower_components/datatables/media/css/dataTables.bootstrap4.min.css') ?>">
+  <link rel="stylesheet" type="text/css" href="<?php echo base_url('bower_components/datatables-buttons/css/buttons.bootstrap4.css') ?>">
+ 
   <link rel="stylesheet" type="text/css" href="<?php echo base_url('bower_components/datatables-autofill/css/autoFill.dataTables.css') ?>">
   <link rel="stylesheet" type="text/css" href="<?php echo base_url('bower_components/datatables-fixedcolumns/css/fixedColumns.dataTables.css') ?>">
-  <link rel="stylesheet" type="text/css" href="<?php echo base_url('bower_components/datatables-fixedheader/css/fixedHeader.dataTables.css') ?>">
+  <link rel="stylesheet" type="text/css" href="<?php echo base_url('bower_components/datatables-fixedheader/css/fixedHeader.bootstrap4.css') ?>">
+
+
 
   <!-- Select2 -->
   <link rel="stylesheet" href="<?php echo base_url('bower_components/select2/dist/css/select2.min.css') ?>">
@@ -122,18 +127,25 @@
   <!-- DataTables -->
 <script src="<?php echo base_url('bower_components/datatables/media/js/jquery.dataTables.min.js') ?>"></script>
 <script src="<?php echo base_url('bower_components/datatables/media/js/dataTables.bootstrap4.min.js')?>"></script>
+<script src="<?php echo base_url('bower_components/datatables-buttons/js/dataTables.buttons.js')?>"></script>
+<script src="<?php echo base_url('bower_components/datatables-buttons/js/buttons.bootstrap4.js')?>"></script>
+<script src="<?php echo base_url('bower_components/datatables-buttons/js/buttons.colVis.js')?>"></script>
+<script src="<?php echo base_url('bower_components/datatables-buttons/js/buttons.html5.js')?>"></script>
+<script src="<?php echo base_url('bower_components/datatables-buttons/js/buttons.print.js')?>"></script>
+<script src="<?php echo base_url('bower_components/jszip/dist/jszip.min.js')?>"></script>
+<script src="<?php echo base_url('bower_components/pdfmake/build/pdfmake.min.js')?>"></script>
+<script src="<?php echo base_url('bower_components/pdfmake/build/vfs_fonts.js')?>"></script>
 
-<!-- <script src="<?php //echo base_url('bower_components/datatables-keyTable/js/dataTables.keyTable.js')?>"></script> -->
 <script src="<?php echo base_url('bower_components/datatables-autofill/js/dataTables.autoFill.js')?>"></script>
 <script src="<?php echo base_url('bower_components/datatables-fixedcolumns/js/dataTables.fixedColumns.js')?>"></script>
 <script src="<?php echo base_url('bower_components/datatables-fixedheader/js/dataTables.fixedHeader.js')?>"></script>
+
 
 <script>
 
 var base_url = "<?php echo base_url(); ?>";
 function showSnackbar(status = 'normal', message = '') 
 {
-
     flashsuccess = '<?php echo $this->session->flashdata('success'); ?>';
     flasherror = '<?php echo addslashes($this->session->flashdata('error')) ; ?>';
     if (flashsuccess != '') {
@@ -155,7 +167,7 @@ function showSnackbar(status = 'normal', message = '')
 
 </script>
 <link rel="stylesheet" href="<?php echo base_url('assets/css/jms.css') ?>">
-<script src="<?php echo base_url('assets/js/jms.js') ?>"></script>
+<script src="<?php echo base_url('assets/js/jms-1.0.1.js') ?>"></script>
 </head>
 
 <body class="sidebar-mini layout-fixed">
@@ -200,7 +212,9 @@ function clearCookies() {
 
 var collapse = getCookie('collapse');
 $('body').addClass(collapse);
-
+myCompany = <?php echo $this->session->userdata('company_id') ?>;
+myDept = <?php echo $this->session->userdata('department_id') ?>;
+myTeam = <?php echo $this->session->userdata('team_id') ?>;
 </script>
 
 

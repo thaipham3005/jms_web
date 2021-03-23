@@ -2,6 +2,7 @@
 
 class Groups extends Admin_Controller 
 {
+	
 	public function __construct()
 	{
 		parent::__construct();
@@ -9,92 +10,110 @@ class Groups extends Admin_Controller
 
 		$this->data['page_title'] = 'Groups';
 		$this->load->model('model_groups');
+
 	}
 
 	public function index()
 	{
-		if(!in_array('modifyUserGroup', $this->permission)) {
+		if(!in_array('editUserGroup', $this->permission)) {
             redirect('dashboard', 'refresh');
         }
 
 		$groups_data = $this->model_groups->getGroupData();
 		$this->data['groups_data'] = $groups_data;
 
-		$this->render_template('groups/index', $this->data);
+		$this->render_template('settings/groups', $this->data);
 	}
 
 	public function create()
 	{
-		if(!in_array('modifyUserGroup', $this->permission)) {
+		if(!in_array('editUserGroup', $this->permission)) {
             redirect('dashboard', 'refresh');
         }
 
-		$this->form_validation->set_rules('group_name', 'Group name', 'required');
+		$this->form_validation->set_rules('name', 'Group name', 'required');
 
         if ($this->form_validation->run() == TRUE) {
             // true case
             $permission = serialize($this->input->post('permission'));
             
         	$data = array(
-        		'group_name' => $this->input->post('group_name'),
-        		'permission' => $permission
+        		'name' => $this->input->post('name'),
+        		'permission' => $permission,
+				'created_by'=> $this->session->userdata('id'),			
+				'created_date' => date('Y-m-d H:i:s')
         	);
 
         	$create = $this->model_groups->create($data);
         	if($create == true) {
-        		$this->session->set_flashdata('success', 'Successfully created');
-        		redirect('groups/', 'refresh');
+        		$this->session->set_flashdata('success', 'Succesfully created group');
+				$response['success'] = true;
+	        	$response['messages'] = 'Succesfully created group';
+        		// redirect('settings/groups', 'refresh');
         	}
         	else {
-        		$this->session->set_flashdata('errors', 'Error occurred!!');
-        		redirect('groups/create', 'refresh');
+        		$this->session->set_flashdata('errors', 'Error in the database while creating group!');
+				$response['success'] = false;
+	        	$response['messages'] = 'Error in the database while creating group';
+        		// redirect('settings/groups', 'refresh');
         	}
         }
         else {
-            // false case
-            $this->render_template('groups/create', $this->data);
+			$this->session->set_flashdata('errors', 'Error in data validation while creating group!');
+			$response['success'] = false;
+			$response['messages'] = 'Error in the database while creating group';
+
+			// redirect('settings/groups', 'refresh');
+            // $this->render_template('groups/create', $this->data);
         }	
 
-		
+		echo json_encode($response);
 	}
 
 	public function edit($id = null)
 	{
-		if(!in_array('modifyUserGroup', $this->permission)) {
+		if(!in_array('editUserGroup', $this->permission)) {
             redirect('dashboard', 'refresh');
         }
 
 		if($id) {
-
-			$this->form_validation->set_rules('group_name', 'Group name', 'required');
+			$this->form_validation->set_rules('name', 'Group name', 'required');
 
 			if ($this->form_validation->run() == TRUE) {
-	            // true case
 	            $permission = serialize($this->input->post('permission'));
 	            
 	        	$data = array(
-	        		'group_name' => $this->input->post('group_name'),
-	        		'permission' => $permission
+	        		'name' => $this->input->post('name'),
+	        		'permission' => $permission, 
+					'changed_by'=>$this->session->userdata('id'),
+					'last_change'=> date('Y-m-d H:i:s')
 	        	);
 
 	        	$update = $this->model_groups->edit($data, $id);
 	        	if($update == true) {
 	        		$this->session->set_flashdata('success', 'Successfully updated');
-	        		redirect('groups/', 'refresh');
+					$response['success'] = true;
+	        		$response['messages'] = 'Succesfully updated group';
+	        		// redirect('groups/', 'refresh');
 	        	}
 	        	else {
 	        		$this->session->set_flashdata('errors', 'Error occurred!!');
-	        		redirect('groups/edit/'.$id, 'refresh');
+					$response['success'] = false;
+	        		$response['messages'] = 'Error in the database while updating group!';
+	        		// redirect('groups/edit/'.$id, 'refresh');
 	        	}
 	        }
 	        else {
-	            // false case
-	            $group_data = $this->model_groups->getGroupData($id);
-				$this->data['group_data'] = $group_data;
-				$this->render_template('groups/edit', $this->data);	
+				$this->session->set_flashdata('errors', 'Error in data validation while updating group!');
+				$response['success'] = false;
+				$response['messages'] = 'Error in data validation while updating group!';
+
+	            // $group_data = $this->model_groups->getGroupData($id);
+				// $this->data['group_data'] = $group_data;
+				// $this->render_template('groups/edit', $this->data);	
 	        }	
 		}
-
+		echo json_encode($response);
 		
 	}
 
@@ -109,15 +128,15 @@ class Groups extends Admin_Controller
 	        	$response['messages'] = 'Succesfully deleted user';
 			}
 			else {
-				$this->session->set_flashdata('error', 'Error occurred!!');
+				$this->session->set_flashdata('error', 'Error in the database while deleted user!');
 				$response['success'] = false;
 	        	$response['messages'] = 'Error in the database while deleted user';
 			}				
 		}
 		else {
-			$this->session->set_flashdata('error', 'Error occurred!!');
+			$this->session->set_flashdata('error', 'No user seleted for delete!');
 			$response['success'] = false;
-			$response['messages'] = 'No user seleted for delete';
+			$response['messages'] = 'No group seleted for delete';
 		}
 		echo json_encode($response);
     }
@@ -128,44 +147,47 @@ class Groups extends Admin_Controller
 						
             $disable = $this->model_groups->disable($id);
             if ($disable == true) {
-                $this->session->set_flashdata('success', 'Successfully removed');
+                $this->session->set_flashdata('success', 'Successfully removed group');
                 $response['success'] = true;
                 $response['messages'] = 'Succesfully removed group';
             }
             else {
-                $this->session->set_flashdata('error', 'Error occurred!!');
+                $this->session->set_flashdata('error', 'Error in the database while removing group!');
                 $response['success'] = false;
-                $response['messages'] = 'Error in the database while removing group';
+                $response['messages'] = 'Error in the database while removing group!';
             }				
         }
         else {
-            $this->session->set_flashdata('error', 'Error occurred!!');
+            $this->session->set_flashdata('error', 'No group seleted for remove!');
             $response['success'] = false;
             $response['messages'] = 'No group seleted for remove';
         }
         echo json_encode($response);
     }
     
-    public function fetchGroupData()
+    public function fetchGroupData($company_id = null)
     {
+		if ($company_id == null) {
+			$company_id = $this->session->userdata("company_id");
+		}
         $result = array('data' => array());
-        $data = $this->model_groups->getGroupData();
-        		
+        $data = $this->model_groups->getGroupData($company_id);        		
 
 		foreach ($data as $key => $value) {			
             $buttons = '';
             $buttons.='<div style="width:100px;">';
             
 
-			if (in_array('modifyUserGroup', $this->permission)){
-                $buttons .= '<a href="'.base_url("groups/edit/".$value["id"]).'") class="btn btn-default" data-toggle="tooltip" title = "Edit"><i class="fa fa-edit"></i></a>';
-                $buttons .= '<button class="btn btn-default" onclick="removeFunc('.$value['id'].')" data-toggle="modal" data-target="#removeModal"><i class="fa fa-trash"></i></button>';
+			if (in_array('editUserGroup', $this->permission)){
+                $buttons .= '<button type="button" class="btn btn-sm btn-outline-secondary" data-toggle="modal" data-target="#groupEditModal"><i class="fa fa-edit fa-fw" data-toggle="tooltip" title = "Edit"></i></button>';
+
+                $buttons .= '<button type="button" class="btn btn-sm btn-outline-secondary" data-toggle="modal" data-target="#groupRemoveModal"><i class="fa fa-trash fa-fw" data-toggle="tooltip" title = "Remove"></i></button>';
             }
             $buttons.='</div>';
 
             $result['data'][$key] = array(
                 $buttons,
-                $value['group_name'],
+                $value['name'],
                 $value['description'],
                 $value['id']
             );
@@ -173,6 +195,21 @@ class Groups extends Admin_Controller
         }
         echo json_encode($result);
     }
+
+	public function fetchGroupSelect($company_id = null)
+	{
+		if ($company_id == null) {
+			$company_id = $this->session->userdata("company_id");
+		}
+		$result = '';
+        $data = $this->model_groups->getGroupData($company_id);        		
+
+		foreach ($data as $key => $value) {	
+            $result .= "<option value = ".$value['id'].">".$value['name']."</option>";
+            
+        }
+		echo json_encode($result);
+	}
 
 
 }

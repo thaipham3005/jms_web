@@ -1,0 +1,15 @@
+{
+  "name": "calendarjs",
+  "homepage": "https://github.com/codeocelot/calendarjs",
+  "version": "0.0.1",
+  "_release": "0.0.1",
+  "_resolution": {
+    "type": "version",
+    "tag": "v0.0.1",
+    "commit": "c2db6e8e9228c124e3884f6cd325432603795876"
+  },
+  "_source": "https://github.com/codeocelot/calendarjs.git",
+  "_target": "^0.0.1",
+  "_originalSource": "calendarjs",
+  "_direct": true
+}

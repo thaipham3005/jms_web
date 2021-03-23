@@ -11,6 +11,7 @@ class Auth extends Admin_Controller
 
         $this->load->model('model_auth');
         $this->load->model('model_groups');
+        $this->load->model('model_users');
     }
 
     /* 
@@ -29,30 +30,55 @@ class Auth extends Admin_Controller
             $id_exists = $this->model_auth->check_login_id($this->input->post('login_id'));
 
             if ($id_exists == TRUE) {
-                $login = $this->model_auth->login($this->input->post('login_id'), $this->input->post('password'));
-
-                if ($login) {
-                    $group = $this->model_groups->getUserGroupByUserId($login['id']);  
-                    $logged_in_sess = array(
-                        'id' => $login['id'],
-                        'login_id'  => $login['login_id'],
-                        'fullname'  => $login['fullname'],                        
-                        'email'     => $login['email'],
-                        // 'department'=>$login['department'],
-                        // 'team'=>$login['team'],
-                        // 'squad'=>$login['squad'],
-                        'group_id'=> $group['group_id'],
-                        'position'=>$login['position'],
-                        'avatar' => $login['avatar'],
-                        'images' => $login['images'],
-                        'logged_in' => TRUE,
+                $avail = $this->model_auth->login($this->input->post('login_id'), $this->input->post('password'));
+                
+                if ($avail) {
+                    $login = $this->model_users->getUserByID($avail["id"]);
+                    if ($avail['id'] == 1){                        
+                        $logged_in_sess = array(
+                            'id' => $login['id'],
+                            'login_id'  => $login['login_id'],
+                            'full_name'  => $login['full_name'],                        
+                            'email'     => $login['email'],
+                            'department'=>$login['department'],
+                            'team'=>$login['team'],
+                            'company_id'=>$login['company_id'],
+                            'group'=> $login['_group'],
+                            'position'=> $login['position'],
+                            'avatar' => $login['avatar'],
+                            'thumbnail' => $login['thumbnail'],
+                            'images' => $login['images'],
+                            'logged_in' => TRUE                            
+                        ); 
+                            
+                    }
+                    else {
+                        $logged_in_sess = array(
+                            'id' => $login['id'],
+                            'login_id'  => $login['login_id'],
+                            'full_name'  => $login['full_name'],                        
+                            'email'     => $login['email'],
+                            'department_id'=>$login['department_id'],
+                            'department'=>$login['department'],
+                            'team_id'=>$login['team_id'],
+                            'team'=>$login['team'],
+                            'company_id'=>$login['company_id'],
+                            'company'=>$login['company'],
+                            'group'=> $login['_group'],
+                            'position'=> $login['position'],
+                            'avatar' => $login['avatar'],
+                            'thumbnail' => $login['thumbnail'],
+                            'images' => $login['images'],
+                            'logged_in' => TRUE                            
+                        ); 
                         
-                    );                                      
-
-                    $this->session->set_userdata($logged_in_sess);
+                    }                        
+                    // echo json_encode($login) ;                         
                     
-                    //echo "Logged in";
+                    $this->session->set_userdata($logged_in_sess);  
+                    $this->session->set_flashdata('success', 'Welcome '.$login['full_name']);                  
                     redirect('dashboard', 'refresh');
+                    // echo json_encode( $logged_in_sess );
                 } else {
                     $this->session->set_flashdata('error', 'Incorrect username/password');
                     $this->data['errors'] = 'Incorrect username/password';

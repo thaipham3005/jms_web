@@ -1,6 +1,18 @@
 $bg-color: #70afe9;
 $fg-color:#1a1a1a;
 
+$success-color: #28a745;
+$primary-color: #007bff;
+$info-color:#17a2b8;
+$warning-color: #ffc107;
+$danger-color: #dc3545;
+$darkgray-color: #343a40;
+$gray-color: #6c757d;
+$light-color: #f8f9fa;
+
+$task-background: #f5f5f5;
+$task-foreground: #333;
+
 /* General Elements */
 
 html,
@@ -42,6 +54,10 @@ textarea {
     width: 100%;
     height: 10px;
     border-radius: 5px;
+}
+
+table {
+    width: 100%;
 }
 
 button {
@@ -259,18 +275,30 @@ body.login {
 /* Ajax Loader  */
 
 #loader {
-    width: 100%;
-    height: 100%;
+    width: 100vw;
+    height: 100vh;
     top: 0;
-    left: 0;
+    left: 0;    
     position: fixed;
-    display: block;
-    opacity: 0.7;
+    display: none;
+    opacity: 0.8;
     background-color: #fff;
-    z-index: 100;
+    z-index: 800;
+    img {
+        display: block;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+    }
+    &.show {
+        display: block;
+        
+    }
+    &.hide {
+        display: none;
+    }
 }
-
-
 /* Sidebar */
 
 
@@ -351,4 +379,165 @@ body.login {
         right: 15px;
         top: 5px;
     }
+}
+
+/* Custom */
+.btn-circle {
+    height: 30px;
+    width: 30px;
+    // background-color: #eee;
+    color: #aaa;
+    border-radius: 50%;
+    padding: 0;
+    // text-align: center;
+    i{
+        width: 16px;
+        height: 16px;
+        text-align: center;
+    }
+    &:hover{
+        background-color: #555;
+        color: #fff;
+    }
+    &.selected{
+        background-color: #555;
+        color: #fff;
+    }    
+}
+
+.has-tooltip{
+    position: relative;
+    display: inline-block;
+    .tooltip-text {
+        visibility: hidden;
+        position: absolute;
+        width: max-content;
+        
+        background-color: #333;
+        color: #fff;
+        text-align: center;
+        padding: 2px 5px;
+        border-radius: 5px;
+        z-index: 60;
+        bottom: 120%;
+        left: 50%;
+        margin-left: -60px;
+        &::after{
+            content: "";
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            margin-left: 10px;
+            border-width: 5px;
+            border-style: solid;
+            border-color: #333 transparent transparent transparent;
+        }
+    }
+
+    &:hover .tooltip-text{
+        visibility: visible;
+    }
+}
+
+/* Task */
+
+.tasks-container{
+    display: block;
+    &.task-list{
+        flex-direction: column;
+        .task{
+            background-color: $task-background;
+            color: $task-foreground;
+            display: flex;
+            flex-flow: row nowrap;
+            position: relative;
+            width: 100%;
+            height: 60px;
+            margin: 5px auto;        
+            border-radius: 3px;
+            border: $gray-color solid 1px ;
+            overflow: hidden;
+            font-size: 1rem;
+            .status {
+                height: inherit;
+                width: 10px;
+                background-color: $gray-color;
+                position: absolute;
+                display: block; 
+            }
+    
+            .task-header{
+                width: 30%;
+            }
+            &.approved{
+                border-color: $success-color;
+                .status{
+                    background-color: $success-color;
+                }
+            }
+            &.complete{
+                border-color: $primary-color;
+                .status{
+                    background-color: $primary-color;
+                }
+            }
+            &.overdue{
+                border-color: $danger-color;
+                .status{
+                    background-color: $danger-color;
+                }
+            }
+            &.upcoming{
+                border-color: $warning-color;
+                .status{
+                    background-color: $warning-color;
+                }
+            }
+            
+            .task-creator{  
+                margin: 5px 15px; 
+                width: 20%;
+                min-width: 200px;
+                display: flex;  
+                position: relative;                  
+                flex-flow: row nowrap;
+                img{
+                    width: 50px;
+                    height: 50px;
+                    object-fit: cover;
+                    border-radius: 50%;
+                    margin-right: 10px;
+                }
+                .info{                        
+                    
+                }
+            }
+
+            .task-section{
+                width: 10%;
+                min-width: 100px;
+                margin: 5px 10px;
+                display: flex;  
+                position: relative;                  
+                flex-flow: column nowrap;
+                .low{
+                    color:$darkgray-color;
+                }
+                .normal {
+                    color: $info-color;
+                }
+                .high{
+                    color: $warning-color;
+                }          
+                .highest{
+                    color: $danger-color;
+                }
+            }
+        }
+    }
+
+    &.task-cards {
+        flex-direction: row;
+    } 
+    
 }
