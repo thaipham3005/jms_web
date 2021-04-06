@@ -173,7 +173,6 @@ class Organization extends Admin_Controller
         echo json_encode($result);
     }
 
-
 	#region Fetch data for Select
 	public function fetchCompanySelect()
 	{		
@@ -230,4 +229,19 @@ class Organization extends Admin_Controller
 	}
 
 
+	public function fetchTeamList($department_id, $company_id = null ){
+		if ($company_id == null) {
+			$company_id = $this->session->userdata("company_id");
+		}
+        $data = $this->model_organization->getTeamData($department_id, $company_id);        		
+		$result = '<ul class="select-list">';
+		foreach ($data as $key => $value) {	
+            $result .= '<li class="select-item p-1" team-id='.$value['id'].'>'.$value['name'].'</li>';            
+        }
+		$result .= '</ul>';
+		echo json_encode($result);
+	}
+
+
 }
+		

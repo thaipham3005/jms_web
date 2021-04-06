@@ -3,11 +3,17 @@
     <nav class="navbar navbar-fixed-top navbar-expand navbar-cyan navbar-dark">
         <!-- Navbar links-->
         <ul class="navbar-nav">
-            
             <li class="nav-item">
                 <a href="#" class="nav-link" data-widget="pushmenu"><i class="fa fa-bars"></i></a>
             </li>
-            <li class="nav-item d-none d-sm-inline-block">
+            <!-- SELECTION FOR COMPANY -->
+            <li class="nav-item mb-1 mt-1 ml-3">
+                <select id="company" class="form-control form-control-sm" disabled>
+                    <option value="<?php echo $this->session->userdata('company_id') ?>" selected disabled>
+                        <?php echo $this->session->userdata('company') ?></option>
+                </select>
+            </li>
+            <!-- <li class="nav-item d-none d-sm-inline-block">
                 <a href="#" class="nav-link">HOME</a>
             </li>
             <li class="nav-item d-none d-sm-inline-block">
@@ -18,7 +24,7 @@
             </li>
             <li class="nav-item d-none d-sm-inline-block">
                 <a href="#" class="nav-link">SETTINGS</a>
-            </li>
+            </li> -->
         </ul>
 
         <ul class="navbar-nav ml-auto">
@@ -49,18 +55,42 @@
                 </div>
             </li>
             <!-- PROFILE  -->
-            <li class="nav-item">
-                <a class="nav-link" href="#">
-                    <span><i class="fa fa-user text-lg"></i></span>
-                    <span><b><?php echo $this->session->userdata('full_name') ?></b></span>
+            <li class="nav-item dropdown">
+                <a class="nav-link py-0 px-2" data-toggle="dropdown" data-expanded="false" href="#">
+                    <div class="image">
+                        <img src="<?php echo base_url($this->session->userdata('avatar')); ?>"
+                            class="img-circle elevation-1" style="width:2.5rem;">
+                    </div>
                 </a>
-                <!-- <span class="profile-pic">
-                    <img src="<?php echo base_url($this->session->userdata('image')); ?>" alt="" id="profile"
-                        class="img-circle img-responsive">
-                </span> -->
+                <div class="dropdown-menu dropdown-menu-md dropdown-menu-right">
+                    <div class="profile dropdown-item dropdown-header">
+                        <div class="image mr-3 d-inline">
+                            <img src="<?php echo base_url($this->session->userdata('avatar')); ?>"
+                                class="img-circle" alt="User Image" style="width:3rem;">
+                        </div>
+                        <div class="full-name font-weight-bold d-inline">
+                            <?php echo $this->session->userdata('full_name'); ?>
+                        </div>
+                    </div>
+                    <!-- <div class="dropdown-divider"></div> -->
+                    <div class="department dropdown-item">
+                        <?php echo $this->session->userdata('department'); ?>
+                    </div>
+                    <div class="team dropdown-item">
+                        <?php echo $this->session->userdata('team'); ?>
+                    </div>
+                    <div class="position dropdown-item mb-2">
+                        <?php echo $this->session->userdata('position'); ?>
+                    </div>
+                    <a href="<?php echo base_url('auth/logout') ?>" class="dropdown-item dropdown-footer">
+                        <i class="fas fa-sign-out-alt"></i>
+                        <span>Sign out</span>
+                    </a>
+                </div>
+
             </li>
             <!-- SEARCH FORM -->
-            <form class="form-inline ml-3">
+            <!-- <form class="form-inline ml-3">
                 <div class="input-group input-group-sm">
                     <input class="form-control form-control-navbar" type="search" placeholder="Search"
                         aria-label="Search">
@@ -70,14 +100,9 @@
                         </button>
                     </div>
                 </div>
-            </form>
+            </form> -->
 
-            <!-- SELECTION FOR COMPANY -->
-            <li class="nav-item mb-1 mt-1 ml-3">
-                <select id="company" class="form-control form-control-sm" disabled>
-                    <option value="<?php echo $this->session->userdata('company_id') ?>" selected disabled><?php echo $this->session->userdata('company') ?></option>
-                </select>
-            </li>
+            
 
         </ul>
 

@@ -1,11 +1,11 @@
 .br-theme-bars-movie .br-widget {
-  height: 10px;
+  height: 15px;
   white-space: nowrap;
 }
 .br-theme-bars-movie .br-widget a {
   display: block;
-  width: 60px;
-  height: 8px;
+  width: 50px;
+  height: 15px;
   float: left;
   background-color: #bbcefb;
   margin: 1px;
@@ -16,11 +16,11 @@
 }
 .br-theme-bars-movie .br-widget .br-current-rating {
   clear: both;
-  width: 240px;
+  width: 220px;
   text-align: center;
   font-weight: 600;
   display: block;
-  padding: .5em 0;
+  padding: 0;
   color: #4278F5;
   font-weight: 400;
 }

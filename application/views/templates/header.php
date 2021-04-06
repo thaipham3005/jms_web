@@ -36,7 +36,7 @@
   <link rel="stylesheet" href="<?php echo base_url('bower_components/adminlte/dist/css/skins/_all-skins.min.css') ?>">
   <link rel="stylesheet" href="<?php echo base_url('bower_components/jquery-bar-rating/dist/themes/bars-square.css') ?>">
   <link rel="stylesheet" href="<?php echo base_url('bower_components/jquery-bar-rating/dist/themes/bars-movie.css') ?>">
-
+  <link rel="stylesheet" href="<?php echo base_url('bower_components/jquery-bar-rating/dist/themes/css-stars.css') ?>">
   <!-- Chart js -->
   <link rel="stylesheet" href="<?php echo base_url('bower_components/chart.js/dist/chart.min.css') ?>">  
   <!-- Morris chart -->
@@ -61,14 +61,14 @@
   <link rel="stylesheet" type="text/css" href="<?php echo base_url('bower_components/datatables-fixedcolumns/css/fixedColumns.dataTables.css') ?>">
   <link rel="stylesheet" type="text/css" href="<?php echo base_url('bower_components/datatables-fixedheader/css/fixedHeader.bootstrap4.css') ?>">
 
-
-
   <!-- Select2 -->
   <link rel="stylesheet" href="<?php echo base_url('bower_components/select2/dist/css/select2.min.css') ?>">
   <!-- Pretty Checkbox -->
   <link rel="stylesheet" href="<?php echo base_url('bower_components/pretty-checkbox/dist/pretty-checkbox.min.css') ?>">
   <!-- Cropper -->
   <link rel="stylesheet" href="<?php echo base_url('bower_components/cropper/dist/cropper.min.css') ?>">  
+  <!-- Toastify -->
+  <link rel="stylesheet" href="<?php echo base_url('node_modules/toastify-js/src/toastify.css') ?>">  
 
   <!-- Google Font -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
@@ -106,7 +106,7 @@
   <!-- FastClick -->
   <script src="<?php echo base_url('bower_components/fastclick/lib/fastclick.js') ?>"></script>
   <!-- Anime -->
-  <!-- <script src="<?php echo base_url('bower_components/anime/js/anime.js') ?>"></script> -->
+  <!-- <script src="<?php //echo base_url('bower_components/anime/js/anime.js') ?>"></script> -->
   <!-- Select2 -->
   <script src="<?php echo base_url('bower_components/select2/dist/js/select2.full.min.js') ?>"></script>
   <!-- ChartJS -->
@@ -120,10 +120,15 @@
 <!-- Bar rating -->  
 <script src="<?php echo base_url('bower_components/jquery-bar-rating/dist/jquery.barrating.min.js') ?>"></script>
 <!-- Jquery slimscroll -->  
-<script src="<?php echo base_url('bower_components/jquery-slimscroll/jquery.slimscroll.min.js') ?>"></script>
+<!-- <script src="<?php // echo base_url('bower_components/jquery-slimscroll/jquery.slimscroll.min.js') ?>"></script> -->
 <!-- Popper  -->
 <script src="<?php echo base_url('node_modules/popper.js/dist/umd/popper.min.js') ?>"></script>
-
+<!-- Screenfull  -->
+<script src="<?php echo base_url('bower_components/screenfull/dist/screenfull.min.js') ?>"></script>
+<!-- Toastify  -->
+<script src="<?php echo base_url('node_modules/toastify-js/src/toastify.js') ?>"></script>
+<!-- Console ban  -->
+<script src="<?php echo base_url('bower_components/console-ban/dist/console-ban.min.js') ?>"></script>
   <!-- DataTables -->
 <script src="<?php echo base_url('bower_components/datatables/media/js/jquery.dataTables.min.js') ?>"></script>
 <script src="<?php echo base_url('bower_components/datatables/media/js/dataTables.bootstrap4.min.js')?>"></script>
@@ -141,13 +146,40 @@
 <script src="<?php echo base_url('bower_components/datatables-fixedheader/js/dataTables.fixedHeader.js')?>"></script>
 
 
+<link rel="stylesheet" href="<?php echo base_url('assets/css/jms.css') ?>">
+
+</head>
+
+<body class="sidebar-mini layout-fixed layout-footer-fixed sidebar-collapse">
+<div class="wrapper">
+
 <script>
+// var collapse = getCookie('collapse');
+// $('body').addClass(collapse);
+myCompany = <?php echo $this->session->userdata('company_id') ?>;
+myDept = <?php echo $this->session->userdata('department_id') ?>;
+myTeam = <?php echo $this->session->userdata('team_id') ?>;
 
 var base_url = "<?php echo base_url(); ?>";
-function showSnackbar(status = 'normal', message = '') 
-{
+
+
+/**
+ * Show flash snicky bar notification
+ * @param {String} status (normal, error, success)
+ * @param {Array} message 
+ */
+function showSnackbar(status = 'normal', message = null, duration = 2000) 
+{  
     flashsuccess = '<?php echo $this->session->flashdata('success'); ?>';
     flasherror = '<?php echo addslashes($this->session->flashdata('error')) ; ?>';
+    <?php $this->session->set_flashdata('messages','{}'); ?>
+    // let successColor = "linear-gradient(to right, #4CAF50, #96c93d)";
+    // let errorColor = "linear-gradient(to right, #FF6F00, #FF3D00)";
+    // let normalColor = "linear-gradient(to right, #00b09b, #96c93d)";
+    let successColor = "linear-gradient(to right, #4CAF50, #96c93d)";
+    let errorColor = "linear-gradient(to right, #FF6F00, #FF3D00)";
+    let normalColor = "linear-gradient(to right, #00b09b, #96c93d)";
+    let color = normalColor;
     if (flashsuccess != '') {
         status = 'success';
         message = flashsuccess;
@@ -156,67 +188,68 @@ function showSnackbar(status = 'normal', message = '')
         status = 'error';
         message = flasherror;
     }
-    if (message != '') {
-        $('#snackbar').html(message);
-        $('#snackbar').addClass('show ' + status);
-        setTimeout(function() {
-            $('#snackbar').removeClass('show ' + status);
-        }, 4000);
+    switch(status){
+      case 'error':
+        color = errorColor;
+        break;
+      case 'success':
+        color = successColor;
+        break;
+      default:
+        color = normalColor;
+        break;
+    }
+    
+    if (message != null) {
+      if (message instanceof Array){
+        message.forEach((msg)=>{
+          Toastify({
+          text: msg,
+          close: true,
+          duration: duration,
+          gravity:'bottom',
+          position: 'center',
+          stopOnFocus: true, // Prevents dismissing of toast on hover            
+          style:{
+              background: color,
+          },
+          offset: {
+            x:0, y:20
+          }
+          // onClick: function(){} // Callback after click
+      }).showToast();
+        })
+      }
+      else {
+        Toastify({
+          text: message,
+          close: true,
+          duration: duration,
+          gravity:'bottom',
+          position: 'center',
+          stopOnFocus: true, // Prevents dismissing of toast on hover            
+          style:{
+              background: color,
+          },
+          offset: {
+            x:0, y:20
+          }
+          // onClick: function(){} // Callback after click
+      }).showToast();
+      }
+    
+
+        
+        // $('#snackbar').html(message);
+        // $('#snackbar').addClass('show ' + status);
+        // setTimeout(function() {
+        //     $('#snackbar').removeClass('show ' + status);
+        // }, duration);        
     }
 }
 
 </script>
-<link rel="stylesheet" href="<?php echo base_url('assets/css/jms.css') ?>">
 <script src="<?php echo base_url('assets/js/jms-1.0.1.js') ?>"></script>
-</head>
-
-<body class="sidebar-mini layout-fixed">
-<div class="wrapper">
-
-<script>
-function setCookie(cname, cvalue, exdays = null) {
-    if (exdays != null) {
-        var d = new Date();
-        d.setTime(d.getTime() + (exdays * 24 * 60 * 60 * 1000));
-        var expires = "expires=" + d.toUTCString();
-        document.cookie = cname + "=" + cvalue + ";expires=" + expires + ";path=/";
-    } else {
-        document.cookie = cname + "=" + cvalue + ";path=/"
-    }
-}
-
-function getCookie(cname) {
-    var name = cname + "=";
-    var decodedCookie = decodeURIComponent(document.cookie);
-    var ca = decodedCookie.split(';');
-    for (var i = 0; i < ca.length; i++) {
-        var c = ca[i];
-        while (c.charAt(0) == ' ') {
-            c = c.substring(1);
-        }
-        if (c.indexOf(name) == 0) {
-            return c.substring(name.length, c.length);
-        }
-    }
-    return "";
-}
-function clearCookies() {
-    var allCookies = document.cookie.split(';');
-
-    // The "expire" attribute of every cookie is  
-    // Set to "Thu, 01 Jan 1970 00:00:00 GMT" 
-    for (var i = 0; i < allCookies.length; i++)
-        document.cookie = allCookies[i] + "=;expires=" +
-        new Date(0).toUTCString();
-}
-
-var collapse = getCookie('collapse');
-$('body').addClass(collapse);
-myCompany = <?php echo $this->session->userdata('company_id') ?>;
-myDept = <?php echo $this->session->userdata('department_id') ?>;
-myTeam = <?php echo $this->session->userdata('team_id') ?>;
-</script>
-
 
   
 

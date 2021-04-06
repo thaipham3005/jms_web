@@ -7,20 +7,28 @@ class Model_tasks extends CI_Model
     }
 
     public function getTaskById($task_id){
-        if ($from && $to)
-        {
-            $sql = 'SELECT * FROM tasks WHERE id = ?';
-            $query = $this->db->query($sql,array($task_id));
-            return $query->row_array();
-        }
+        
+        $sql = 'SELECT tasks.*, pic.full_name as pic_name, pic.avatar as pic_ava, 
+        assign.full_name as assign_name, assign.avatar as assign_ava
+        FROM tasks 
+        INNER JOIN users pic ON tasks.user_id = pic.id
+        LEFT JOIN users assign ON tasks.assigned_by = assign.id
+        WHERE tasks.id = ?';
+        $query = $this->db->query($sql,array($task_id));
+        return $query->row_array();
+        
     }
 
-    public function getTaskDataByUser($compnay_id, $user_id, $from = null, $to = null)
+    public function getTaskDataByUser($user_id, $from = null, $to = null)
     {
         if ($from && $to)
         {
-            $sql = 'SELECT * FROM tasks 
-            WHERE compnay_id = ? AND4 user_id = ? AND active = "1" 
+            $sql = 'SELECT tasks.*, pic.full_name as pic_name, pic.avatar as pic_ava, 
+            assign.full_name as assign_name, assign.avatar as assign_ava
+            FROM tasks 
+            INNER JOIN users pic ON tasks.user_id = pic.id
+            LEFT JOIN users assign ON tasks.assigned_by = assign.id
+            WHERE user_id = ? AND tasks.active = "1" 
             AND plan_complete >= ? AND plan_complete <= ? 
             ORDER BY id DESC';
             $query = $this->db->query($sql,array($user_id, $from, $to));
@@ -134,6 +142,33 @@ class Model_tasks extends CI_Model
         // echo $sql;
 		return $query->num_rows();
     }  
+
+    public function getLatestYears()
+    {
+        $sql = "SELECT DISTINCT(YEAR(created_date)) as year 
+        FROM tasks WHERE active = 1 AND created_date IS NOT NULL
+        ORDER BY YEAR(created_date) DESC";
+        $query = $this->db->query($sql, array());
+        $result = $query->result_array();
+
+        return $result;
+    }
+
+    public function getScore($user_id, $year, $month)
+    {
+
+    }
+    public function insertScore($data)
+    {
+        if($data) {
+			$insert = $this->db->insert('tasks', $data);
+			return ($insert == true) ? true : false;
+		}
+    }
+    public function updateScore($user_id, $data)
+    {
+
+    }
 
 }
 

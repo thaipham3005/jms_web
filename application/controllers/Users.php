@@ -255,8 +255,49 @@ class Users extends Admin_Controller
 		}
 		echo json_encode($response);
 	}
-
+	
 	public function fetchUserData($company_id = null, $department_id=null, $team_id = null)
+	{
+		if ($company_id == null) {
+			$company_id = $this->session->userdata("company_id");
+		}
+
+		$result = array('data' => array());
+		$data = $this->model_users->getUserData($company_id, $department_id=null, $team_id = null);
+
+		foreach ($data as $key => $value) {
+			// button
+			$buttons = '';			
+			$group = '';
+			$buttons = '<button type="button" class="btn btn-xs btn-outline-secondary btn-edit" data-toggle="modal" data-target="#userEditModal"><i class="far fa-edit fa-fw" data-toggle="tooltip" title = "Edit"></i></button>';
+			
+			$buttons .= '<button type="button" class="btn btn-xs btn-outline-secondary btn-remove" data-toggle="modal" data-target="#userRemoveModal"><i class="far fa-trash-alt fa-fw" data-toggle="tooltip" title = "Remove"></i></button>';
+
+			$buttons .= '<button type="button" class="btn btn-xs btn-outline-secondary btn-reset" data-toggle="modal" data-target="#userResetModal"><i class="fas fa-recycle fa-fw" data-toggle="tooltip" title = "Reset Password"></i></button>';
+
+			$active = ($value['active'] == 1) ? '<span class="badge badge-success">Active</span>' : '<span class="badge badge-warning">Inactive</span>';
+
+			$result['data'][$key] = array(
+				$buttons,
+				$value['login_id'],
+				$value['full_name'],
+				$value['email'],
+				$value['department'],
+				$value['team'],
+				$value['position'],
+				$value['_group'],
+                $active,
+				$value['id'],
+				$value['level'],
+				
+			);
+		} // /foreach
+
+		
+		echo json_encode($result);
+	}
+
+	public function fetchUserDataCards($company_id = null, $department_id=null, $team_id = null)
 	{
 		if ($company_id == null) {
 			$company_id = $this->session->userdata("company_id");
@@ -289,7 +330,7 @@ class Users extends Admin_Controller
                 $active,
 				$value['id'],
 				$value['level'],
-				$value['ordering']
+				
 			);
 		} // /foreach
 
@@ -297,6 +338,22 @@ class Users extends Admin_Controller
 		echo json_encode($result);
 	}
 
+	public function fetchUsersList($company_id, $department_id, $team_id)
+	{
+		$data = $this->model_users->getUserData($company_id, $department_id, $team_id);
+		$result = array();
+
+		$list = '';
+		$list .= '<ul class="select-list">';
+		foreach ($data as $key => $value) {
+			$list .= '<li class="select-item p-1" user-id='.$value["id"].'><img class="avatar" src="'.base_url($value["avatar"]).'"></img>'.$value["full_name"].'</li>';
+		} // /foreach	
+		$list .= '</ul>';
+
+		echo json_encode($list) ;	
+		
+	}
+	
 	public function getUserById($user_id){
 		$data = $this->model_users->getUserById($user_id);
 		echo json_encode($data);

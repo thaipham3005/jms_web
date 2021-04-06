@@ -66,6 +66,40 @@ class Model_users extends CI_Model
             }          
         }
 
+        public function getTeamData($company_id = null, $department_id=null) 
+        {            
+            if ($company_id && $department_id){
+                $sql = "SELECT teams.*, companies.name as company, departments.name as department
+                FROM teams               
+                INNER JOIN companies ON companies.id = teams.company_id
+                INNER JOIN departments ON departments.id = teams.department_id                
+                WHERE teams.active = '1'
+                AND teams.company_id = ? AND teams.department_id = ?
+                ORDER BY company_id ASC, department_id ASC, team_id ASC";
+                $query = $this->db->query($sql, array($company_id, $department_id));
+                return $query->result_array();
+            }
+            else if ($company_id)   {
+                $sql = "SELECT teams.*, companies.name as company, departments.name as department
+                FROM teams               
+                INNER JOIN companies ON companies.id = teams.company_id
+                INNER JOIN departments ON departments.id = teams.department_id                
+                WHERE teams.active = '1' AND teams.company_id = ?
+                ORDER BY company_id ASC, department_id ASC, team_id ASC";
+                $query = $this->db->query($sql, array($company_id));
+                return $query->result_array();
+            } 
+            else {
+                $sql = "SELECT teams.*, companies.name as company, departments.name as department
+                FROM teams               
+                INNER JOIN companies ON companies.id = teams.company_id
+                INNER JOIN departments ON departments.id = teams.department_id 
+                ORDER BY company_id ASC, department_id ASC, team_id ASC";
+                $query = $this->db->query($sql, array());
+                return $query->result_array();
+            }          
+        }
+
         public function getUserByID($user_id)
         {
             // In case of normal user (not creator) 

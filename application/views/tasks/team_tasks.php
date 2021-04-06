@@ -1,8 +1,8 @@
   <!-- Content Wrapper. Contains page content -->
   <div class="content-wrapper">
       <!-- Content Header (Page header) -->
-      <section class="content-header p-2">
-      </section>
+      <!-- <section class="content-header p-2">
+      </section> -->
 
       <!-- Spinning Loader when performing Ajax call  -->
       <div id="loader" class="">
@@ -348,19 +348,18 @@
       <!-- Main content -->
       <section class="content">
           <!-- Action buttons  -->
-          <div class="row mb-3">
-              <div class="col-xl-6 col-12">
-                  <button class="btn btn-primary mb-2" id="taskAddBtn" data-toggle="modal" data-target="#taskAddModal">
+          <div class="row mb-2 mt-2">
+              <div class="col-xl-6 col-12 m-0">
+                  <button class="btn btn-primary btn-sm mb-2" id="taskAddBtn" data-toggle="modal" data-target="#taskAddModal">
                       <i class="fas fa-check"></i>
-                      Add Task</button>
-                  <button class="btn btn-primary mb-2" id="taskMultiAddBtn" data-toggle="modal"
-                      data-target="#taskAddModal">
-                      <i class="fas fa-check-double"></i>
-                      Add Multiple Tasks</button>
-                  <button class="btn btn-success mb-2" id="printBM2"><i class="fas fa-file-download"></i> BM2 </button>
-                  <button class="btn btn-success mb-2" id="printBM3"><i class="fas fa-file-download"></i> BM3 </button>
-                  <button class="btn btn-success mb-2" id="printKPI"><i class="fas fa-file-download"></i> KPI </button>
-              </div>
+                      Assign Task</button>
+
+                  <button class="btn btn-success btn-sm mb-2" id="printBM2"><i class="fas fa-file-download"></i> BM2 </button>
+                  <button class="btn btn-success btn-sm mb-2" id="printBM3"><i class="fas fa-file-download"></i> BM3 </button>
+                  <button class="btn btn-success btn-sm mb-2" id="printKPI"><i class="fas fa-file-download"></i> KPI </button>
+                  <button class="btn btn-success btn-sm mb-2" id="printKPI"><i class="fas fa-file-download"></i> Summary </button>
+
+                </div>
 
               <!-- <div class="row col-xl-6 col-12 hide">
                   <div class="col-xl-5 col-sm-5 col-10 input-group-sm">
@@ -420,47 +419,57 @@
           </div>
           <!--/.row  -->
 
-          <!-- Regulation rating  -->
-          <div class="row">
-              <div class="col-xl-12 col-lg-12 col-12">
+          <!-- Task list  -->
+          <div class="row mb-0">
+              <div class="col-xl-2 col-md-3 col-12">
                   <div class="card">
                       <div class="card-header pt-1 pb-1">
-                          <div class="card-title font-weight-bold">Regulation</div>
+                          <div class="card-title font-weight-bold">Department</div>
                           <div class="card-tools">
-                              <button type="button" class="btn btn-tool" data-card-widget="collapse"><i
-                                      class="fas fa-minus"></i></button>
-
-                              <button type="button" class="btn btn-tool" data-card-widget="remove"><i
-                                      class="fas fa-times"></i></button>
+                              <button type="button" class="btn btn-circle" data-card-widget="collapse"
+                                  data-toggle="tooltip" title="Collapse">
+                                  <i class="fas fa-minus"></i>
+                              </button>
                           </div>
                       </div>
-                      <div class="card-body pt-2">
-                          <div class="regulation row pb-4">
-                              <div class="regulation-title col-xl-8 col-lg-8 col-12">
-                                  Comply with all Labor and Safety regulations, operating regulations from Company
-                              </div>
-                              <div class="br-wrapper col-xl-4 col-lg-4 col-12">
-                                  <select id="regulation-rating">
-                                      <option value="0">Not comply (0 point)</option>
-                                      <option value="1">Acceptable (20 points)</option>
-                                      <option value="2" selected="selected">Good (25 points)</option>
-                                      <option value="3">Excellent (30 points)</option>
-                                  </select>
-                              </div>
+                      <div class="card-body p-1 input-group-sm">
+                      <select class="custom-select" name="departments" id="departments">
 
-                          </div>
-
+                      </select>
                       </div>
                   </div>
-
+                  <div class="card">
+                      <div class="card-header pt-1 pb-1">
+                          <div class="card-title font-weight-bold">Team List</div>
+                          <div class="card-tools">
+                              <button type="button" class="btn btn-circle" data-card-widget="collapse"
+                                  data-toggle="tooltip" title="Collapse">
+                                  <i class="fas fa-minus"></i>
+                              </button>
+                          </div>
+                      </div>
+                      <div class="card-body p-1">
+                          <div id="team-list" class="custom-scrollbar">
+                          </div>
+                      </div>
+                  </div>
+                  <div class="card">
+                      <div class="card-header pt-1 pb-1">
+                          <div class="card-title font-weight-bold">Member List</div>
+                          <div class="card-tools">
+                              <button type="button" class="btn btn-circle" data-card-widget="collapse"
+                                  data-toggle="tooltip" title="Collapse">
+                                  <i class="fas fa-minus"></i>
+                              </button>
+                          </div>
+                      </div>
+                      <div class="card-body p-1">
+                          <div id="team-user-list" class="custom-scrollbar">
+                          </div>
+                      </div>
+                  </div>
               </div>
-
-          </div>
-          <!--/.row  -->
-
-          <!-- Task list  -->
-          <div class="row">
-              <div class="col-xl-12 col-lg-12 col-12">
+              <div class="col-xl-10 col-md-9 col-12">
                   <div class="card">
                       <div class="card-header pt-1 pb-1">
                           <div class="card-title font-weight-bold">Tasks List</div>
@@ -518,10 +527,13 @@
   <div id="snackbar"></div>
 
   <script type="text/javascript">
-let table;
-let tableData = [];
+var tableData = [];
 var targetId = 0;
-formType = "user";
+var active_user = 0;
+var today = new Date();
+var year = today.getFullYear();
+var month = today.getMonth() + 1;
+formType = "team-task";
 const fields = ['login_id', 'full_name', 'short_name', 'password', 'gender', 'birthday', 'company_id', 'department_id',
     'team_id', 'position', 'address', 'email', 'phone', 'skype', 'level', 'group_id', 'first_working_date', 'active'
 ];
@@ -529,62 +541,10 @@ const fields = ['login_id', 'full_name', 'short_name', 'password', 'gender', 'bi
 
 
 $(document).ready(function() {
-    // Ajax call for task list 
-    let today = new Date();
-    let year = today.getFullYear();
-    let month = today.getMonth();
-    console.log(year, month)
-    table = $('#taskTable').DataTable({
-        'ajax': {
-            url: base_url + 'tasks/fetchTaskDataByUser/' + year + "/" + month,
-            type: "POST",
-            "deferRender": true,
-            dataFilter: function(res) {
-                // do what you need to the data before it loads to the table
-                // console.log(res);
-                return res;
-            }
-        },
-        "ordering": true,
-        "orderMulti": true,
-        "order": [
-            // [4, "asc"],
-            // [5, "asc"]
-        ],
-        "info": false,
-        "lengthMenu": [
-            [50, 100, -1],
-            [50, 100, "All"]
-        ],
-        "paging": true,
-        "scrollX": true,
-        "scrollY": "57vh",
-        "scrollCollapse": true,
-        columnDefs: [{
-            targets: [9],
-            "visible": false,
-            "searchable": false
-        }],
-        "createdRow": function(row, data, index) {
-            $(row).attr("target-id", data[9]);
 
-            // Click event when user click on a row 
-            $(row).click((e) => {
-                targetId = data[9];
-                // $(this).parents().find('table').attr('target-id', data[9]);
-            });
-        },
-        "rowCallback": function(row, data) {
-
-        },
-        "initComplete": function(settings, json) {
-            tableData = json["data"];
-            $('#loader').removeClass('show');
-        },
-        error: function(x, y) {
-            console.log(x);
-        }
-    });
+    // console.log(myCompany, myDept, myTeam)
+    loadTeamList(myDept, myCompany);
+    loadUserList(myTeam, myDept, myCompany);
 
     //Apply daterange
     $('[name="dateFromTo"]').daterangepicker();
@@ -639,9 +599,11 @@ $(document).ready(function() {
         'disableOthers': false,
         'selectPreset': true
     };
+
+    loadDepartments(["#add_department", "#edit_department", "#departments"], myDept, selectPreset);
     loadGroups(["#add_group", "#edit_group"]);
     loadCompany(["#add_company", "#edit_company", "#company"], myCompany, presetWithDisableOthers);
-    loadDepartments(["#add_department", "#edit_department", "#departments"], myDept, selectPreset);
+    
     loadTeams(["#add_team", "#edit_team", "#teams"], myDept, myTeam);
 });
   </script>

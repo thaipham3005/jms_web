@@ -1,8 +1,8 @@
   <!-- Content Wrapper. Contains page content -->
   <div class="content-wrapper">
       <!-- Content Header (Page header) -->
-      <section class="content-header p-2">
-      </section>
+      <!-- <section class="content-header p-2">
+      </section> -->
 
       <!-- Spinning Loader when performing Ajax call  -->
       <div id="loader" class="show">
@@ -383,13 +383,13 @@
       <section class="content">
           <!-- Action buttons  -->
           <div class="row mb-3">
-              <div class="col-xl-6 col-12">
+              <div class="col-xl-6 col-12 mt-2">
                   <?php if(in_array('editUserGroup', $user_permission)): ?>
-                  <button class="btn btn-primary mb-2" id="userAddbtn" data-toggle="modal" data-target="#userAddModal">
+                  <button class="btn btn-primary btn-sm mb-2" id="userAddbtn" data-toggle="modal" data-target="#userAddModal">
                       <i class="fas fa-user-plus"></i>
                       Add User</button>
 
-                  <button class="btn btn-primary mb-2" id="userImportbtn" data-toggle="modal"
+                  <button class="btn btn-primary btn-sm mb-2" id="userImportbtn" data-toggle="modal"
                       data-target="#userImportModal">
                       <i class="fas fa-file-import"></i>
                       Import User List</button>
@@ -471,7 +471,7 @@
   <div id="snackbar"></div>
 
   <script type="text/javascript">
-let table;
+
 let tableData = [];
 var targetId = 0;
 formType = "user";
@@ -539,9 +539,11 @@ $(document).ready(function() {
             'excel', 'pdf', 'print', 'colvis'
         ]
     });
+
     // Position the buttons at the bottom of the table
     table.buttons().container()
         .appendTo($('.col-sm-12:eq(3)', table.table().container()));
+        
 
     // Set active on sidebar menu
     $("#settings").addClass('active');
@@ -549,15 +551,15 @@ $(document).ready(function() {
 
     // Assign function for form actions
     $('#removeBtn').on("click", function(e) {
-        removeByModal(targetId, "#userRemoveForm");
+        removeByModal(targetId, "#userRemoveForm", ()=>table.ajax.reload(null, false));
     });
 
     $('#addBtn').on("click", function(e) {
-        addByModal("#userAddForm");
+        addByModal("#userAddForm", ()=> table.ajax.reload(null, false));
     });
 
     $('#editBtn').on("click", function(e) {
-        editByModal(targetId, "#userEditForm");
+        editByModal(targetId, "#userEditForm", ()=>table.ajax.reload(null, false));
     });
 
     $('#userEditModal').on("shown.bs.modal", function(e) {

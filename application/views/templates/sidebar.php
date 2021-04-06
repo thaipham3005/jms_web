@@ -15,8 +15,8 @@
             </div>
             <div class="info">
                 <a href="#" class="d-block">
-                    <div><?php echo $this->session->userdata('department'); ?></div> 
-                    <div class="text-sm font-weight-light font-italic"><?php echo $this->session->userdata('team'); ?></div>
+                    <div><?php echo $this->session->userdata('full_name'); ?></div> 
+                    <div class="text-sm font-weight-light font-italic"><?php echo $this->session->userdata('department'); ?></div>
                 </a>
                 
             </div>
@@ -41,60 +41,25 @@
 
                 <!-- Individual Task List  -->
                 <?php // if(in_array('viewMemberTasks', $user_permission) || in_array('editMemberTasks', $user_permission)): ?>
-                <li class="nav-item has-treeview" id="member-tasks">
-                    <a href="<?php echo base_url('tasks') ?>"  class="nav-link">
-                        <i class="nav-icon fas fa-user-check"></i>
-                        <p>Member Tasks
-                        <i class="fas fa-angle-left right"></i>
+                <li class="nav-item">
+                    <a href="<?php echo base_url('tasks/member_tasks/').$this->session->userdata("id") ?>" id="tasks-list" class="nav-link">
+                        <i class="nav-icon fas fa-clipboard-check"></i>
+                        <p>Personal Task List
+                            <span class="badge badge-danger badge-pill right" id="noti-task">3</span>
                         </p>
                     </a>
-                    <ul class="nav nav-treeview" style="display:none;">
-                        <li class="nav-item">
-                            <a href="<?php echo base_url('tasks/member_tasks'); ?>" id="tasks-list" class="nav-link">
-                                <i class="nav-icon fas fa-clipboard-check"></i>
-                                <p>Tasks List
-                                    <span class="badge badge-danger badge-pill right" id="noti-task">3</span>
-                                </p>
-                            </a>
-                        </li>
-
-                        <li class="nav-item">
-                            <a href="<?php echo base_url('tasks/summary') ?>" id="tasks-summary"  class="nav-link">
-                                <i class="nav-icon far fa-calendar-check"></i>
-                                <p>Tasks Summary</p>
-                            </a>
-                        </li>
-
-                    </ul>
                 </li>
                 <?php // endif; ?>
 
                 <!-- Team Task List  -->
                 <?php // if(in_array('viewTeamTasks', $user_permission) || in_array('approveTeamTasks', $user_permission)): ?>
-                <li class="nav-item has-treeview" id="team-tasks" >
-                    <a href="<?php echo base_url('tasks') ?>" class="nav-link">
+                <li class="nav-item">
+                    <a href="<?php echo base_url('tasks/team_tasks'); ?>" id="team-tasks-list" class="nav-link">
                         <i class="nav-icon fas fa-tasks"></i>
-                        <p>Team Tasks
-                        <i class="fas fa-angle-left right"></i>
+                        <p>Team Task List
+                            <span class="badge badge-danger badge-pill right" id="team-noti-task">3</span>
                         </p>
                     </a>
-                    <ul class="nav nav-treeview" style="display:none;">
-                        <li class="nav-item">
-                            <a href="<?php echo base_url('tasks/team_tasks'); ?>" id="team-tasks-list" class="nav-link">
-                                <i class="nav-icon fas fa-clipboard-check"></i>
-                                <p>Tasks List
-                                    <span class="badge badge-danger badge-pill right" id="team-noti-task">3</span>
-                                </p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="<?php echo base_url('tasks/team_tasks_summary') ?>" id="team-tasks-summary"  class="nav-link">
-                                <i class="nav-icon far fa-calendar-check"></i>
-                                <p>Tasks Summary</p>
-                            </a>
-                        </li>
-
-                    </ul>
                 </li>
                 <?php // endif; ?>
 

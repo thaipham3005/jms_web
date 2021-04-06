@@ -24,6 +24,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 |
 */
 $config['base_url'] = 'http://localhost:8080/jms/';
+// $config['base_url'] = 'http://192.168.137.1:8080/jms/';
 
 /*
 |--------------------------------------------------------------------------
