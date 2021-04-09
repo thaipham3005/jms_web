@@ -16,6 +16,18 @@ const regulation = {
     "2":25,
     "3":30
 }
+const disableOthers = {
+    'disableOthers': true,
+    'selectPreset': false
+};
+const selectPreset = {
+    'disableOthers': false,
+    'selectPreset': true
+};
+const presetWithDisableOthers = {
+    'disableOthers': true,
+    'selectPreset': true
+};
 const user_fields = ['login_id', 'full_name', 'short_name', 'password', 'gender', 'birthday', 'company_id', 'department_id', 'team_id', 'position', 'address', 'email', 'phone', 'skype', 'level', 'group_id', 'first_working_date', 'active'];
 
 //#region  Fullscreen
@@ -459,6 +471,56 @@ function addByModal(formElement, callback){
    }
 }
 
+function assignByModal(formElement, callback){   
+    try{
+        $(formElement).unbind('submit').on('submit', function() {
+         let form = $(this);
+         //Check and validate all information 
+         if(!validate(formElement)) {
+             return false;
+         }
+ 
+         //Validated
+            $.ajax({
+                url: `${form.attr('action')}/${active_user}` ,
+                type: form.attr('method'),
+                data: form.serialize(),
+                dataType: 'json',
+                beforeSend: function(){
+                     // console.log(form.serialize());
+                },
+                dataFilter: function(res){
+                    console.log(res);
+                    return res;
+                },
+                success: function(response) {
+ 
+                    $(formElement).parents().find('.modal').modal('hide');
+                     
+                    if (response.success === true) {
+                        showSnackbar("success", response.messages);
+                    } else {
+                        showSnackbar("error", response.messages);
+                    }
+                    setTimeout(callback, 200);
+                    // callback;
+                }, 
+                complete: function(){
+ 
+ 
+                },
+                error: function(error){
+                    console.log(error);
+                }
+            });
+            return false; // return false to disbale default form submission 
+        });
+    }         
+    catch (e){
+        console.log(e);
+    }
+ }
+
 function editByModal(id, formElement, callback){    
     try{
         $(formElement).unbind('submit').on('submit', function() {
@@ -862,48 +924,7 @@ function loadTasks(user_id, year, month) {
     });
 }
 
-function loadUserList( team_id, department_id,company_id) {
-    // Ajax call for user list 
-    $.ajax({
-        url: `${base_url}users/fetchUsersList/${company_id}/${department_id}/${myTeam}`,
-        type: "POST",
-        data: [],
-        dataType: 'json',
-        dataFilter: function(res) {
-            // console.log(res);
-            return res;
-        },
-        success: function(response) {
-            $('#team-user-list').html(response);
-
-            first = $('#team-user-list .select-item').first();
-            $(first).addClass('active');
-            active_user = $(first).attr('user-id');
-
-            loadTasks(active_user, year, month);
-
-            $('#team-user-list .select-item').on('click', function() {
-                $(this).addClass('active');
-                $(this).siblings().removeClass('active');
-                active_user = $(this).attr('user-id');
-                refreshTaskTable();
-            });
-        },
-        complete: function() {
-
-        },
-        error: function(error) {
-            console.log(error);
-        }
-    });
-}
-
-function refreshTaskTable() {
-    table.fnDestroy();
-    loadTasks(active_user, year, month);
-}
-
-function loadTeamList(department_id, company_id){
+function loadTeamList(elements = ['#team-list'], department_id, company_id, active_team = null){
     $.ajax({
         url: `${base_url}organization/fetchTeamList/${department_id}/${company_id}`,
         type: "POST",
@@ -917,18 +938,24 @@ function loadTeamList(department_id, company_id){
             return res;
         },
         success: function(response) { 
-            $('#team-list').html(response);
+            // console.log(response)
+            elements.forEach((el)=>{
+                            
+                $(el).html(response);
+                first = $(el + ' .select-item').first();
+                $(first).addClass('active');
+                active_team = $(first).attr('team-id');
+    
+                $(el + ' .select-item').on('click', function() {
+                    $(this).addClass('active');
+                    $(this).siblings().removeClass('active');
+                    active_team = $(this).attr('team-id');
+                    loadUserList(['#team-user-list'],active_team, myDept, myCompany);
 
-            first = $('#team-list .select-item').first();
-            $(first).addClass('active');
-            active_team = $(first).attr('team-id');
-
-            $('#team-list .select-item').on('click', function() {
-                $(this).addClass('active');
-                $(this).siblings().removeClass('active');
-                active_team = $(this).attr('team-id');
-                
+                });
             });
+
+            
         }, 
         complete: function() {
 
@@ -937,6 +964,56 @@ function loadTeamList(department_id, company_id){
             console.log(error);
         }
     });
+}
+
+function loadUserList(elements = ['#team-user-list'], team_id, department_id, company_id) {
+    // Ajax call for user list 
+    $.ajax({
+        url: `${base_url}users/fetchUsersList/${company_id}/${department_id}/${team_id}`,
+        type: "POST",
+        data: [],
+        dataType: 'json',
+        dataFilter: function(res) {
+            // console.log(res);
+            return res;
+        },
+        success: function(response) {
+            // console.log(response);
+            elements.forEach((el)=>{
+                $(el).html(response);
+
+                first = $(el + ' .select-item').first();
+                $(first).addClass('active');
+                active_user = $(first).attr('user-id');
+    
+                loadTaskRows(active_user, year, month);
+    
+                $(el + ' .select-item').on('click', function() {
+                    $(this).addClass('active');
+                    $(this).siblings().removeClass('active');
+                    active_user = $(this).attr('user-id');
+                    active_user_info = {
+                        'avatar': $(this).find(".avatar").attr("src"),
+                        'name': $(this).text()
+                    }
+                    loadTaskRows(active_user, year, month);
+                    getReport(active_user, year, month);
+                });
+            });
+            
+        },
+        complete: function() {
+
+        },
+        error: function(error) {
+            console.log(error);
+        }
+    });
+}
+
+function refreshTaskTable() {
+    table.fnDestroy();
+    loadTasks(active_user, year, month);
 }
 
 /**
@@ -961,7 +1038,6 @@ function loadTaskRows(user_id, year, month){
             return res;
         },
         success: function(response) { 
-            
             resultData = response; 
             $('.tasks-container').html('');
             renderTasks('.tasks-container', resultData);            
@@ -1005,7 +1081,7 @@ function refreshTask(taskId, effect = 'shake'){
             newTask.addClass(`updated ${effect}`);
             setTimeout(()=>newTask.removeClass(`updated ${effect}`),3000);
             enhanceTask(newTask);
-            saveReport(userId, year, month);
+            saveReport(active_user, year, month);
         }, 
         complete: function() {
 
@@ -1053,7 +1129,7 @@ function enhanceTasks(){
         let text = $(this).prev();
         content = $(text).val().trim();
 
-        updateTask(targetId, ["remarks"],[content],()=>loadTaskRows(userId, year, month));
+        updateTask(targetId, ["remarks"],[content],()=>loadTaskRows(active_user, year, month));
     });
 
     $('.task').find('textarea').on("input", function(){
@@ -1089,14 +1165,14 @@ function enhanceTasks(){
         let rowData = resultData.filter(x=>x.id == targetId)[0]; 
         let date = new Date(); 
         let today = `${date.getFullYear()}-${date.getMonth()+1}-${date.getDate()}`;
-        // updateTask(targetId, ["status", "actual_start"],["1", today],loadTaskRows(userId, year, month) );
+
         updateTask(targetId, ["status", "actual_start"],["1", today],()=>refreshTask(targetId) );
     })
     $('.task .stopBtn').on("click", function(){
         let targetId = $(this).parents('.task').attr('task-id');
         let date = new Date(); 
         let today = `${date.getFullYear()}-${date.getMonth()+1}-${date.getDate()}`;
-        // updateTask(targetId, ["status", "actual_complete"],["3", today],loadTaskRows(userId, year, month) );
+
         updateTask(targetId, ["status", "actual_complete"],["3", today],()=>refreshTask(targetId) );
 
     })
@@ -1400,7 +1476,7 @@ function summarizeMonth(){
     regulation_score = regulation[$('#regulation-rating').val()];
     sumWeight = overallScore(resultData)["total_weight"];
     overall_score = overallScore(resultData)["overall_score"];
-    month_score = overall_score + regulation_score;
+    month_score = parseInt(overall_score + regulation_score) ;
     
     $('.total-weight span').text(sumWeight + '%');
     $('.task-score span').text(overall_score);
@@ -1462,6 +1538,11 @@ function genTask(task){
             status_card = 'Approved';
             status_action = '';
             break;
+        default:
+            status = 'idle';
+            status_card = 'Not yet started';
+            status_action = '<button class="btn btn-outline-light btn-circle btn-xs startBtn"><i class="fas fa-play fa-fw"></i></button>';
+            break;
     }
     dateSpan = (Date.parse(task['deadline'])  - today)/(24*3600*1000);
     if (task['status']!= '5' && task['status']!='3' && dateSpan <= 3){
@@ -1499,7 +1580,7 @@ function genTask(task){
     }
     result += `<div class="task ${status}" task-id=${task['id']}>                
                 <div class="task-header ui-state-default">
-                        <img class="avatar" src="${base_url+task['pic_ava']}">
+                        <img class="avatar" src="${base_url+task['pic_ava']}" >
                         <span class="full-name">${task['pic_name']}</span>
 
                         <span class="status d-none d-sm-inline ml-4">

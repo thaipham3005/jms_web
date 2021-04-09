@@ -44,6 +44,21 @@ button {
   outline: none;
 }
 
+:not(input), :not(textarea) {
+  -webkit-touch-callout: none;
+  /* iOS Safari */
+  -webkit-user-select: none;
+  /* Safari */
+  /* Konqueror HTML */
+  -moz-user-select: none;
+  /* Old versions of Firefox */
+  -ms-user-select: none;
+  /* Internet Explorer/Edge */
+  user-select: none;
+  /* Non-prefixed version, currently
+                                    supported by Chrome, Edge, Opera and Firefox */
+}
+
 input {
   height: 20px;
   border: none;
@@ -734,6 +749,7 @@ img.avatar {
   border-radius: 50%;
   background-color: #fff;
   margin-right: 10px;
+  background-image: '/assets/images/default-user.jpg';
 }
 
 /* Task */

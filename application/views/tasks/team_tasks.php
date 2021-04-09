@@ -14,175 +14,112 @@
           <div class="modal-dialog" role="document">
               <div class="modal-content">
                   <div class="modal-header">
-                      <h4 class="modal-title">Remove User</h4>
+                      <h4 class="modal-title">Remove Task</h4>
                       <button type="button" class="close" data-dismiss="modal" aria-label="Close"
                           aria-hidden="true">&times;</button>
 
                   </div>
 
-                  <form role="form" action="<?php echo base_url('users/disable') ?>" method="post" id="taskRemoveForm">
+                  <form role="form" action="<?php echo base_url('tasks/disable') ?>" method="post" id="taskRemoveForm">
                       <div class="modal-body">
                           <p>Do you really want to remove?</p>
                           <div id="messages"></div>
                       </div>
                       <div class="modal-footer">
                           <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                          <button type="submit" class="btn btn-warning" name="removeBtn" id="removeBtn">Remove
-                              User</button>
+                          <button type="submit" class="btn btn-warning" name="removeBtn" id="removeBtn">Remove</button>
                       </div>
                   </form>
               </div><!-- /.modal-content -->
           </div><!-- /.modal-dialog -->
       </div><!-- /.modal -->
 
-      <!-- Modal dialog for adding item  -->
-      <div class="modal fade" tabindex="-1" role="dialog" id="taskAddModal">
-          <div class="modal-dialog modal-xl" role="document">
+      <!-- Modal dialog for assigning item  -->
+      <div class="modal fade" tabindex="-1" role="dialog" id="taskAssignModal">
+          <div class="modal-dialog modal-lg" role="document">
               <div class="modal-content">
                   <div class="modal-header">
-                      <h4 class="modal-title">Add new User</h4>
+                      <h4 class="modal-title">Assign new Task</h4>
                       <button type="button" class="close" data-dismiss="modal" aria-label="Close"
                           aria-hidden="true">&times;</button>
 
                   </div>
-                  <form role="form" action="<?php echo base_url('users/create') ?>" method="post" id="taskAddForm">
+                  <form role="form" action="<?php echo base_url('tasks/assign') ?>" method="post" id="taskAssignForm">
                       <div class="modal-body">
-                          <div class="row">
-                              <div class="col-xl-3 col-lg-6 col-12 input-group-sm">
-                                  <label for="add_loginId">Login ID</label>
-                                  <input type="text" class="form-control" name="login_id" id="add_loginId">
+                          <div class="row mb-2">
+                              <div class="col-xs-2 col-lg-2 col-4">
+                                  <label for="assign_pic">Assignee</label>
                               </div>
-                              <div class="col-xl-3 col-lg-6 col-12">
-                                  <label for="edit_password">Password</label>
-                                  <div class="input-group input-group-sm">
-                                      <input type="password" class="form-control" name="password" id="add_password">
-                                      <div class="input-group-append">
-                                          <span class="btn btn-outline-secondary">
-                                              <i class="fa fa-eye-slash fa-fw" aria-hidden="true"></i>
-                                              <!-- <i class="fa fa-eye fa-fw fade" aria-hidden="true"></i> -->
-                                          </span>
-                                      </div>
-                                  </div>
-                              </div>
-                              <div class="col-xl-3 col-lg-6 col-12">
-                                  <label for="edit_cpassword">Confirm password</label>
-                                  <div class="input-group input-group-sm">
-                                      <input type="password" class="form-control" name="cpassword" id="add_cpassword">
-                                      <div class="input-group-append">
-                                          <span class="btn btn-outline-secondary">
-                                              <i class="fa fa-eye-slash fa-fw" aria-hidden="true"></i>
-                                              <!-- <i class="fa fa-eye fa-fw fade" aria-hidden="true"></i> -->
-                                          </span>
-
-                                      </div>
-                                  </div>
-
+                              <div class="col-xl-4 col-lg-4 col-8 target-user" target-user="">
+                                  <img src="" class="avatar">
+                                  <span class = "name"></span>
                               </div>
                           </div>
-
-                          <div class="border-top my-3"></div>
-
                           <div class="row">
-                              <div class="col-xl-3 col-lg-6 col-12 input-group-sm">
-                                  <label for="full_name">Full Name</label>
-                                  <input type="text" class="form-control" name="full_name" id="add_full_name">
+                              <div class="col-xl-12 col-lg-12 col-12 input-group-sm">
+                                  <label for="assign_description">Description</label>
+                                  <textarea class="form-control custom-scrollbar" name="description"
+                                      id="assign_description"
+                                      oninput='this.style.height = "";this.style.height = this.scrollHeight + "px"'></textarea>
                               </div>
-                              <div class="col-xl-3 col-lg-6 col-12 input-group-sm">
-                                  <label for="short_name">Short Name</label>
-                                  <input type="text" class="form-control" name="short_name" id="add_short_name">
+                              <div class="col-xl-3 col-lg-3 col-6 input-group-sm">
+                                  <label for="assign_project">Project</label>
+                                  <input type="text" class="form-control" name="project" id="assign_project">
                               </div>
-                              <div class="col-xl-3 col-lg-6 col-12 input-group-sm">
-                                  <label for="add_gender">Gender</label>
-                                  <select class="custom-select" name="gender" id="add_gender">
-                                      <option value="0">Ms.</option>
-                                      <option value="1" selected>Mr.</option>
-                                      <option value="2">N/A</option>
+                              <div class="col-xl-3 col-lg-3 col-6 input-group-sm">
+                                  <label for="assign_priority">Priority</label>
+                                  <select class="custom-select" name="priority" id="assign_priority">
+                                      <option value="0">Normal</option>
+                                      <option value="1">High</option>
+                                      <option value="2">Urgent</option>
+                                      <option value="3">Top Urgent</option>
                                   </select>
                               </div>
-                              <div class="col-xl-3 col-lg-6 col-12 input-group-sm">
-                                  <label for="add_birthday">Birthday</label>
-                                  <input type="date" class="form-control" name="birthday" id="add_birthday">
-                              </div>
-                              <div class="col-xl-3 col-lg-6 col-12 input-group-sm">
-                                  <label for="add_company">Company</label>
-                                  <select class="custom-select" name="company_id" id="add_company">
 
-                                  </select>
-                              </div>
-                              <div class="col-xl-3 col-lg-6 col-12 input-group-sm">
-                                  <label for="add_department">Department</label>
-                                  <select class="custom-select" name="department_id" id="add_department">
-
-                                  </select>
-                              </div>
-                              <div class="col-xl-3 col-lg-6 col-12 input-group-sm">
-                                  <label for="add_team">Team</label>
-                                  <select class="custom-select" name="team_id" id="add_team">
-
-                                  </select>
-                              </div>
-                              <div class="col-xl-3 col-lg-6 col-12 input-group-sm">
-                                  <label for="add_position">Position</label>
-                                  <input type="text" class="form-control" name="position" id="add_position">
-                              </div>
-
-                              <div class="col-xl-3 col-lg-6 col-12 input-group-sm">
-                                  <label for="add_address">Address</label>
-                                  <input type="text" class="form-control" name="address" id="add_address">
-                              </div>
-                              <div class="col-xl-3 col-lg-6 col-12 input-group-sm">
-                                  <label for="add_email">Email</label>
-                                  <input type="email" class="form-control" name="email" id="add_email">
-                              </div>
-                              <div class="col-xl-3 col-lg-6 col-12 input-group-sm">
-                                  <label for="add_phone">Phone No.</label>
-                                  <input type="text" class="form-control" name="phone" id="add_phone">
-                              </div>
-                              <div class="col-xl-3 col-lg-6 col-12 input-group-sm">
-                                  <label for="add_skype">Skype</label>
-                                  <input type="text" class="form-control" name="skype" id="add_skype">
-                              </div>
-                              <div class="col-xl-3 col-lg-6 col-12 input-group-sm">
-                                  <label for="add_level">Level</label>
-                                  <select class="custom-select" name="level" id="add_level">
-                                      <option value="0" disabled>Developer</option>
-                                      <option value="1" disabled>Administrator</option>
-                                      <option value="2">Moderator </option>
-                                      <option value="3">Director</option>
-                                      <option value="4">Vice Director</option>
-                                      <option value="5">Manager</option>
-                                      <option value="6">Deputy Manager</option>
-                                      <option value="7">Team Leader</option>
-                                      <option value="8">Deputy Leader</option>
-                                      <option value="9">Squad Leader</option>
-                                      <option value="8" selected>Member</option>
-                                  </select>
-                              </div>
-                              <div class="col-xl-3 col-lg-6 col-12 input-group-sm">
-                                  <label for="add_group">Group</label>
-                                  <select class="form-control" name="group_id" id="add_group">
-
-                                  </select>
-                              </div>
-                              <div class="col-xl-3 col-lg-6 col-12 input-group-sm">
-                                  <label for="add_firstdate">First day of work</label>
-                                  <input type="date" class="form-control" name="first_working_day" id="add_firstdate">
-                              </div>
-                              <div class="col-xl-3 col-lg-6 col-12">
-                                  <div class="mb-3"><b>Active</b></div>
-                                  <div class="pretty p-switch p-fill">
-                                      <input type="checkbox" name="active" id="add_active" value="1">
-                                      <div class="state p-success">
-                                          <label>Is active</label>
-                                      </div>
-                                  </div>
+                              <div class="col-xl-3 col-lg-3 col-6 input-group-sm">
+                                  <label for="assign_weight">Weight</label>
+                                  <input type="number" class="form-control" name="weight" id="assign_weight" min="0"
+                                      max="100">
 
                               </div>
+                              <div class="col-xl-3 col-lg-3 col-6 input-group-sm">
+                                  <label for="assign_total_weight">Total Weight</label>
+                                  <input type="number" class="form-control" name="total_weight" id="assign_total_weight"
+                                      readonly>
+                              </div>
+
+
+                              <div class="col-xl-3 col-lg-6 col-6 input-group-sm">
+                                  <label for="assign_plan_start">Plan Start date</label>
+                                  <input type="text" class="form-control date-picker" name="plan_start"
+                                      id="assign_plan_start" autocomplete="off">
+                              </div>
+                              <div class="col-xl-3 col-lg-6 col-6 input-group-sm">
+                                  <label for="assign_plan_complete">Plan Complete date</label>
+                                  <input type="text" class="form-control date-picker" name="plan_complete"
+                                      id="assign_plan_complete" autocomplete="off">
+                              </div>
+                              <div class="col-xl-3 col-lg-6 col-6 input-group-sm">
+                                  <label for="assign_deadline">Deadline</label>
+                                  <input type="name" class="form-control date-picker" name="deadline"
+                                      id="assign_deadline" autocomplete="off">
+                              </div>
+                              <div class="col-xl-3 col-lg-6 col-6 input-group-sm">
+                                  <label for="assign_plan_duration">Plan duration</label>
+                                  <input type="text" class="form-control" name="duration" id="assign_plan_duration"
+                                      readonly>
+                              </div>
+                              <div class="col-xl-12 col-lg-12 col-12 input-group-sm">
+                                  <label for="assign_remarks">Remarks</label>
+                                  <textarea class="form-control" name="remarks" id="assign_remarks"></textarea>
+                              </div>
+
                           </div>
+
                       </div>
                       <div class="modal-footer">
                           <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                          <button type="submit" class="btn btn-warning" name="addBtn" id="addBtn">Add User</button>
+                          <button type="submit" class="btn btn-warning" name="assignBtn" id="assignBtn">Assign Task</button>
                       </div>
                   </form>
               </div><!-- /.modal-content -->
@@ -199,138 +136,110 @@
                           aria-hidden="true">&times;</button>
 
                   </div>
-                  <form role="form" action="<?php echo base_url('users/edit') ?>" method="post" id="taskEditForm">
+                  <form role="form" action="<?php echo base_url('tasks/edit') ?>" method="post" id="taskEditForm">
                       <div class="modal-body">
                           <div class="row">
-                              <div class="col-xl-3 col-lg-6 col-12 input-group-sm">
-                                  <label for="edit_loginId">Login ID</label>
-                                  <input type="text" class="form-control" name="login_id" id="edit_loginId">
+                              <div class="col-xl-12 col-lg-12 col-12 input-group-sm">
+                                  <label for="edit_description">Description</label>
+                                  <textarea class="form-control custom-scrollbar" name="description"
+                                      id="edit_description"
+                                      oninput='this.style.height = "";this.style.height = this.scrollHeight + "px"'></textarea>
                               </div>
-                              <div class="col-xl-3 col-lg-6 col-12">
-                                  <label for="edit_password">Password</label>
-                                  <div class="input-group input-group-sm">
-                                      <input type="password" class="form-control" name="password" id="edit_password">
-                                      <div class="input-group-append">
-                                          <span class="btn btn-outline-secondary">
-                                              <i class="fa fa-eye-slash fa-fw" aria-hidden="true"></i>
-                                              <!-- <i class="fa fa-eye fa-fw fade" aria-hidden="true"></i> -->
-                                          </span>
-                                      </div>
-                                  </div>
+                              <div class="col-xl-3 col-lg-3 col-6 input-group-sm">
+                                  <label for="edit_project">Project</label>
+                                  <input type="text" step="5" class="form-control" name="project" id="edit_project">
                               </div>
-                              <div class="col-xl-3 col-lg-6 col-12">
-                                  <label for="edit_cpassword">Confirm password</label>
-                                  <div class="input-group input-group-sm">
-                                      <input type="password" class="form-control" name="cpassword" id="edit_cpassword">
-                                      <div class="input-group-append">
-                                          <span class="btn btn-outline-secondary">
-                                              <i class="fa fa-eye-slash fa-fw" aria-hidden="true"></i>
-                                              <!-- <i class="fa fa-eye fa-fw fade" aria-hidden="true"></i> -->
-                                          </span>
-                                      </div>
-                                  </div>
+                              <div class="col-xl-3 col-lg-3 col-6 input-group-sm">
+                                  <label for="edit_priority">Priority</label>
+                                  <select class="custom-select" name="priority" id="edit_priority">
+                                      <option value="0">Normal</option>
+                                      <option value="1">High</option>
+                                      <option value="2">Urgent</option>
+                                      <option value="3">Top Urgent</option>
+                                  </select>
                               </div>
-                              <div class="col-xl-3 col-lg-6 col-12">
-                                  <label for="" class="d-block">Notice</label>
-                                  <div class="badge badge-info text-sm"><i class="fa fa-info-circle"></i> If password
-                                      not change, leave it blank</div>
+
+                              <div class="col-xl-3 col-lg-3 col-6 input-group-sm">
+                                  <label for="edit_weight">Weight</label>
+                                  <input type="number" class="form-control" name="weight" id="edit_weight" min="0"
+                                      max="100">
                               </div>
+                              <div class="col-xl-3 col-lg-3 col-6 input-group-sm">
+                                  <label for="edit_total_weight">Total Weight</label>
+                                  <input type="number" step="5" class="form-control" name="total_weight"
+                                      id="edit_total_weight" readonly>
+                              </div>
+
+
+                              <div class="col-xl-3 col-lg-6 col-6 input-group-sm">
+                                  <label for="edit_plan_start">Plan Start date</label>
+                                  <input type="text" class="form-control date-picker" name="plan_start"
+                                      id="edit_plan_start">
+                              </div>
+                              <div class="col-xl-3 col-lg-6 col-6 input-group-sm">
+                                  <label for="edit_plan_complete">Plan Complete date</label>
+                                  <input type="text" class="form-control date-picker" name="plan_complete"
+                                      id="edit_plan_complete">
+                              </div>
+                              <div class="col-xl-3 col-lg-6 col-6 input-group-sm">
+                                  <label for="edit_deadline">Deadline</label>
+                                  <input type="name" class="form-control date-picker" name="deadline"
+                                      id="edit_deadline">
+                              </div>
+                              <div class="col-xl-3 col-lg-6 col-6 input-group-sm">
+                                  <label for="edit_plan_duration">Plan duration</label>
+                                  <input type="text" class="form-control" name="duration" id="edit_plan_duration"
+                                      readonly>
+                              </div>
+
+
+                              <div class="col-xl-3 col-lg-6 col-6 input-group-sm">
+                                  <label for="edit_assign_name">Assigned by</label>
+                                  <input type="text" class="form-control" name="assign_name" id="edit_assign_name"
+                                      readonly>
+                              </div>
+                              <div class="col-xl-3 col-lg-6 col-6 input-group-sm">
+                                  <label for="edit_actual_start">Actual Start</label>
+                                  <input type="text" class="form-control date-picker" name="actual_start"
+                                      id="edit_actual_start" autocomplete="off">
+                              </div>
+
+                              <div class="col-xl-3 col-lg-6 col-6 input-group-sm">
+                                  <label for="edit_actual_complete">Actual Complete</label>
+                                  <input type="text" class="form-control date-picker" name="actual_complete"
+                                      id="edit_actual_complete" autocomplete="off">
+                              </div>
+                              <div class="col-xl-3 col-lg-6 col-6 input-group-sm">
+                                  <label for="edit_actual_duration">Actual duration</label>
+                                  <input type="number" class="form-control" name="actual_duration"
+                                      id="edit_actual_duration" readonly>
+                              </div>
+                              <div class="col-xl-12 col-lg-12 col-12 input-group-sm">
+                                  <label for="edit_remarks">Remarks</label>
+                                  <textarea class="form-control" name="remarks" id="edit_remarks"></textarea>
+                              </div>
+
                           </div>
-                          <div class="border-top my-3"></div>
+                          <div class="border-top my-2"></div>
                           <div class="row">
-                              <div class="col-xl-3 col-lg-6 col-12 input-group-sm">
-                                  <label for="full_name">Full Name</label>
-                                  <input type="text" class="form-control" name="full_name" id="edit_full_name">
+                              <div class="col-xl-2 col-lg-2 d-none d-lg-block pt-2">
+                                  <label for="edit_leader_rate">Leader rate</label>
                               </div>
-                              <div class="col-xl-3 col-lg-6 col-12 input-group-sm">
-                                  <label for="short_name">Short Name</label>
-                                  <input type="text" class="form-control" name="short_name" id="edit_short_name">
-                              </div>
-                              <div class="col-xl-3 col-lg-6 col-12 input-group-sm">
-                                  <label for="edit_gender">Gender</label>
-                                  <select class="custom-select" name="gender" id="edit_gender">
-                                      <option value="0">Ms.</option>
-                                      <option value="1" selected>Mr.</option>
-                                      <option value="2">N/A</option>
+                              <div class="col-xl-4 col-lg-4 col-7">
+                                  <select name="rating" id="edit_leader_rate" class="star-rating">
+                                      <option value="">Not rated</option>
+                                      <option value="0">Not comply</option>
+                                      <option value="1">Acceptable (II)</option>
+                                      <option value="2">Acceptable (I)</option>
+                                      <option value="3">Good (II)</option>
+                                      <option value="4">Good (I)</option>
+                                      <option value="5">Excellent (II)</option>
+                                      <option value="6">Excellent (I)</option>
                                   </select>
                               </div>
-                              <div class="col-xl-3 col-lg-6 col-12 input-group-sm">
-                                  <label for="edit_birthday">Birthday</label>
-                                  <input type="date" class="form-control" name="birthday" id="edit_birthday">
-                              </div>
-                              <div class="col-xl-3 col-lg-6 col-12 input-group-sm">
-                                  <label for="edit_company">Company</label>
-                                  <select class="custom-select" name="company_id" id="edit_company">
-
-                                  </select>
-                              </div>
-                              <div class="col-xl-3 col-lg-6 col-12 input-group-sm">
-                                  <label for="edit_department">Department</label>
-                                  <select class="custom-select" name="department_id" id="edit_department">
-
-                                  </select>
-                              </div>
-                              <div class="col-xl-3 col-lg-6 col-12 input-group-sm">
-                                  <label for="edit_team">Team</label>
-                                  <select class="custom-select" name="team_id" id="edit_team">
-
-                                  </select>
-                              </div>
-                              <div class="col-xl-3 col-lg-6 col-12 input-group-sm">
-                                  <label for="edit_position">Position</label>
-                                  <input type="text" class="form-control" name="position" id="edit_position">
-                              </div>
-
-                              <div class="col-xl-3 col-lg-6 col-12 input-group-sm">
-                                  <label for="edit_editress">Address</label>
-                                  <input type="text" class="form-control" name="address" id="edit_address">
-                              </div>
-                              <div class="col-xl-3 col-lg-6 col-12 input-group-sm">
-                                  <label for="edit_email">Email</label>
-                                  <input type="email" class="form-control" name="email" id="edit_email">
-                              </div>
-                              <div class="col-xl-3 col-lg-6 col-12 input-group-sm">
-                                  <label for="edit_phone">Phone No.</label>
-                                  <input type="text" class="form-control" name="phone" id="edit_phone">
-                              </div>
-                              <div class="col-xl-3 col-lg-6 col-12 input-group-sm">
-                                  <label for="edit_skype">Skype</label>
-                                  <input type="text" class="form-control" name="skype" id="edit_skype">
-                              </div>
-                              <div class="col-xl-3 col-lg-6 col-12 input-group-sm">
-                                  <label for="edit_level">Level</label>
-                                  <select class="custom-select" name="level" id="edit_level">
-                                      <option value="0" disabled>Developer</option>
-                                      <option value="1" disabled>Administrator</option>
-                                      <option value="2">Moderator </option>
-                                      <option value="3">Director</option>
-                                      <option value="4">Vice Director</option>
-                                      <option value="5">Manager</option>
-                                      <option value="6">Deputy Manager</option>
-                                      <option value="7">Team Leader</option>
-                                      <option value="8">Deputy Leader</option>
-                                      <option value="9">Squad Leader</option>
-                                      <option value="8" selected>Member</option>
-                                  </select>
-                              </div>
-                              <div class="col-xl-3 col-lg-6 col-12 input-group-sm">
-                                  <label for="edit_group">Group</label>
-                                  <select class="form-control" name="group_id" id="edit_group">
-
-                                  </select>
-                              </div>
-                              <div class="col-xl-3 col-lg-6 col-12 input-group-sm">
-                                  <label for="edit_firstdate">First day of work</label>
-                                  <input type="date" class="form-control" name="first_working_day" id="edit_firstdate">
-                              </div>
-                              <div class="col-xl-3 col-lg-6 col-12">
-                                  <div class="mb-3"><b>Active</b></div>
-                                  <div class="pretty p-switch p-fill ">
-                                      <input type="checkbox" name="active" id="edit_active" value="1">
-                                      <div class="state p-success">
-                                          <label>Is active</label>
-                                      </div>
-                                  </div>
+                              <div class="score col-xl-4 col-lg-4 col-5 text-center"
+                                  style="font-size:1.7rem; font-weight:600;">
+                                  <span>-</span>
                               </div>
                           </div>
 
@@ -350,16 +259,20 @@
           <!-- Action buttons  -->
           <div class="row mb-2 mt-2">
               <div class="col-xl-6 col-12 m-0">
-                  <button class="btn btn-primary btn-sm mb-2" id="taskAddBtn" data-toggle="modal" data-target="#taskAddModal">
+                  <button class="btn btn-primary btn-sm mb-2" id="taskAssignBtn" data-toggle="modal" data-target="#taskAssignModal">
                       <i class="fas fa-check"></i>
                       Assign Task</button>
 
-                  <button class="btn btn-success btn-sm mb-2" id="printBM2"><i class="fas fa-file-download"></i> BM2 </button>
-                  <button class="btn btn-success btn-sm mb-2" id="printBM3"><i class="fas fa-file-download"></i> BM3 </button>
-                  <button class="btn btn-success btn-sm mb-2" id="printKPI"><i class="fas fa-file-download"></i> KPI </button>
-                  <button class="btn btn-success btn-sm mb-2" id="printKPI"><i class="fas fa-file-download"></i> Summary </button>
+                  <button class="btn btn-success btn-sm mb-2" id="printBM2"><i class="fas fa-file-download"></i> BM2
+                  </button>
+                  <button class="btn btn-success btn-sm mb-2" id="printBM3"><i class="fas fa-file-download"></i> BM3
+                  </button>
+                  <button class="btn btn-success btn-sm mb-2" id="printKPI"><i class="fas fa-file-download"></i> KPI
+                  </button>
+                  <button class="btn btn-success btn-sm mb-2" id="printSummary"><i class="fas fa-file-download"></i> Summary
+                  </button>
 
-                </div>
+              </div>
 
               <!-- <div class="row col-xl-6 col-12 hide">
                   <div class="col-xl-5 col-sm-5 col-10 input-group-sm">
@@ -386,11 +299,6 @@
               <div class="row col-xl-6 col-12">
                   <div class="col-xl-3 col-sm-3 col-6 input-group-sm mb-1">
                       <select class="form-control text-center" name="year" id="year">
-                          <option value="2021" selected="selected">2021</option>
-                          <option value="2020">2021</option>
-                          <option value="2019">2019</option>
-                          <option value="2018">2018</option>
-
                       </select>
                   </div>
                   <div class="col-xl-3 col-sm-3 col-6 input-group-sm mb-1">
@@ -424,7 +332,7 @@
               <div class="col-xl-2 col-md-3 col-12">
                   <div class="card">
                       <div class="card-header pt-1 pb-1">
-                          <div class="card-title font-weight-bold">Department</div>
+                          <div class="card-title font-weight-bold pt-2">Department</div>
                           <div class="card-tools">
                               <button type="button" class="btn btn-circle" data-card-widget="collapse"
                                   data-toggle="tooltip" title="Collapse">
@@ -433,14 +341,14 @@
                           </div>
                       </div>
                       <div class="card-body p-1 input-group-sm">
-                      <select class="custom-select" name="departments" id="departments">
+                          <select class="custom-select" name="departments" id="departments">
 
-                      </select>
+                          </select>
                       </div>
                   </div>
                   <div class="card">
                       <div class="card-header pt-1 pb-1">
-                          <div class="card-title font-weight-bold">Team List</div>
+                          <div class="card-title font-weight-bold pt-2">Team List</div>
                           <div class="card-tools">
                               <button type="button" class="btn btn-circle" data-card-widget="collapse"
                                   data-toggle="tooltip" title="Collapse">
@@ -455,7 +363,7 @@
                   </div>
                   <div class="card">
                       <div class="card-header pt-1 pb-1">
-                          <div class="card-title font-weight-bold">Member List</div>
+                          <div class="card-title font-weight-bold pt-2">Member List</div>
                           <div class="card-tools">
                               <button type="button" class="btn btn-circle" data-card-widget="collapse"
                                   data-toggle="tooltip" title="Collapse">
@@ -470,6 +378,55 @@
                   </div>
               </div>
               <div class="col-xl-10 col-md-9 col-12">
+                  <!-- Month summary  -->
+                  <div class="card col-xs-12 col-lg-12 col-12 mb-3">
+                      <div class="row p-1">
+                          <div class="col-xl-3 col-lg-3 col-6 total-weight px-2 my-1">
+                              Total weight: <span class="badge badge-info"
+                                  style="font-size:1rem; font-weight:400;"></span>
+                          </div>
+                          <div class="col-xl-3 col-lg-3 col-6 regulation-score px-2 my-1">
+                              Regulation: <span class="badge badge-info"
+                                  style="font-size:1rem; font-weight:400;"></span>
+                          </div>
+                          <div class="col-xl-3 col-lg-3 col-6 overall-score px-2 my-1">
+                              Tasks score: <span class="badge badge-info"
+                                  style="font-size:1rem; font-weight:400;"></span>
+                          </div>
+                          <div class="col-xl-3 col-lg-3 col-6 month-score px-2 my-1">
+                              Overall: <span class="badge badge-info" style="font-size:1rem; font-weight:400;"></span>
+                          </div>
+                      </div>
+                  </div>
+                  <!-- Regulation rating  -->
+                  <div class="row">
+                      <div class="col-xl-12 col-lg-12 col-12">
+                          <div class="card">
+                              <div class="card-header pt-1 pb-1">
+                                  <div class="card-title font-weight-bold">Regulation</div>
+                              </div>
+                              <div class="card-body pt-2 pb-2">
+                                  <div class="regulation row pb-3">
+                                      <div class="regulation-title col-xl-8 col-lg-8 col-12">
+                                          Comply with all Labor and Safety regulations, operating regulations from
+                                          Company
+                                      </div>
+                                      <div class="br-wrapper col-xl-4 col-lg-4 col-12">
+                                          <select id="regulation-rating">
+                                              <option value="">Not rated</option>
+                                              <option value="0">Not comply (0 point)</option>
+                                              <option value="1">Acceptable (20 points)</option>
+                                              <option value="2">Good (25 points)</option>
+                                              <option value="3">Excellent (30 points)</option>
+                                          </select>
+                                      </div>
+                                  </div>
+                              </div>
+                          </div>
+                      </div>
+                  </div>
+                  <!--/.row  -->
+
                   <div class="card">
                       <div class="card-header pt-1 pb-1">
                           <div class="card-title font-weight-bold">Tasks List</div>
@@ -484,8 +441,11 @@
                               </button>
                           </div>
                       </div>
-                      <div class="card-body p-2">
-                          <table id="taskTable"
+                      <div class="card-body p-2 custom-scrollbar" style="max-height:calc(62vh);">
+                          <section class="tasks-container task-row sortable">
+
+                          </section>
+                          <!-- <table id="taskTable"
                               class="table table-bordered table-striped dt-bootstrap4 text-center nowrap"
                               style="width:100%;">
                               <thead>
@@ -501,14 +461,14 @@
                                       <th>Assigned</th>
                                       <th>Remarks</th>
                                       <th>Rating</th>
-                                      <!-- <th>ID</th> -->
+                                      
 
                                   </tr>
                               </thead>
                               <tbody>
 
                               </tbody>
-                          </table>
+                          </table> -->
 
                       </div>
                   </div>
@@ -527,24 +487,27 @@
   <div id="snackbar"></div>
 
   <script type="text/javascript">
+var resultData = [];
 var tableData = [];
 var targetId = 0;
+
 var active_user = 0;
+var active_user_info ={};
+var active_dept = 0;
+var active_team = 0;
+
 var today = new Date();
 var year = today.getFullYear();
 var month = today.getMonth() + 1;
-formType = "team-task";
-const fields = ['login_id', 'full_name', 'short_name', 'password', 'gender', 'birthday', 'company_id', 'department_id',
-    'team_id', 'position', 'address', 'email', 'phone', 'skype', 'level', 'group_id', 'first_working_date', 'active'
-];
-
-
 
 $(document).ready(function() {
 
     // console.log(myCompany, myDept, myTeam)
-    loadTeamList(myDept, myCompany);
-    loadUserList(myTeam, myDept, myCompany);
+    loadDepartments(["#departments"], myDept);
+    loadTeamList(['#team-list'], myDept, myCompany);
+    loadUserList(['#team-user-list'], myTeam, myDept, myCompany);
+    getReport(active_user, year, month); //to get regulation
+
 
     //Apply daterange
     $('[name="dateFromTo"]').daterangepicker();
@@ -552,58 +515,165 @@ $(document).ready(function() {
         $(this).val(picker.startDate.format('DD/MM/YYYY') + '  -  ' + picker.endDate.format(
             'DD/MM/YYYY'));
     });
+    $('.date-picker').daterangepicker({
+        singleDatePicker: true,
+        autoApply: true,
+        autoUpdateInput: true,
+        defaultDate: '',
+        locale: {
+            format: 'DD/MM/YYYY',
+            cancelLabel: 'Clear'
+        }
+    }, function(start, end, label) {
+
+    });
 
     //Apply star rating
     $('#regulation-rating').barrating({
-        theme: 'bars-movie'
+        theme: 'bars-movie',
+        readonly: true,
+        onSelect: function(value, text, event) {
+            if (typeof(event) !== 'undefined') {
+                summarizeMonth();
+            }
+        }
+    });
+
+    $('#taskEditModal').find('.star-rating').barrating({
+        theme: 'css-stars',
+        // readonly: true,
+        onSelect: function(value, text, event) {
+            if (typeof(event) !== 'undefined') {
+                score_div = (this.$elem.parents('.row')).find('.score span');
+
+                let taskId = targetId;
+                let task = resultData.filter(x => x['id'] == targetId)[0];
+                let ratings = taskRating(task, value);
+                if (ratings['overall'] == null) {
+                    return false;
+                }
+                score_div.text(ratings['overall']);
+                approveTask(taskId, ["rating", "productivity", "efficiency", "overall"],
+                    [value, ratings["productivity"], ratings["efficiency"], ratings["overall"]],
+                    () => refreshTask(targetId, "blast"));
+            }
+        }
+    });
+
+    //Apply jQueryUI sortable
+    $('.sortable').sortable({
+        helper: "clone",
+        axix: "y",
+        handle: ".task-header",
+        containment: ".tasks-container",
+        cursor: "move",
     })
 
     // Set active on sidebar menu
-    $("#team-tasks").addClass('menu-open');
-    $("#team-tasks").children().first().addClass('active');
-    $("#team-tasks").children().eq(1).css('display', 'block');
     $("#team-tasks-list").addClass('active');
 
     // Assign function for form actions
     $('#removeBtn').on("click", function(e) {
-        removeByModal(targetId, "#taskRemoveForm");
+        removeByModal(targetId, "#taskRemoveForm", () => loadTaskRows(active_user, year, month));
     });
 
-    $('#addBtn').on("click", function(e) {
-        addByModal("#taskAddForm");
+    $('#assignBtn').on("click", function(e) {
+        assignByModal("#taskAssignForm", () => loadTaskRows(active_user, year, month));
     });
 
     $('#editBtn').on("click", function(e) {
-        editByModal(targetId, "#taskEditForm");
+        editByModal(targetId, "#taskEditForm", () => loadTaskRows(active_user, year, month));
     });
 
-    $('#taskEditModal').on("shown.bs.modal", function(e) {
-        getUserInfo(targetId);
+    $('#taskAssignModal').on('shown.bs.modal', function(){
+        $(this).find('.avatar').attr("src", active_user_info["avatar"]);
+        $(this).find('.name').text(active_user_info["name"]);
+        $(this).find('.target-user').attr("target-user", active_user);
+    })
+
+    // Assign function for form actions    
+    $('[data-target="#taskAssignModal"]').on("click", function(e) {
+        $('#taskAssignModal').find(`.date-picker`).val('');
+        $('#taskAssignModal').find(`input:not([name="total_weight"])`).val('');
+        $('#taskAssignModal').find(`input:not([readonly])`).css('background-color', '#fff');
+        $('#taskAssignModal').find(`textarea`).css('background-color', '#fff');
     });
 
-    $('#add_full_name').on('change paste keyup', function(e) {
-        $('#add_short_name').val(genShortName(this.value));
+    $('[data-target="#taskEditModal"]').on("click", function(e) {
+        $('#taskEditModal').find(`.date-picker`).val('');
+        $('#taskEditModal').find(`.star-rating`).val('');
     });
 
-    // Ajax call for form selects 
-    // loadCompany(["#add_compnay", "#edit_company"]);
-    let disableOthers = {
-        'disableOthers': true,
-        'selectPreset': false
-    };
-    let selectPreset = {
-        'disableOthers': false,
-        'selectPreset': true
-    };
-    let presetWithDisableOthers = {
-        'disableOthers': false,
-        'selectPreset': true
-    };
 
-    loadDepartments(["#add_department", "#edit_department", "#departments"], myDept, selectPreset);
-    loadGroups(["#add_group", "#edit_group"]);
-    loadCompany(["#add_company", "#edit_company", "#company"], myCompany, presetWithDisableOthers);
-    
-    loadTeams(["#add_team", "#edit_team", "#teams"], myDept, myTeam);
+    $('form input, form textarea').on('input', function(e) {
+        $(this).css('background-color', '#fff');
+    });
+
+    $('[name="weight"]').on("change", function() {
+        let weight = parseInt($(this).val());
+        let _sumWeight = 0;
+        if ($(this).attr('id') == "assign_weight" || $(this).attr('id') == "add_weight") {
+            _sumWeight = sumWeight + weight;
+            if (_sumWeight > 100) {
+                showSnackbar('error', 'Error! The weight of all task exceed 100%');
+            }
+            $(this).parents('form').find('[name="total_weight"]').val(_sumWeight);
+        } else if ($(this).attr('id') == "edit_weight") {
+
+            let origin_weight = resultData.filter(x => x['id'] == targetId)[0]["weight"];
+            _sumWeight = sumWeight - origin_weight + weight;
+
+            if (_sumWeight > 100) {
+                showSnackbar('error', 'Error! The weight of all task exceed 100%');
+            }
+            $(this).parents('form').find('[name="total_weight"]').val(_sumWeight);
+        }
+
+    });
+
+    //Assign action for buttons
+    $('#month').find(`[value=${month}]`).attr('selected', true);
+    $('#year').find(`[value=${year}]`).attr('selected', true);
+
+    $('#year, #month').on('change', function() {
+        year = $('#year').val();
+        month = $('#month').val();
+
+        loadTaskRows(active_user, year, month);
+        getReport(active_user, year, month);
+    });
+
+    $('#printBM2').on("click", function() {
+        window.location = `${base_url}excel/exportTeamBM2/${active_team}/${year}/${month}`;
+    });
+
+    $('#printBM3').on("click", function() {
+        window.location =
+            `${base_url}excel/exportTeamBM3/${active_team}/${year}/${month}/`;
+    });
+
+    $('#printSummary').on("click", function() {
+        window.location =
+            `${base_url}excel/exportDeptSummary/${active_department}/${year}/${month}`;
+    })
+
+    getLatestYears.done(
+        (data) => {
+            let options = '';
+            today = new Date();
+            for (let i = 0; i < data.length; i++) {
+                let y = data[i];
+                if (y == today.getFullYear()) {
+                    options += `<option value=${y} selected>${y}</option>`;
+                } else {
+                    options += `<option value=${y}>${y}</option>`;
+                }
+            }
+            $('#year').html(options);
+        }
+    );
+
+
+
 });
   </script>

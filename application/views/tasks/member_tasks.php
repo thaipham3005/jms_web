@@ -323,7 +323,7 @@
 
           </div>
           <!--/.row  -->
-
+        <!-- Month summary  -->
           <div class="card col-xs-12 col-lg-12 col-12 mb-3">
               <div class="row p-1">
                   <div class="col-xl-3 col-lg-3 col-6 total-weight px-2 my-1">
@@ -346,13 +346,6 @@
                   <div class="card">
                       <div class="card-header pt-1 pb-1">
                           <div class="card-title font-weight-bold">Regulation</div>
-                          <!-- <div class="card-tools">
-                              <button type="button" class="btn btn-tool" data-card-widget="collapse"><i
-                                      class="fas fa-minus"></i></button>
-
-                              <button type="button" class="btn btn-tool" data-card-widget="remove"><i
-                                      class="fas fa-times"></i></button>
-                          </div> -->
                       </div>
                       <div class="card-body pt-2 pb-2">
                           <div class="regulation row pb-3">
@@ -439,7 +432,7 @@
 
   <script type="text/javascript">
 let resultData = [];
-var userId = <?php echo $this->session->userdata('id') ?>;
+var active_user = <?php echo $this->session->userdata('id') ?>;
 var targetId = 0;
 
 var sumWeight = 0;
@@ -453,7 +446,7 @@ var month = today.getMonth() + 1;
 
 $(document).ready(function() {
     // Ajax call for task list     
-    loadTaskRows(userId, year, month);
+    loadTaskRows(active_user, year, month);
 
     //Apply daterange
     $('[name="dateFromTo"]').daterangepicker({
@@ -483,6 +476,12 @@ $(document).ready(function() {
 
     });
 
+    $('.date-picker').on('apply.daterangepicker', function(ev, picker) {
+        formElement = $(this).parents('form');
+        $(this).css('background-color', '#fff');
+        validateDates(formElement);
+    })
+
     //Apply jQueryUI sortable
     $('.sortable').sortable({
         helper: "clone",
@@ -498,14 +497,14 @@ $(document).ready(function() {
         onSelect: function(value, text, event){
             if (typeof(event) !== 'undefined') {
                 summarizeMonth();
-                saveReport(userId, year, month);
+                saveReport(active_user, year, month);
             }
         }
     });
 
     $('#taskEditModal').find('.star-rating').barrating({
         theme: 'css-stars',
-        // readonly: true,
+        readonly: true,
         onSelect: function(value, text, event) {
             if (typeof(event) !== 'undefined') {
                 score_div = (this.$elem.parents('.row')).find('.score span');
@@ -540,11 +539,7 @@ $(document).ready(function() {
         $('#taskEditModal').find(`.star-rating`).val('');
     });
 
-    $('.date-picker').on('apply.daterangepicker', function(ev, picker) {
-        formElement = $(this).parents('form');
-        $(this).css('background-color', '#fff');
-        validateDates(formElement);
-    })
+
 
     $('form input, form textarea').on('input', function(e) {
         $(this).css('background-color', '#fff');
@@ -554,7 +549,7 @@ $(document).ready(function() {
 
         let weight = parseInt($(this).val());
         let _sumWeight = 0;
-        if ($(this).attr('id') == "add_weight") {
+        if ($(this).attr('id') == "assign_weight" || $(this).attr('id') == "add_weight") {
             _sumWeight = sumWeight + weight;
             if (_sumWeight > 100) {
                 showSnackbar('error', 'Error! The weight of all task exceed 100%');
@@ -574,15 +569,15 @@ $(document).ready(function() {
     })
 
     $('#removeBtn').on("click", function(e) {
-        removeByModal(targetId, "#taskRemoveForm", () => loadTaskRows(userId, year, month));
+        removeByModal(targetId, "#taskRemoveForm", () => loadTaskRows(active_user, year, month));
     });
 
     $('#addBtn').on("click", function(e) {
-        addByModal("#taskAddForm", () => loadTaskRows(userId, year, month));
+        addByModal("#taskAddForm", () => loadTaskRows(active_user, year, month));
     });
 
     $('#editBtn').on("click", function(e) {
-        editByModal(targetId, "#taskEditForm", () => loadTaskRows(userId, year, month));
+        editByModal(targetId, "#taskEditForm", () => loadTaskRows(active_user, year, month));
     });
 
     //Assign action for buttons
@@ -593,41 +588,21 @@ $(document).ready(function() {
         year = $('#year').val();
         month = $('#month').val();
 
-        loadTaskRows(userId, year, month);
-        getReport(userId, year, month);
+        loadTaskRows(active_user, year, month);
+        getReport(active_user, year, month);
     });
 
     $('#printBM2').on("click", function() {
-        window.location = `${base_url}excel/exportBM2/${userId}/${year}/${month}`;
+        window.location = `${base_url}excel/exportBM2/${active_user}/${year}/${month}`;
     });
-
-    let regulation = 25;
-    let overall = 70
 
     $('#printBM3').on("click", function() {
         window.location =
-            `${base_url}excel/exportBM3/${userId}/${regulation}/${overall}/${year}/${month}`;
+            `${base_url}excel/exportBM3/${active_user}/${regulation}/${overall}/${year}/${month}`;
     })
 
     // Ajax call for form selects 
     // loadCompany(["#add_compnay", "#edit_company"]);
-    let disableOthers = {
-        'disableOthers': true,
-        'selectPreset': false
-    };
-    let selectPreset = {
-        'disableOthers': false,
-        'selectPreset': true
-    };
-    let presetWithDisableOthers = {
-        'disableOthers': true,
-        'selectPreset': true
-    };
-    loadGroups(["#add_group", "#edit_group"]);
-    loadCompany(["#add_company", "#edit_company", "#company"], myCompany, presetWithDisableOthers);
-    loadDepartments(["#add_department", "#edit_department", "#departments"], myDept, presetWithDisableOthers);
-    loadTeams(["#add_team", "#edit_team", "#teams"], myDept, myTeam);
-
 
 
     getLatestYears.done(
@@ -645,7 +620,7 @@ $(document).ready(function() {
             $('#year').html(options);
         }
     );
-    getReport(userId, year, month); //to get regulation
+    getReport(active_user, year, month); //to get regulation
 
 
 });

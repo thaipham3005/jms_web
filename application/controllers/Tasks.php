@@ -203,6 +203,69 @@ class Tasks extends Admin_Controller
         echo json_encode($response);
     }
 
+    public function assign($user_id)
+    {
+        // if(!in_array('createRequests', $this->permission)) {
+        //     redirect('dashboard', 'refresh');
+        // }
+
+        $this->form_validation->set_rules('description', 'Task description', 'required');
+
+        
+        if ($this->form_validation->run() == TRUE) {   
+            //processing after hitting submit         
+        	$data = array(
+                'description'=>$this->input->post('description'),
+                'project'=>$this->input->post('project'),
+                'company_id'=>$this->session->userdata('company_id'),
+                'department_id'=>$this->session->userdata('department_id'),
+                'team_id'=>$this->session->userdata('team_id'),
+                'deadline'=>$this->convertDateFormat($this->input->post('deadline')),
+                'plan_start'=>$this->convertDateFormat($this->input->post('plan_start')) ,
+                'plan_complete'=>$this->convertDateFormat($this->input->post('plan_complete')),
+                // 'actual_start'=>$this->input->post('actual_start'),
+                // 'actual_complete'=>$this->input->post('actual_complete'),
+                'priority'=>$this->input->post('priority'),
+                'weight'=>$this->input->post('weight'),
+                'remarks'=>$this->input->post('remarks'),
+                'status'=>'0',
+                'created_date'=>date('Y-m-d H:i:s'),
+                'created_by'=>$this->session->userdata['id'],
+                'assigned_date'=>date('Y-m-d H:i:s'),
+                'assigned_by'=>$this->session->userdata['id'],
+                'user_id'=>$user_id
+            );
+            $create = $this->model_tasks->create($data);
+        	if($create == true) {
+                // $noti = array(
+                //     'group_id' => $groups,
+                //     'function'=> 'Request',
+                //     'action'=> 'Approve',
+                //     'description'=>'Request No '.$data['request_no']. ' required your approval for processing', 
+                //     'navigate'=>'requests/approve/',               
+                //     'created_date' => date('Y-m-d h:i:s'),
+                // );
+                
+                // $this->model_notifications->create($noti);
+                $this->session->set_flashdata('success', 'Successfully created task!');
+        		$response['success'] = true;
+	        	$response['messages'] = 'Succesfully created task!';
+
+        	}
+        	else {
+        		$this->session->set_flashdata('false', 'Error in database while creating task!');
+        		$response['success'] = false;
+	        	$response['messages'] = 'Error in database while creating task';
+        	}
+        }
+        else {
+            $this->session->set_flashdata('errors', 'Error in data validation while crating task!!!!');
+            $response['success'] = false;
+            $response['messages'] = 'Error in data validation while creating task!';
+        }	
+        echo json_encode($response);
+    }
+
     public function edit($id)
     {
         // if(!in_array('createRequests', $this->permission)) {

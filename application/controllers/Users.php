@@ -341,9 +341,8 @@ class Users extends Admin_Controller
 	public function fetchUsersList($company_id, $department_id, $team_id)
 	{
 		$data = $this->model_users->getUserData($company_id, $department_id, $team_id);
-		$result = array();
-
 		$list = '';
+
 		$list .= '<ul class="select-list">';
 		foreach ($data as $key => $value) {
 			$list .= '<li class="select-item p-1" user-id='.$value["id"].'><img class="avatar" src="'.base_url($value["avatar"]).'"></img>'.$value["full_name"].'</li>';
@@ -353,7 +352,8 @@ class Users extends Admin_Controller
 		echo json_encode($list) ;	
 		
 	}
-	
+
+		
 	public function getUserById($user_id){
 		$data = $this->model_users->getUserById($user_id);
 		echo json_encode($data);
