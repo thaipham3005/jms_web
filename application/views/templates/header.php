@@ -7,6 +7,7 @@
 
   <!-- Metadata for social media -->
   <link href="<?php echo base_url().'assets/logo/jms.png' ?>" rel="icon" type="image/png" />
+  <link href="<?php echo base_url().'jms.ico' ?>" rel="shortcut icon" type="image/x-icon" />
     <link rel="image_src" href="<?php echo base_url().'assets/logo/jms.png' ?>" />
   <meta property="og:title" content="JMS" />
     <meta property="og:type" content="website" />    

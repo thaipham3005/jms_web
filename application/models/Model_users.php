@@ -19,7 +19,7 @@ class Model_users extends CI_Model
                 INNER JOIN teams ON teams.id = users.team_id
                 WHERE users.level > 1 AND users.active = '1'
                 AND users.company_id = ? AND users.department_id = ? AND users.team_id = ?
-                ORDER BY company_id ASC, department_id ASC, team_id ASC, level ASC";
+                ORDER BY department_id ASC, team_id ASC, level ASC";
                 $query = $this->db->query($sql, array($company_id, $department_id, $team_id));
                 return $query->result_array();
             } 
@@ -30,9 +30,10 @@ class Model_users extends CI_Model
                 INNER JOIN groups ON groups.id = user_group.group_id
                 INNER JOIN companies ON companies.id = users.company_id
                 INNER JOIN departments ON departments.id = users.department_id
+                INNER JOIN teams ON teams.id = users.team_id
                 WHERE users.level > 1 AND users.active = '1'
                 AND users.company_id = ? AND users.department_id = ?
-                ORDER BY company_id ASC, department_id ASC, team_id ASC, level ASC";
+                ORDER BY department_id ASC,  team_id ASC, level ASC";
                 $query = $this->db->query($sql, array($company_id, $department_id));
                 return $query->result_array();
             }
@@ -42,9 +43,12 @@ class Model_users extends CI_Model
                 INNER JOIN user_group ON users.id = user_group.user_id
                 INNER JOIN groups ON groups.id = user_group.group_id
                 INNER JOIN companies ON companies.id = users.company_id
+                INNER JOIN departments ON departments.id = users.department_id
+                INNER JOIN teams ON teams.id = users.team_id
+
                 WHERE users.level > 1 AND users.active = '1'
                 AND users.company_id = ?
-                ORDER BY company_id ASC, department_id ASC, team_id ASC, level ASC";
+                ORDER BY department_id ASC, team_id ASC, level ASC";
                 $query = $this->db->query($sql, array($company_id));
                 return $query->result_array();
             } 

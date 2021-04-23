@@ -29,7 +29,18 @@ const presetWithDisableOthers = {
     'selectPreset': true
 };
 const user_fields = ['login_id', 'full_name', 'short_name', 'password', 'gender', 'birthday', 'company_id', 'department_id', 'team_id', 'position', 'address', 'email', 'phone', 'skype', 'level', 'group_id', 'first_working_date', 'active'];
+var resultData = [];
+var tableData = [];
+var targetId = 0;
 
+var active_user = 0;
+var active_user_info ={};
+var active_dept = 0;
+var active_team = 0;
+
+var today = new Date();
+var year = today.getFullYear();
+var month = today.getMonth() + 1;
 //#region  Fullscreen
 
 // document.fullscreenEnabled =
@@ -309,56 +320,65 @@ function validateDates(formElement){
     showSnackbar('error', messages);
 }
 
-function validate(formElement) {
-    $(formElement).find('input:not([readonly])').css('background-color', '#fff');
-    $(formElement).find('textarea').css('background-color', '#fff');
-
-    let deadline = $(formElement).find('[name="deadline"]').data('daterangepicker').startDate;
-    let planStart = $(formElement).find('[name="plan_start"]').data('daterangepicker').startDate;
-    let planComplete = $(formElement).find('[name="plan_complete"]').data('daterangepicker').startDate;
-
-    let description = $(formElement).find('[name="description"]').val();
-    let weight = $(formElement).find('[name="weight"]').val();
-    let _sumWeight = $(formElement).find('[name="total_weight"]').val();
-    let project = $(formElement).find('[name="project"]').val();
-
-    messages = [];
-    if (planStart > planComplete) {
-        messages.push('Plan Start should be earlier than plan Complete');
-        $(formElement).find('[name="plan_start"]').css('background-color', '#ef9a9a');
-        $(formElement).find('[name="plan_complete"]').css('background-color', '#ef9a9a');
-    }    
-    if (planStart > deadline || planComplete > deadline) {
-        
-        messages.push('Deadline should be later than plan action');
-        $(formElement).find('[name="deadline"]').css('background-color', '#ef9a9a');
+function validate(formElement, formType = "task") {
+    if (formType== "task"){
+        $(formElement).find('input:not([readonly])').css('background-color', '#fff');
+        $(formElement).find('textarea').css('background-color', '#fff');
+    
+        let deadline = $(formElement).find('[name="deadline"]').data('daterangepicker').startDate;
+        let planStart = $(formElement).find('[name="plan_start"]').data('daterangepicker').startDate;
+        let planComplete = $(formElement).find('[name="plan_complete"]').data('daterangepicker').startDate;
+    
+        let description = $(formElement).find('[name="description"]').val();
+        let weight = $(formElement).find('[name="weight"]').val();
+        let _sumWeight = $(formElement).find('[name="total_weight"]').val();
+        let project = $(formElement).find('[name="project"]').val();
+    
+        messages = [];
+        if (planStart > planComplete) {
+            messages.push('Plan Start should be earlier than plan Complete');
+            $(formElement).find('[name="plan_start"]').css('background-color', '#ef9a9a');
+            $(formElement).find('[name="plan_complete"]').css('background-color', '#ef9a9a');
+        }    
+        if (planStart > deadline || planComplete > deadline) {
+            
+            messages.push('Deadline should be later than plan action');
+            $(formElement).find('[name="deadline"]').css('background-color', '#ef9a9a');
+        }
+        if (description==''){
+            messages.push('Description should not be blank');
+            $(formElement).find('[name="description"]').css('background-color', '#ef9a9a');
+        }
+        if (weight==''){
+            messages.push('Weight should not be blank');
+            $(formElement).find('[name="weight"]').css('background-color', '#ef9a9a');
+        }
+        if (_sumWeight> 100){
+            messages.push('Total Weight should not exceed 100%');
+        }
+        if (project==''){
+            messages.push('Project should not be blank');
+            $(formElement).find('[name="project"]').css('background-color', '#ef9a9a');
+        }
+        showSnackbar('error', messages);
+    
+        // actualStart = $(formElement).find('[name="actual_start"]').data('daterangepicker').startDate;
+        // actualComplete = $(formElement).find('[name="actual_complete"]').data('daterangepicker').endDate;
+        // actualDuration = Math.round((actualComplete - actualStart) / (1000 * 60 * 60 * 24));
+        // $(formElement).find('[name="actual_duration"]').val(actualDuration);
+    
+        if (messages == ''){
+            return true;
+        }
+        return false;
     }
-    if (description==''){
-        messages.push('Description should not be blank');
-        $(formElement).find('[name="description"]').css('background-color', '#ef9a9a');
-    }
-    if (weight==''){
-        messages.push('Weight should not be blank');
-        $(formElement).find('[name="weight"]').css('background-color', '#ef9a9a');
-    }
-    if (_sumWeight> 100){
-        messages.push('Total Weight should not exceed 100%');
-    }
-    if (project==''){
-        messages.push('Project should not be blank');
-        $(formElement).find('[name="project"]').css('background-color', '#ef9a9a');
-    }
-    showSnackbar('error', messages);
-
-    // actualStart = $(formElement).find('[name="actual_start"]').data('daterangepicker').startDate;
-    // actualComplete = $(formElement).find('[name="actual_complete"]').data('daterangepicker').endDate;
-    // actualDuration = Math.round((actualComplete - actualStart) / (1000 * 60 * 60 * 24));
-    // $(formElement).find('[name="actual_duration"]').val(actualDuration);
-
-    if (messages == ''){
+    else {
+        // If there is no need for verification
         return true;
+
     }
-    return false;
+
+    
 
 }
 
@@ -373,13 +393,14 @@ function validate(formElement) {
  * @param {DOMPoint} formElement 
  * @param {Function} callback 
  */
-function removeByModal(id, formElement, callback){
+function removeByModal(id, formElement, callback, formType = "user"){
     if (!id){
          showSnackbar("error", `No valid item was selected`);
     }
     try{
         
-        $(formElement).unbind('submit').on('submit', function() {
+        $(formElement).off('submit').on('submit', function(e) {
+            e.preventDefault();
             let form = $(this);
             $.ajax({
                 url: `${form.attr('action')}/${id}`,
@@ -400,7 +421,9 @@ function removeByModal(id, formElement, callback){
                         showSnackbar("error", response.messages);
                     } 
                     
-                    setTimeout(callback,200);
+                    // setTimeout(callback,200);
+                    setTimeout(callback,0);
+
                     // callback;
                 }, 
                 complete: function(data){
@@ -421,12 +444,14 @@ function removeByModal(id, formElement, callback){
     
 }
 
-function addByModal(formElement, callback){   
+function addByModal(formElement, callback, formType = "user"){   
    try{
-       $(formElement).unbind('submit').on('submit', function() {
+       $(formElement).off('submit').on('submit', function(e) {
+        e.preventDefault();
         let form = $(this);
+        
         //Check and validate all information 
-        if(!validate(formElement)) {
+        if(!validate(formElement, formType)) {
             return false;
         }
 
@@ -452,7 +477,9 @@ function addByModal(formElement, callback){
                    } else {
                        showSnackbar("error", response.messages);
                    }
-                   setTimeout(callback, 200);
+                //    setTimeout(callback, 200);
+                   setTimeout(callback, 0);
+
                    // callback;
                }, 
                complete: function(){
@@ -471,12 +498,14 @@ function addByModal(formElement, callback){
    }
 }
 
-function assignByModal(formElement, callback){   
+function assignByModal(formElement, callback, formType = "user"){  
+     
     try{
-        $(formElement).unbind('submit').on('submit', function() {
+        $(formElement).off('submit').on('submit', function(e) {
+            e.preventDefault();
          let form = $(this);
-         //Check and validate all information 
-         if(!validate(formElement)) {
+         //Check and validate all information          
+         if(!validate(formElement, formType)) {
              return false;
          }
  
@@ -502,7 +531,9 @@ function assignByModal(formElement, callback){
                     } else {
                         showSnackbar("error", response.messages);
                     }
-                    setTimeout(callback, 200);
+                    // setTimeout(callback, 200);
+                    setTimeout(callback, 0);
+
                     // callback;
                 }, 
                 complete: function(){
@@ -521,12 +552,13 @@ function assignByModal(formElement, callback){
     }
  }
 
-function editByModal(id, formElement, callback){    
+function editByModal(id, formElement, callback, formType = "user"){    
     try{
-        $(formElement).unbind('submit').on('submit', function() {
+        $(formElement).off('submit').on('submit', function(e) {
+            e.preventDefault();
             let form = $(this);
             //Check and validate all information 
-            if(!validate(formElement)) {
+            if(!validate(formElement, formType)) {
                 return false;
             }
 
@@ -552,7 +584,9 @@ function editByModal(id, formElement, callback){
                     } else {
                         showSnackbar("error", response.messages);
                     }
-                    setTimeout(callback, 200);
+                    // setTimeout(callback, 200);
+                    setTimeout(callback, 0);
+
                     // callback;
                 }, 
                 complete: function(){                                         
@@ -703,6 +737,56 @@ async function getUserInfo(user_id){
     
 }
 
+async function getGroupInfo(parent, group_id){
+    
+    await $.ajax({
+        url: base_url + "groups/getGroupById/"+group_id,
+        type: "POST",
+        data: [],
+        dataType: 'json',
+        beforeSend: function() {
+
+        },
+        dataFilter: function(res){
+            // console.log(res);
+            return res;
+        },
+        success: function(response) { 
+            console.log(response);
+            permission = response['permission'];
+            // const fields = ['viewUserGroup','editUserGroup', 'viewOrganization', 'editOrganization', 'viewMemberTasks', 'editMemberTasks', 'approveMemberTasks', 'commentMemberTasks', 'viewTeamTasks', 'editTeamTasks', 'approveTeamTasks', 'commentTeamTasks','viewSquadTasks', 'editSquadTasks', 'approveSquadTasks', 'commentSquadTasks','viewDepartmentTasks', 'editDepartmentTasks', 'approveDepartmentTasks', 'commentDepartmentTasks', 'viewTeamGoals', 'editTeamGoals', 'approveTeamGoals', 'commentTeamGoals','viewTimeline', 'editTimeline', 'commentTimeline'];
+            // fields.forEach((item)=>{
+            //     element = $(parent).find(`[value="${item}"]`);
+            //     element.attr('checked', false);
+            // });
+
+            $(parent).find('[name = "name"]').val(response["name"]);
+            $(parent).find('[name = "description"]').val(response["description"]);
+
+            checkboxes = $(parent).find('[type="checkbox"]');
+            checkboxes.each(function(){
+                $(this).attr('checked', false);
+            });
+            
+
+            if (permission instanceof Array){
+                permission.forEach((item)=>{
+                    element = $(parent).find(`[value="${item}"]`);
+                    element.attr('checked', true);
+                });
+            }
+
+        }, 
+        complete: function() {
+
+        },
+        error: function(error){
+            console.log(error);
+        }
+    });
+    
+}
+
 function genShortName(full_name){
     if (full_name.length > 1){
         let words = full_name.trim().split(" ");
@@ -841,8 +925,40 @@ function loadGroups(elements, preset = null){
             return res;
         },
         success: function(response) { 
+            console.log(response);
             for(element of elements){
                 $(element).html(response);
+            } 
+        }, 
+        complete: function() {
+
+        },
+        error: function(error){
+            console.log(error);
+        }
+    });
+}
+
+function loadAwardsSelect(elements, preset){
+    $.ajax({
+        url: base_url + "reports/fetchAwardsSelect",
+        type: "POST",
+        data: [],
+        dataType: 'json',
+        beforeSend: function() {
+
+        },
+        dataFilter: function(res){
+            // console.log(res);
+            return res;
+        },
+        success: function(response) { 
+            for(element of elements){
+                $(element).html(response);
+
+                if (preset){
+                    $(element).find(`[value="${preset}"]`).attr('selected', true);
+                }
             } 
         }, 
         complete: function() {
@@ -866,7 +982,7 @@ function loadGroups(elements, preset = null){
  * @param {*} month 
  */
 function loadTasks(user_id, year, month) {
-    table = $('#taskTable').dataTable({
+    table = $('#taskTable').DataTable({
         'ajax': {
             url: `${base_url}tasks/fetchTaskDataByUser/${user_id}/${year}/${month}`,
             type: "POST",
@@ -924,7 +1040,7 @@ function loadTasks(user_id, year, month) {
     });
 }
 
-function loadTeamList(elements = ['#team-list'], department_id, company_id, active_team = null){
+function loadTeamList(elements = ['#team-list'], department_id, company_id, active_team_id = null, options=null){
     $.ajax({
         url: `${base_url}organization/fetchTeamList/${department_id}/${company_id}`,
         type: "POST",
@@ -942,16 +1058,40 @@ function loadTeamList(elements = ['#team-list'], department_id, company_id, acti
             elements.forEach((el)=>{
                             
                 $(el).html(response);
-                first = $(el + ' .select-item').first();
-                $(first).addClass('active');
-                active_team = $(first).attr('team-id');
+
+                if (active_team_id != null){
+                    if (options){
+                        if (options["selectPreset"]){
+                            $(el).find(`[team-id="${active_team_id}"]`).addClass('active');
+                            active_team = active_team_id;
+                        }
+                        if (options["disableOthers"]){
+                            $(el).find(`[team-id="${active_team_id}"]`).siblings().addClass('disabled');
+                        }
+                    }
+
+
+                } else{
+                    first = $(el + ' .select-item').first();
+                    $(first).addClass('active');
+                    active_team = $(first).attr('team-id');    
+                }
     
                 $(el + ' .select-item').on('click', function() {
                     $(this).addClass('active');
                     $(this).siblings().removeClass('active');
                     active_team = $(this).attr('team-id');
-                    loadUserList(['#team-user-list'],active_team, myDept, myCompany);
-
+                    switch (type){
+                        case 'team_tasks':
+                            loadUserList(['#team-user-list'],active_team, myDept, myCompany);
+                            break;
+                        case 'team_report':
+                            if (typeof table !== 'undefined'){
+                                table.fnDestroy();
+                            }
+                            loadTeamReport("#reportTable", active_team, year, month);
+                            break;
+                    }
                 });
             });
 
@@ -1010,6 +1150,8 @@ function loadUserList(elements = ['#team-user-list'], team_id, department_id, co
         }
     });
 }
+
+
 
 function refreshTaskTable() {
     table.fnDestroy();
@@ -1096,12 +1238,23 @@ function refreshTask(taskId, effect = 'shake'){
 function enhanceTasks(){
     $('.task .rmTaskBtn').on('click', function(e){
         targetId = $(this).parents('.task').attr('task-id');
-        // console.log(targetId);
+        approved = $(this).parents('.task').hasClass('approved');
+
+        $('#taskRemoveModal').find('#removeBtn').removeClass('fade');
+        
+        if (approved){
+            $('#taskRemoveModal').find('#removeBtn').addClass('fade');
+        }
     });
     $('.task .editTaskBtn').on('click', function(e){
         targetId = $(this).parents('.task').attr('task-id');
         rowData = resultData.filter(x=>x.id == targetId)[0];                
         editModal = $('#taskEditModal');
+        $(editModal).find('#editBtn').removeClass('fade');
+        
+        if (rowData['status'] == '5'){
+            $(editModal).find('#editBtn').addClass('fade');
+        }
 
         for (let key in rowData){ 
             $(editModal).find(`[name="${key}"]:not(.date-picker)`).val(blankIt(rowData[key])); 
@@ -1140,7 +1293,7 @@ function enhanceTasks(){
         
     $('.task').find('.star-rating').barrating({
         theme:'css-stars',
-        // readonly:true,
+        readonly: (permission.includes('approveMemberTasks'))? false: true,
         onSelect: function(value, text, event) {
             if (typeof(event) !== 'undefined') {                
                 score_div = (this.$elem.parents('.task-assessment')).find('.score span');
@@ -1184,6 +1337,13 @@ function enhanceTask(taskElement){
 
     $(taskElement).find('.rmTaskBtn').on('click', function(e){
         targetId = $(this).parents('.task').attr('task-id');
+        approved = $(this).parents('.task').hasClass('approved');
+
+        $('#taskRemoveModal').find('#removeBtn').removeClass('fade');
+        
+        if (approved){
+            $('#taskRemoveModal').find('#removeBtn').addClass('fade');
+        }
         // console.log(targetId);
     });
     $(taskElement).find('.editTaskBtn').on('click', function(e){
@@ -1191,6 +1351,11 @@ function enhanceTask(taskElement){
         rowData = task = resultData.filter(x=>x.id == targetId)[0];    
             
         editModal = $('#taskEditModal');
+        $(editModal).find('#editBtn').removeClass('fade');
+        
+        if (rowData['status'] == '5'){
+            $(editModal).find('#editBtn').addClass('fade');
+        }
 
         for (let key in rowData){ 
             $(editModal).find(`[name="${key}"]:not(.date-picker)`).val(blankIt(rowData[key])); 
@@ -1227,7 +1392,7 @@ function enhanceTask(taskElement){
         
     $(taskElement).find('.star-rating').barrating({
         theme:'css-stars',
-        // readonly:true,
+        readonly: (permission.includes('approveMemberTasks'))? false: true,
         onSelect: function(value, text, event) {
             if (typeof(event) !== 'undefined') {
                 score_div = (this.$elem.parents('.task-assessment')).find('.score span');
@@ -1269,6 +1434,264 @@ function enhanceTask(taskElement){
 }
 
 /**
+ * 
+ * @param {*} element 
+ * @param {*} team_id 
+ * @param {*} year 
+ * @param {*} month 
+ */
+function loadTeamReport(element = '#reportTable', team_id, year, month){
+    if (typeof table != 'undefined'){
+        table.fnDestroy();
+    }
+    table = $(element).dataTable({
+        'ajax': {
+            url: `${base_url}reports/fetchReportByTeam/${team_id}/${year}/${month}`,
+            type: "POST",
+            "deferRender": true,
+            dataFilter: function(res) {
+                // console.log(res);
+                return res;
+            }
+        },
+        "ordering": true,
+        "orderMulti": true,
+        "order": [
+            // [4, "asc"],
+            // [5, "asc"]
+        ],
+        "info": false,
+        "lengthMenu": [
+            [50, 100, -1],
+            [50, 100, "All"]
+        ],
+        "paging": true,
+        "scrollX": true,
+        "scrollY": "55vh",
+        "scrollCollapse": true,
+        columnDefs: [{
+            // targets: [11],
+            // "visible": false,
+            // "searchable": false
+        }],
+        "createdRow": function(row, data, index) {
+            $(row).attr("target-id", data[12]);
+
+            // Click event when user click on a row 
+            $(row).on('click', (e) => {
+                targetId = data[12];
+                targetAward.rate = data[13]!=null? parseInt(data[13]):'';
+                targetAward.remarks = data[11];
+            });
+        },
+        "rowCallback": function(row, data) {
+
+        },
+        "initComplete": function(settings, json) {
+            tableData = json["data"];
+            $('#loader').removeClass('show');
+            count = tableData.length;
+
+            max_excellent = Math.round(count * 0.05,0);
+            max_good = Math.round(count * 0.1,0) ;
+
+            excellent = tableData.filter(x=>x[13]==1||x[13]==2).length;
+            good = tableData.filter(x=>x[13]==3||x[13]==4).length;
+            // console.log(tableData);
+
+            $('#max-excellent').text(max_excellent);
+            $('#excellent').text(excellent);
+            $('#max-good').text(max_good);
+            $('#good').text(good);
+        },
+        error: function(x, y) {
+            console.log(x);
+        }
+    });
+
+
+}
+
+function loadDepartmentReport(element = '#reportTable', department_id, year, month){
+    if (typeof table != 'undefined'){
+        table.fnDestroy();
+    }
+    table = $(element).dataTable({
+        'ajax': {
+            url: `${base_url}reports/fetchReportByDepartment/${department_id}/${year}/${month}`,
+            type: "POST",
+            "deferRender": true,
+            dataFilter: function(res) {
+                // console.log(res);
+                return res;
+            }
+        },
+        "ordering": true,
+        "orderMulti": true,
+        "order": [
+            // [4, "asc"],
+            // [5, "asc"]
+        ],
+        "info": false,
+        "lengthMenu": [
+            [50, 100, -1],
+            [50, 100, "All"]
+        ],
+        "paging": true,
+        "scrollX": true,
+        "scrollY": "55vh",
+        "scrollCollapse": true,
+        columnDefs: [{
+        }],
+        "createdRow": function(row, data, index) {
+            $(row).attr("target-id", data[12]);
+
+            // Click event when user click on a row 
+            $(row).on('click', (e) => {
+                targetId = data[7];
+                targetAward.rate = data[8]!=null? parseInt(data[8]):'';
+                targetAward.remarks = data[6];
+            });
+        },
+        "rowCallback": function(row, data) {
+
+        },
+        "initComplete": function(settings, json) {
+            tableData = json["data"];
+            $('#loader').removeClass('show');
+            count = tableData.length;
+
+            max_excellent = Math.round(count * 0.05,0);
+            max_good = Math.round(count * 0.1,0) ;
+
+            excellent = tableData.filter(x=>x[8]==1||x[8]==2).length;
+            good = tableData.filter(x=>x[8]==3||x[8]==4).length;
+            // console.log(tableData);
+
+            $('#max-excellent').text(max_excellent);
+            $('#excellent').text(excellent);
+            $('#max-good').text(max_good);
+            $('#good').text(good);
+        },
+        error: function(x, y) {
+            console.log(x);
+        }
+    });
+
+
+}
+
+/**
+ * 
+ * @param {DOM} element 
+ * @param {*} department_id 
+ * @param {*} year 
+ * @param {*} month 
+ */
+function loadExcellent(element = '#excellentTable', department_id, year, month){
+    if (typeof excellentTable != 'undefined'){
+        excellentTable.fnDestroy();
+    }
+    excellentTable = $(element).dataTable({
+        'ajax': {
+            url: `${base_url}reports/fetchAwardDepartment/excellent/${department_id}/${year}/${month}`,
+            type: "POST",
+            "deferRender": true,
+            dataFilter: function(res) {
+                // console.log(res);
+                return res;
+            }
+        },
+        "ordering": true,
+        "orderMulti": true,
+        "order": [
+            // [4, "asc"],
+            // [5, "asc"]
+        ],
+        "scrollX": true,
+        "info": false,
+        "paging": false,
+        'searching':false,
+        "lengthMenu": [
+            [50, 100, -1],
+            [50, 100, "All"]
+        ],
+        
+        "createdRow": function(row, data, index) {
+            $(row).attr("target-id", data[12]);
+
+            // Click event when user click on a row 
+            $(row).on('click', (e) => {
+                targetId = data[4];
+                targetAward.rate = data[3]!=null? parseInt(data[5]):'';
+                targetAward.remarks = data[3];
+            });
+        },
+        "rowCallback": function(row, data) {
+
+        },
+        "initComplete": function(settings, json) {
+            tableExcellent = json["data"];
+            $('#loader').removeClass('show');
+        },
+        error: function(x, y) {
+            console.log(x);
+        }
+    });
+}
+
+function loadGood(element = '#goodTable', department_id, year, month){
+    if (typeof goodTable != 'undefined'){
+        goodTable.fnDestroy();
+    }
+    goodTable = $(element).dataTable({
+        'ajax': {
+            url: `${base_url}reports/fetchAwardDepartment/good/${department_id}/${year}/${month}`,
+            type: "POST",
+            "deferRender": true,
+            dataFilter: function(res) {
+                // console.log(res);
+                return res;
+            }
+        },
+        "ordering": true,
+        "orderMulti": true,
+        "order": [
+            // [4, "asc"],
+            // [5, "asc"]
+        ],
+        "scrollX": true,
+        "info": false,
+        "paging": false,
+        'searching':false,
+        "lengthMenu": [
+            [50, 100, -1],
+            [50, 100, "All"]
+        ],
+        
+        "createdRow": function(row, data, index) {
+            $(row).attr("target-id", data[12]);
+
+            // Click event when user click on a row 
+            $(row).on('click', (e) => {
+                targetId = data[4];
+                targetAward.rate = data[3]!=null? parseInt(data[5]):'';
+                targetAward.remarks = data[3];
+            });
+        },
+        "rowCallback": function(row, data) {
+
+        },
+        "initComplete": function(settings, json) {
+            tableGood = json["data"];
+        },
+        error: function(x, y) {
+            console.log(x);
+        }
+    });
+}
+
+/**
  * Update task on quick buttons
  * 
  * @param {Number} id 
@@ -1296,7 +1719,9 @@ function updateTask(id, fields, values, callback){
                 return res;
             },
             success: function(response) {
-                setTimeout(callback, 200);
+                // setTimeout(callback, 200);
+                setTimeout(callback, 0);
+
             }, 
             complete: function(){
                 
@@ -1312,6 +1737,8 @@ function updateTask(id, fields, values, callback){
         console.log(e);
     }
 }
+
+
 
 /**
  * Approve task on quick buttons
@@ -1341,7 +1768,9 @@ function updateTask(id, fields, values, callback){
                 return res;
             },
             success: function(response) {
-                setTimeout(callback, 200);
+                // setTimeout(callback, 200);
+                setTimeout(callback, 0);
+
             }, 
             complete: function(){
                 
@@ -1414,7 +1843,7 @@ function taskRating(task, leaderRate = null){
         rate = rating[task["rating"]];
     }    
 
-    overall = Math.floor(rate * productivity * efficiency * 0.75) ;
+    overall = Math.floor(rate * productivity * efficiency * 0.7) ;
     if (overall > 100) overall = 100;
     result = {
         "taskId": taskId,

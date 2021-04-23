@@ -17,94 +17,94 @@
               <div class="card-body">
                   <div class="row">
                       <div class="col-xl-3 col-sm-6 col-12">
-                          <div class="tile" id="total-job" style="background-color: #039BE5;">
+                          <div class="tile">
                               <div class="icon"><i class="fa fa-briefcase"></i></div>
                               <div class="text-block">
-                                  <div class="title">Total Jobs this Year</div>
-                                  <div class="figure" id="year-jobs">-</div>
+                                  <div class="title">Total Tasks this Year</div>
+                                  <div class="figure" id="total-tasks">-</div>
                               </div>
                           </div>
                       </div>
                       <div class="col-xl-3 col-sm-6 col-12">
-                          <div class="tile" id="total-" style="background-color: #FF7043;">
+                          <div class="tile">
                               <div class="icon"><i class="far fa-check-square"></i></div>
                               <div class="text-block">
-                                  <div class="title">Completed Jobs this Year</div>
-                                  <div class="figure" id="year-completed">-</div>
+                                  <div class="title">Completed Tasks this Year</div>
+                                  <div class="figure" id="total-completed">-</div>
                               </div>
                           </div>
                       </div>
                       <div class="col-xl-3 col-sm-6 col-12">
 
-                          <div class="tile" id="total-job" style="background-color: #BA68C8;">
+                          <div class="tile">
                               <div class="icon">
-                                  <i class="fa fa-file-invoice-dollar fa-fw"></i>
+                                  <i class="fas fa-star-half-alt fa-fw"></i>
                               </div>
-                              <div class="text-block">
-                                  <div class="title">Jobs On schedule</div>
-                                  <div class="figure" id="onschedule">-</div>
-                              </div>
-                          </div>
-                      </div>
-                      <div class="col-xl-3 col-sm-6 col-12">
-                          <div class="tile" id="total-job" style="background-color: #009688;">
-                              <div class="icon">
-                                  <i class="fa fa-hand-holding-usd fa-fw"></i>
-                              </div>
-
                               <div class="text-block">
                                   <div class="title">Average Point</div>
-                                  <div class="figure" id="average">-</div>
+                                  <div class="figure" id="avg-point">-</div>
+                              </div>
+                          </div>
+                      </div>
+                      <div class="col-xl-3 col-sm-6 col-12">
+                          <div class="tile">
+                              <div class="icon">
+                                  <i class="fas fa-award fa-fw"></i>
+                              </div>
+
+                              <div class="text-block">
+                                  <div class="title">Award received</div>
+                                  <div class="figure" id="total-award">-</div>
                               </div>
                           </div>
                       </div>
 
                       <div class="col-xl-3 col-sm-6 col-12">
-                          <div class="tile" id="total-job" style="background-color: #64B5F6;">
-                              <div class="icon"><i class="fa fa-home"></i></div>
+                          <div class="tile">
+                              <div class="icon"><i class="fa fa-briefcase"></i></div>
                               <div class="text-block">
-                                  <div class="title">Total Jobs this Month</div>
-                                  <div class="figure" id="month-jobs">-</div>
+                                  <div class="title">Total Tasks this Month</div>
+                                  <div class="figure" id="month-tasks">-</div>
                               </div>
                           </div>
                       </div>
                       <div class="col-xl-3 col-sm-6 col-12">
-                          <div class="tile" id="total-" style="background-color: #FF8A65;">
-                              <div class="icon"><i class="fa fa-home"></i></div>
+                          <div class="tile">
+                              <div class="icon"><i class="far fa-check-square"></i></div>
                               <div class="text-block">
-                                  <div class="title">Completed Jobs this Month</div>
+                                  <div class="title">Completed Tasks this Month</div>
                                   <div class="figure" id="month-completed">-</div>
                               </div>
                           </div>
                       </div>
                       <div class="col-xl-3 col-sm-6 col-12">
 
-                          <div class="tile" id="total-job" style="background-color: #CE93D8;">
+                          <div class="tile">
                               <div class="icon">
-                                  <i class="fa fa-file-invoice-dollar fa-fw"></i>
+                                  <i class="fas fa-star-half-alt fa-fw"></i>
                               </div>
                               <div class="text-block">
-                                  <div class="title">Invoice Issued this Month</div>
-                                  <div class="figure" id="month-invoice">-</div>
+                                  <div class="title">Point</div>
+                                  <div class="figure" id="month-score">-</div>
                               </div>
                           </div>
                       </div>
                       <div class="col-xl-3 col-sm-6 col-12">
-                          <div class="tile" id="total-job" style="background-color: #66BB6A;">
+                          <div class="tile">
                               <div class="icon">
-                                  <i class="fa fa-hand-holding-usd fa-fw"></i>
+                                  <i class="fas fa-award fa-fw"></i>
                               </div>
 
                               <div class="text-block">
-                                  <div class="title">Payment Received this Month</div>
-                                  <div class="figure" id="month-payment">-</div>
+                                  <div class="title">Award</div>
+                                  <div class="figure" id="month-award">-</div>
                               </div>
                           </div>
                       </div>
+                      
                   </div>
               </div>
               <!-- <div class="card-footer"></div> -->
-
 
           </div>
 
@@ -121,11 +121,11 @@
               </div>
               <div class="card-body">
                   <div class="row">
-                      <div class="tile-chart col-md-4 col-12">
+                      <!-- <div class="tile-chart col-md-4 col-12">
                           <canvas class="well" id="pieChart" style="height:300px; width:100%"></canvas>
-                      </div>
-                      <div class="tile-chart col-md-8 col-12">
-                          <canvas class="well" id="stackedChart" style="height:300px; width:100%"></canvas>
+                      </div> -->
+                      <div class="tile-chart col-xl-12 col-lg-12 col-12">
+                          <canvas class="well" id="barChart" style="height:40vh; width:100%"></canvas>
                       </div>
                   </div>
               </div>
@@ -141,110 +141,109 @@
   <!-- /.content-wrapper -->
 
   <script type="text/javascript">
-label_data = [];
-job_data1 = [];
-job_data2 = [];
-selectedYear = (new Date()).getFullYear();
-var stackedchart;
-var table;
+permission = <?php echo json_encode($user_permission) ?>;
+active_user = <?php echo $this->session->userdata('id') ?>;
+today = new Date();
+year = today.getFullYear();
+month = today.getMonth() + 1;
+var barchart;
+
 $(document).ready(function() {
     $("#dashboard").addClass('active');
 
-    // $.ajax({
-    //     url: base_url + 'reports/getYear',
-    //     type: 'POST',
-    //     data: {},
-    //     dataType: 'json',
-    //     success: function(response) {
-    //         var year = (new Date()).getFullYear();
-    //         loadDashboard(response[0]);
-    //     }
-    // });
+    $.ajax({
+        url: `${base_url}reports/dashboardYear/${active_user}/${year}`,
+        type: 'POST',
+        data: {},
+        dataType: 'json',
+        dataFilter: function(res){
+            return res;
+        },
+        success: function(response) {
+            data = response[0];
+            $('#total-tasks').text(data['total']);
+            $('#total-completed').text(data['completed']);
+
+            $('#avg-point').text(data['avg_score']);
+            $('#total-award').text(data['awards']);
+        },
+        error: function(error){
+
+        },
+        complete:function(){
+
+        }
+    });
+
+    $.ajax({
+        url: `${base_url}reports/dashboardMonth/${active_user}/${year}/${month-1}`,
+        type: 'POST',
+        data: {},
+        dataType: 'json',
+        dataFilter: function(res){
+            return res;
+        },
+        success: function(response) {
+            data = response[0];
+            $('#month-tasks').text(data['total']);
+            $('#month-completed').text(data['completed']);
+
+            $('#month-score').text(data['month_score']);
+            $('#month-award').text(data['awards']);
+        },
+        error: function(error){
+
+        },
+        complete:function(){
+
+        }
+    });
+
+    $.ajax({
+        url: `${base_url}reports/dashboardChart/${active_user}/${year}`,
+        type: 'POST',
+        data: {},
+        dataType: 'json',
+        dataFilter: function(res){
+            return res;
+        },
+        success: function(response) {
+            let data = [];
+            for (i=0; i<12; i++){
+                if (response[i]){
+                    data.push(response[i]);
+                }
+                else{
+                    data.push({month: i+1});
+                }
+            }
+            console.log(data);
+
+            let labels = data.map(function(value){
+                return 'Tháng ' + value['month'];
+            });
+            let total = data.map(function(value){
+                return value['total'];
+            });
+            let completed = data.map(function(value){
+                return value['completed'];
+            });
+            let points = data.map(function(value){
+                return value['month_score'];
+            });
+            // showColumnChart(labels, total, completed, points);
+            showColumnChart(labels, total, completed);
+
+        },
+        error: function(error){
+
+        },
+        complete:function(){
+
+        }
+    });
 });
 
-async function loadDashboard(year) {
-
-    $.ajax({
-        url: base_url + 'reports/fetchMonthReport/' + year,
-        type: 'POST',
-        data: {},
-        dataType: 'json',
-        async: false,
-        dataFilter: function(res) {
-            console.log(res);
-            return res;
-        },
-        success: function(response) {
-            console.log(response);
-            json_data = response['data'].slice(0, 12);
-            console.log(json_data);
-            label_data = json_data.map(function(value) {
-                return value[0];
-            })
-            job_total = json_data.map(function(value) {
-                if (value[1] == '-') {
-                    return 0;
-                }
-                return parseInt(value[1]);
-            });
-            job_complete = json_data.map(function(value) {
-                if (value[2] == '-') {
-                    return 0;
-                }
-                return parseInt(value[2]);
-            });
-            job_remain = json_data.map(function(value) {
-                if (value[3] == '-') {
-                    return 0;
-                }
-                return parseInt(value[3]);
-            });
-
-
-            job_paid = json_data.map(function(value) {
-                if (value[4] == '-') {
-                    return 0;
-                }
-                return parseInt(value[4]);
-            });
-
-            showColumnChart(label_data, job_total, job_complete, job_paid);
-            json_total = response['data'].slice(12, 13)[0];
-
-            label_data2 = ["Total Completed", "Total Remaining"];
-            showPieChart(label_data2, [json_total[2], json_total[3]], [json_total[4], json_total[5]]);
-
-        },
-        error: function(error) {
-            // console.log((error));
-        }
-    })
-
-    $.ajax({
-        url: base_url + 'reports/fetchDashboard/' + year,
-        type: 'POST',
-        data: {},
-        dataType: 'json',
-        async: false,
-        dataFilter: function(res) {
-            // console.log(res);
-            return res;
-        },
-        success: function(response) {
-            console.log(response.data[0]);
-            data = response.data[0];
-            $('#year-jobs').text(data[0]);
-            $('#year-completed').text(data[1]);
-            $('#year-invoice').text(data[2]);
-            $('#year-payment').text(Intl.NumberFormat().format(data[3] / 1000000) + "M");
-
-        },
-        error: function(error) {
-            // console.log((error));
-        }
-    })
-
-}
 var myChart;
 var myPie;
 
@@ -285,12 +284,12 @@ function showPieChart(labels, data1, data2) {
 }
 
 function showColumnChart(labels, data1, data2, data3) {
-    myChart = new Chart($('#stackedChart'), {
+    myChart = new Chart($('#barChart'), {
         type: 'bar',
         data: {
             labels: labels,
             datasets: [{
-                    label: 'Total Jobs',
+                    label: 'Total Tasks',
                     data: data1,
                     backgroundColor: 'rgba(62, 129, 205, 0.8)',
                     borderColor: 'rgba(62, 129, 205, 1)',
@@ -299,7 +298,7 @@ function showColumnChart(labels, data1, data2, data3) {
                     // yAxisID: 'y-left',
                 },
                 {
-                    label: 'Completed',
+                    label: 'Completed Tasks',
                     data: data2,
                     backgroundColor: 'rgba(0, 178, 148, 0.8)',
                     borderColor: 'rgba(0, 178, 148, 1)',
@@ -308,13 +307,13 @@ function showColumnChart(labels, data1, data2, data3) {
                     // yAxisID: 'y-left',
                 },
                 {
-                    label: 'Payment Received',
+                    label: 'Score',
                     data: data3,
-                    backgroundColor: 'rgba(149, 117, 205, 0.8)',
+                    backgroundColor: 'rgba(149, 117, 205, 0.3)',
                     borderColor: 'rgba(149, 117, 205, 1)',
-                    type: "bar",
+                    type: "line",
                     borderWidth: 1,
-                    fill: false,
+                    fill: true,
 
                     // yAxisID: 'y-right',
                 }
@@ -325,17 +324,35 @@ function showColumnChart(labels, data1, data2, data3) {
             bezierCurve: false,
             maintainAspectRatio: true,
             legend: {
-                position: 'top' // place legend on the top side of chart
+                position: 'bottom' // place legend on the top side of chart
             },
             title: {
                 display: true,
-                text: 'JOB COMPLETION PER MONTH'
+                text: 'TASK SUMMARY PER MONTH'
             },
 
             animation: {
                 onComplete: barRendered
             },
-
+            scales: {
+                // xAxes: [{
+                //     display: true,
+                //     scaleLabel: {
+                //         display: true,
+                //         labelString: 'Month'
+                //     }
+                // }],
+                yAxes: [{
+                    display: true,
+                    ticks: {
+                        suggestedMin: 0,    // minimum will be 0, unless there is a 
+                        beginAtZero: true,   // minimum value will be 0.
+                        steps: 5,
+                        // stepSize: 1,
+                        precision: 0
+                    }
+                }]
+            }
 
         }
     });

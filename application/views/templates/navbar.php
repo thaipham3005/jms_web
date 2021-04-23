@@ -27,14 +27,14 @@
             </li> -->
         </ul>
 
-        <ul class="navbar-nav ml-auto">
+        <ul class="navbar-nav ml-auto mr-4">
             <li class="nav-item dropdown">
                 <a class="nav-link" data-toggle="dropdown" href="#" aria-expanded="false">
                     <i class="far fa-bell text-lg"></i>
-                    <span class="badge badge-danger navbar-badge" id="noti-count">5</span>
+                    <span class="badge badge-danger navbar-badge" id="noti-count"></span>
                 </a>
                 <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
-                    <span class="dropdown-item dropdown-header">15 Notifications</span>
+                    <!-- <span class="dropdown-item dropdown-header">15 Notifications</span>
                     <div class="dropdown-divider"></div>
                     <a href="#" class="dropdown-item">
                         <i class="fas fa-envelope mr-2"></i> 4 new messages
@@ -50,13 +50,14 @@
                         <i class="fas fa-file mr-2"></i> 3 new reports
                         <span class="float-right text-muted text-sm">2 days</span>
                     </a>
-                    <div class="dropdown-divider"></div>
-                    <a href="#" class="dropdown-item dropdown-footer">See All Notifications</a>
+                    <div class="dropdown-divider"></div> -->
+                    <a href="#" class="dropdown-item dropdown-footer">No notification</a>
                 </div>
             </li>
             <!-- PROFILE  -->
             <li class="nav-item dropdown">
-                <a class="nav-link py-0 px-2" data-toggle="dropdown" data-expanded="false" href="#">
+                <a class="nav-link py-0 px-2" data-toggle="dropdown" data-expanded="false"
+                    href="<?php echo base_url('users/profile') ?>">
                     <div class="image">
                         <img src="<?php echo base_url($this->session->userdata('avatar')); ?>"
                             class="img-circle elevation-1" style="width:2.5rem;">
@@ -65,12 +66,14 @@
                 <div class="dropdown-menu dropdown-menu-md dropdown-menu-right">
                     <div class="profile dropdown-item dropdown-header">
                         <div class="image mr-3 d-inline">
-                            <img src="<?php echo base_url($this->session->userdata('avatar')); ?>"
-                                class="img-circle" alt="User Image" style="width:3rem;">
+                            <img src="<?php echo base_url($this->session->userdata('avatar')); ?>" class="img-circle"
+                                alt="User Image" style="width:3rem;">
                         </div>
                         <div class="full-name font-weight-bold d-inline">
                             <?php echo $this->session->userdata('full_name'); ?>
                         </div>
+
+
                     </div>
                     <!-- <div class="dropdown-divider"></div> -->
                     <div class="department dropdown-item">
@@ -82,6 +85,10 @@
                     <div class="position dropdown-item mb-2">
                         <?php echo $this->session->userdata('position'); ?>
                     </div>
+                    <a href="<?php echo base_url('users/profile') ?>" class="dropdown-item dropdown-footer">
+                        <i class="nav-icon fa fa-user-check" class="nav-icon"></i>
+                        <span>My profile</span>
+                    </a>
                     <a href="<?php echo base_url('auth/logout') ?>" class="dropdown-item dropdown-footer">
                         <i class="fas fa-sign-out-alt"></i>
                         <span>Sign out</span>
@@ -102,7 +109,7 @@
                 </div>
             </form> -->
 
-            
+
 
         </ul>
 

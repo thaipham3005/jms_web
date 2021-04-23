@@ -39,6 +39,7 @@ class Groups extends Admin_Controller
             
         	$data = array(
         		'name' => $this->input->post('name'),
+				'description' => $this->input->post('description'),
         		'permission' => $permission,
 				'created_by'=> $this->session->userdata('id'),			
 				'created_date' => date('Y-m-d H:i:s')
@@ -72,9 +73,9 @@ class Groups extends Admin_Controller
 
 	public function edit($id = null)
 	{
-		if(!in_array('editUserGroup', $this->permission)) {
-            redirect('dashboard', 'refresh');
-        }
+		// if(!in_array('editUserGroup', $this->permission)) {
+        //     redirect('dashboard', 'refresh');
+        // }
 
 		if($id) {
 			$this->form_validation->set_rules('name', 'Group name', 'required');
@@ -84,6 +85,7 @@ class Groups extends Admin_Controller
 	            
 	        	$data = array(
 	        		'name' => $this->input->post('name'),
+					'description' => $this->input->post('description'),
 	        		'permission' => $permission, 
 					'changed_by'=>$this->session->userdata('id'),
 					'last_change'=> date('Y-m-d H:i:s')
@@ -107,10 +109,6 @@ class Groups extends Admin_Controller
 				$this->session->set_flashdata('errors', 'Error in data validation while updating group!');
 				$response['success'] = false;
 				$response['messages'] = 'Error in data validation while updating group!';
-
-	            // $group_data = $this->model_groups->getGroupData($id);
-				// $this->data['group_data'] = $group_data;
-				// $this->render_template('groups/edit', $this->data);	
 	        }	
 		}
 		echo json_encode($response);
@@ -164,6 +162,18 @@ class Groups extends Admin_Controller
         }
         echo json_encode($response);
     }
+
+	public function getGroupByID($group_id){
+		$result = array();
+		if ($group_id){
+			$data = $this->model_groups->getGroupByID($group_id);
+			$result["name"] = $data["name"];
+			$result["description"] = $data["description"];
+			$result["permission"]= unserialize($data["permission"]);
+
+			echo json_encode($result);
+		}
+	}
     
     public function fetchGroupData($company_id = null)
     {
@@ -179,9 +189,9 @@ class Groups extends Admin_Controller
             
 
 			if (in_array('editUserGroup', $this->permission)){
-                $buttons .= '<button type="button" class="btn btn-sm btn-outline-secondary" data-toggle="modal" data-target="#groupEditModal"><i class="fa fa-edit fa-fw" data-toggle="tooltip" title = "Edit"></i></button>';
+                $buttons .= '<button type="button" class="btn btn-xs btn-outline-secondary" data-toggle="modal" data-target="#groupEditModal"><i class="far fa-edit fa-fw" data-toggle="tooltip" title = "Edit"></i></button>';
 
-                $buttons .= '<button type="button" class="btn btn-sm btn-outline-secondary" data-toggle="modal" data-target="#groupRemoveModal"><i class="fa fa-trash fa-fw" data-toggle="tooltip" title = "Remove"></i></button>';
+                $buttons .= '<button type="button" class="btn btn-xs btn-outline-secondary" data-toggle="modal" data-target="#groupRemoveModal"><i class="far fa-trash-alt fa-fw" data-toggle="tooltip" title = "Remove"></i></button>';
             }
             $buttons.='</div>';
 

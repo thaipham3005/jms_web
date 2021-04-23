@@ -101,7 +101,7 @@ class Auth extends Admin_Controller
     public function logout()
     {        
         $this->data['page_title'] = 'Log out';
-        $this->render_template('logout', $this->data);	
+        $this->render_template('auth/logout', $this->data);	
     }
 
     public function logged_out(){

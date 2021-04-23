@@ -267,8 +267,6 @@
                   </button>
                   <button class="btn btn-success btn-sm mb-2" id="printBM3"><i class="fas fa-file-download"></i> BM3
                   </button>
-                  <button class="btn btn-success btn-sm mb-2" id="printKPI"><i class="fas fa-file-download"></i> KPI
-                  </button>
                   <button class="btn btn-success btn-sm mb-2" id="printSummary"><i class="fas fa-file-download"></i> Summary
                   </button>
 
@@ -297,11 +295,11 @@
               </div> -->
 
               <div class="row col-xl-6 col-12">
-                  <div class="col-xl-3 col-sm-3 col-6 input-group-sm mb-1">
+                  <div class="col-xl-6 col-sm-6 col-6 input-group-sm mb-1">
                       <select class="form-control text-center" name="year" id="year">
                       </select>
                   </div>
-                  <div class="col-xl-3 col-sm-3 col-6 input-group-sm mb-1">
+                  <div class="col-xl-6 col-sm-4 col-6 input-group-sm mb-1">
                       <select class="form-control text-center" name="month" id="month">
                           <option value="1" selected='selected'>1</option>
                           <option value="2">2</option>
@@ -317,9 +315,9 @@
                           <option value="12">12</option>
                       </select>
                   </div>
-                  <div class="col-xl-6 col-sm-6 col-12 input-group-sm mb-1">
+                  <!-- <div class="col-xl-6 col-sm-6 col-12 input-group-sm mb-1">
                       <input type="text" class="form-control text-center" name="dateFromTo" id="dateFromTo">
-                  </div>
+                  </div> -->
 
               </div>
 
@@ -332,9 +330,9 @@
               <div class="col-xl-2 col-md-3 col-12">
                   <div class="card">
                       <div class="card-header pt-1 pb-1">
-                          <div class="card-title font-weight-bold pt-2">Department</div>
+                          <div class="card-title font-weight-bold">Department</div>
                           <div class="card-tools">
-                              <button type="button" class="btn btn-circle" data-card-widget="collapse"
+                              <button type="button" class="btn btn-circle btn-sm" data-card-widget="collapse"
                                   data-toggle="tooltip" title="Collapse">
                                   <i class="fas fa-minus"></i>
                               </button>
@@ -348,9 +346,9 @@
                   </div>
                   <div class="card">
                       <div class="card-header pt-1 pb-1">
-                          <div class="card-title font-weight-bold pt-2">Team List</div>
+                          <div class="card-title font-weight-bold">Team List</div>
                           <div class="card-tools">
-                              <button type="button" class="btn btn-circle" data-card-widget="collapse"
+                              <button type="button" class="btn btn-circle btn-sm" data-card-widget="collapse"
                                   data-toggle="tooltip" title="Collapse">
                                   <i class="fas fa-minus"></i>
                               </button>
@@ -363,9 +361,9 @@
                   </div>
                   <div class="card">
                       <div class="card-header pt-1 pb-1">
-                          <div class="card-title font-weight-bold pt-2">Member List</div>
+                          <div class="card-title font-weight-bold">Member List</div>
                           <div class="card-tools">
-                              <button type="button" class="btn btn-circle" data-card-widget="collapse"
+                              <button type="button" class="btn btn-circle btn-sm" data-card-widget="collapse"
                                   data-toggle="tooltip" title="Collapse">
                                   <i class="fas fa-minus"></i>
                               </button>
@@ -445,31 +443,7 @@
                           <section class="tasks-container task-row sortable">
 
                           </section>
-                          <!-- <table id="taskTable"
-                              class="table table-bordered table-striped dt-bootstrap4 text-center nowrap"
-                              style="width:100%;">
-                              <thead>
-                                  <tr>
-                                      <th>Action</th>
-                                      <th>PIC</th>
-                                      <th>Project</th>
-                                      <th>Task description</th>
-                                      <th>Deadline</th>
-                                      <th>Weight</th>
-                                      <th>Priority</th>
-                                      <th>Status</th>
-                                      <th>Assigned</th>
-                                      <th>Remarks</th>
-                                      <th>Rating</th>
-                                      
-
-                                  </tr>
-                              </thead>
-                              <tbody>
-
-                              </tbody>
-                          </table> -->
-
+                          
                       </div>
                   </div>
               </div>
@@ -487,34 +461,28 @@
   <div id="snackbar"></div>
 
   <script type="text/javascript">
-var resultData = [];
-var tableData = [];
-var targetId = 0;
+permission = <?php echo json_encode($user_permission) ?>;
+today = new Date();
+year = today.getFullYear();
+month = today.getMonth() + 1;
 
-var active_user = 0;
-var active_user_info ={};
-var active_dept = 0;
-var active_team = 0;
-
-var today = new Date();
-var year = today.getFullYear();
-var month = today.getMonth() + 1;
+type = 'team_tasks';
 
 $(document).ready(function() {
 
     // console.log(myCompany, myDept, myTeam)
-    loadDepartments(["#departments"], myDept);
-    loadTeamList(['#team-list'], myDept, myCompany);
+    loadDepartments(["#departments"], myDept, presetWithDisableOthers);
+    loadTeamList(['#team-list'], myDept, myCompany, myTeam, presetWithDisableOthers);
     loadUserList(['#team-user-list'], myTeam, myDept, myCompany);
     getReport(active_user, year, month); //to get regulation
 
 
     //Apply daterange
-    $('[name="dateFromTo"]').daterangepicker();
-    $('[name="dateFromTo"]').on('apply.daterangepicker', function(ev, picker) {
-        $(this).val(picker.startDate.format('DD/MM/YYYY') + '  -  ' + picker.endDate.format(
-            'DD/MM/YYYY'));
-    });
+    // $('[name="dateFromTo"]').daterangepicker();
+    // $('[name="dateFromTo"]').on('apply.daterangepicker', function(ev, picker) {
+    //     $(this).val(picker.startDate.format('DD/MM/YYYY') + '  -  ' + picker.endDate.format(
+    //         'DD/MM/YYYY'));
+    // });
     $('.date-picker').daterangepicker({
         singleDatePicker: true,
         autoApply: true,
@@ -644,17 +612,24 @@ $(document).ready(function() {
     });
 
     $('#printBM2').on("click", function() {
-        window.location = `${base_url}excel/exportTeamBM2/${active_team}/${year}/${month}`;
+        console.log(active_team, active_user);
+        if (active_team > 0){
+            window.location = `${base_url}excel/exportTeamBM2/${active_team}/${year}/${month}`;
+
+        }
     });
 
     $('#printBM3').on("click", function() {
+        console.log(active_team);
+        if (active_team > 0){
         window.location =
             `${base_url}excel/exportTeamBM3/${active_team}/${year}/${month}/`;
+        }
     });
 
     $('#printSummary').on("click", function() {
         window.location =
-            `${base_url}excel/exportDeptSummary/${active_department}/${year}/${month}`;
+            `${base_url}excel/exportDeptSummary/${active_dept}/${year}/${month}`;
     })
 
     getLatestYears.done(

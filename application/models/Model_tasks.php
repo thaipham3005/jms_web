@@ -35,7 +35,12 @@ class Model_tasks extends CI_Model
             return $query->result_array();
         }
 
-        $sql = "SELECT * FROM tasks WHERE user_id = ? AND active = '1' 
+        $sql = "SELECT tasks.*, pic.full_name as pic_name, pic.avatar as pic_ava, 
+        assign.full_name as assign_name, assign.avatar as assign_ava
+        FROM tasks 
+        INNER JOIN users pic ON tasks.user_id = pic.id
+        LEFT JOIN users assign ON tasks.assigned_by = assign.id 
+        WHERE user_id = ? AND active = '1' 
         ORDER BY id DESC";
         $query = $this->db->query($sql, array($user_id));
         return $query->result_array();
@@ -45,16 +50,25 @@ class Model_tasks extends CI_Model
     {
         if ($from && $to)
         {
-            $sql = 'SELECT * FROM tasks 
-            WHERE team_id = ? AND active = "1" 
+            $sql = 'SELECT tasks.*, pic.level as pic_level, pic.full_name as pic_name, pic.avatar as pic_ava, 
+            assign.full_name as assign_name, assign.avatar as assign_ava
+            FROM tasks 
+            INNER JOIN users pic ON tasks.user_id = pic.id
+            LEFT JOIN users assign ON tasks.assigned_by = assign.id
+            WHERE tasks.team_id = ? AND tasks.active = "1" 
             AND plan_complete >= ? AND plan_complete <= ? 
-            ORDER BY id DESC';
+            ORDER BY pic_level, pic_name, tasks.id DESC';
             $query = $this->db->query($sql,array($team_id, $from, $to));
             return $query->result_array();
         }
 
-        $sql = "SELECT * FROM tasks WHERE team_id = ? AND active = '1' 
-        ORDER BY id DESC";
+        $sql = "SELECT tasks.*, pic.full_name as pic_name, pic.avatar as pic_ava, 
+        assign.full_name as assign_name, assign.avatar as assign_ava
+        FROM tasks 
+        INNER JOIN users pic ON tasks.user_id = pic.id
+        LEFT JOIN users assign ON tasks.assigned_by = assign.id
+        WHERE tasks.team_id = ? AND tasks.active = '1' 
+        ORDER BY pic_level, pic_name, tasks.id DESC";
         $query = $this->db->query($sql, array($team_id));
         return $query->result_array();
     } 

@@ -271,34 +271,12 @@
                       KPI </button>
               </div>
 
-              <!-- <div class="row col-xl-6 col-12 hide">
-                  <div class="col-xl-5 col-sm-5 col-10 input-group-sm">
-                      <label for="departments">Departments</label>
-                      <select class="custom-select" name="departments" id="departments">
-
-                      </select>
-                  </div>
-                  <div class="col-xl-6 col-sm-6 col-10 input-group-sm">
-                      <label for="teams">Teams</label>
-                      <select class="custom-select" name="teams" id="teams">
-
-                      </select>
-                  </div>
-
-                  <div class="col-xl-1 col-sm-1 col-2 input-group-sm">
-                      <label for="teams">Filter</label>
-                      <div class="btn btn-outline-secondary btn-sm">
-                          <i class="fas fa-search"></i>
-                      </div>
-                  </div>
-              </div> -->
-
               <div class="row col-xl-6 col-12 mt-2">
-                  <div class="col-xl-3 col-sm-3 col-6 input-group-sm mb-1">
+                  <div class="col-xl-6 col-sm-6 col-6 input-group-sm mb-1">
                       <select class="form-control text-center" name="year" id="year">
                       </select>
                   </div>
-                  <div class="col-xl-3 col-sm-3 col-6 input-group-sm mb-1">
+                  <div class="col-xl-6 col-sm-6 col-6 input-group-sm mb-1">
                       <select class="form-control text-center" name="month" id="month">
                           <option value="1">1</option>
                           <option value="2">2</option>
@@ -314,9 +292,9 @@
                           <option value="12">12</option>
                       </select>
                   </div>
-                  <div class="col-xl-6 col-sm-6 col-12 input-group-sm mb-1 d-none d-sm-block">
+                  <!-- <div class="col-xl-6 col-sm-6 col-12 input-group-sm mb-1 d-none d-sm-block">
                       <input type="text" class="form-control text-center" name="dateFromTo" id="dateFromTo">
-                  </div>
+                  </div> -->
 
               </div>
 
@@ -391,29 +369,6 @@
                           <section class="tasks-container task-row sortable">
 
                           </section>
-
-                          <!-- <table id="taskTable" class="table table-striped dt-bootstrap4 text-center nowrap fade"
-                              style="width:100%;">
-                              <thead>
-                                  <tr>
-                                      <th>Action</th>
-                                      <th>PIC</th>
-                                      <th>Project</th>
-                                      <th>Task description</th>
-                                      <th>Deadline</th>
-                                      <th>Weight</th>
-                                      <th>Priority</th>
-                                      <th>Status</th>
-                                      <th>Remarks</th>
-                                      <th>Rating</th>
-
-                                  </tr>
-                              </thead>
-                              <tbody>
-
-                              </tbody>
-                          </table> -->
-
                       </div>
                   </div>
               </div>
@@ -431,8 +386,8 @@
   <div id="snackbar"></div>
 
   <script type="text/javascript">
-let resultData = [];
-var active_user = <?php echo $this->session->userdata('id') ?>;
+permission = <?php echo json_encode($user_permission) ?>;
+active_user = <?php echo $this->session->userdata('id') ?>;
 var targetId = 0;
 
 var sumWeight = 0;
@@ -440,28 +395,28 @@ var month_score = 0;
 var overall_score = 0;
 var regulation_score = 0;
 
-var today = new Date();
-var year = today.getFullYear();
-var month = today.getMonth() + 1;
+today = new Date();
+year = today.getFullYear();
+month = today.getMonth() + 1;
 
 $(document).ready(function() {
     // Ajax call for task list     
     loadTaskRows(active_user, year, month);
 
     //Apply daterange
-    $('[name="dateFromTo"]').daterangepicker({
-        locale: {
-            format: 'DD/MM/YYYY'
-        },
-        ranges: {
-            'This Month': [moment().startOf('month'), moment().endOf('month')],
-            'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month')
-                .endOf('month')
-            ],
-            'Next Month': [moment().add(1, 'month').startOf('month'), moment().add(1, 'month').endOf(
-                'month')]
-        }
-    });
+    // $('[name="dateFromTo"]').daterangepicker({
+    //     locale: {
+    //         format: 'DD/MM/YYYY'
+    //     },
+    //     ranges: {
+    //         'This Month': [moment().startOf('month'), moment().endOf('month')],
+    //         'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month')
+    //             .endOf('month')
+    //         ],
+    //         'Next Month': [moment().add(1, 'month').startOf('month'), moment().add(1, 'month').endOf(
+    //             'month')]
+    //     }
+    // });
 
     $('.date-picker').daterangepicker({
         singleDatePicker: true,
@@ -504,7 +459,7 @@ $(document).ready(function() {
 
     $('#taskEditModal').find('.star-rating').barrating({
         theme: 'css-stars',
-        readonly: true,
+        readonly: (permission.includes('approveMemberTasks'))? false: true,
         onSelect: function(value, text, event) {
             if (typeof(event) !== 'undefined') {
                 score_div = (this.$elem.parents('.row')).find('.score span');
@@ -598,7 +553,7 @@ $(document).ready(function() {
 
     $('#printBM3').on("click", function() {
         window.location =
-            `${base_url}excel/exportBM3/${active_user}/${regulation}/${overall}/${year}/${month}`;
+            `${base_url}excel/exportBM3/${active_user}/${year}/${month}`;
     })
 
     // Ajax call for form selects 

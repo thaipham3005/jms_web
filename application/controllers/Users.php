@@ -16,7 +16,7 @@ class Users extends Admin_Controller
 
 	public function index()
 	{
-		if(!in_array('editUserGroup', $this->permission)) {
+		if(!in_array('viewUserGroup', $this->permission)) {
 			$this->session->set_flashdata('error', 'You are not permitted for this operation');
             redirect('dashboard', 'refresh');
         }
@@ -131,7 +131,7 @@ class Users extends Admin_Controller
 						'last_change' => date('Y-m-d H:i:s')					
 		        	);
 
-		        	$update = $this->model_users->edit($data, $id, $this->input->post('groups'));
+		        	$update = $this->model_users->edit($data, $id, $this->input->post('group_id'));
 		        	if($update == true) {
 		        		$this->session->set_flashdata('success', 'Successfully updated user');
 						$response['success'] = true;
@@ -172,7 +172,7 @@ class Users extends Admin_Controller
 							'last_change' => date('Y-m-d H:i:s')	
 			        	);
 
-			        	$update = $this->model_users->edit($data, $id, $this->input->post('groups'));
+			        	$update = $this->model_users->edit($data, $id, $this->input->post('group_id'));
 			        	if($update == true) {
 			        		$this->session->set_flashdata('success', 'Successfully updated user');
 							$response['success'] = true;
@@ -269,11 +269,12 @@ class Users extends Admin_Controller
 			// button
 			$buttons = '';			
 			$group = '';
-			$buttons = '<button type="button" class="btn btn-xs btn-outline-secondary btn-edit" data-toggle="modal" data-target="#userEditModal"><i class="far fa-edit fa-fw" data-toggle="tooltip" title = "Edit"></i></button>';
-			
-			$buttons .= '<button type="button" class="btn btn-xs btn-outline-secondary btn-remove" data-toggle="modal" data-target="#userRemoveModal"><i class="far fa-trash-alt fa-fw" data-toggle="tooltip" title = "Remove"></i></button>';
-
-			$buttons .= '<button type="button" class="btn btn-xs btn-outline-secondary btn-reset" data-toggle="modal" data-target="#userResetModal"><i class="fas fa-recycle fa-fw" data-toggle="tooltip" title = "Reset Password"></i></button>';
+			if(in_array('editUserGroup', $this->permission)){
+				$buttons = '<button type="button" class="btn btn-xs btn-outline-secondary btn-edit" data-toggle="modal" data-target="#userEditModal"><i class="far fa-edit fa-fw" data-toggle="tooltip" title = "Edit"></i></button>';
+				$buttons .= '<button type="button" class="btn btn-xs btn-outline-secondary btn-remove" data-toggle="modal" data-target="#userRemoveModal"><i class="far fa-trash-alt fa-fw" data-toggle="tooltip" title = "Remove"></i></button>';
+				$buttons .= '<button type="button" class="btn btn-xs btn-outline-secondary btn-reset" data-toggle="modal" data-target="#userResetModal"><i class="fas fa-recycle fa-fw" data-toggle="tooltip" title = "Reset Password"></i></button>';
+	
+			}
 
 			$active = ($value['active'] == 1) ? '<span class="badge badge-success">Active</span>' : '<span class="badge badge-warning">Inactive</span>';
 
@@ -361,112 +362,8 @@ class Users extends Admin_Controller
 
 	public function profile()
 	{
-		$user_id = $this->session->userdata('id');
-
-		$user_data = $this->model_users->getUserData($user_id);
-		$this->data['user_data'] = $user_data;
-
-		$group_data = $this->model_groups->getGroupData(null,1);
-	    $this->data['group_data'] = $group_data;
-
-		$user_group = $this->model_users->getUserGroup($user_id);
-		$this->data['user_group'] = $user_group;
-		$id = $user_data['id'];
-		
-		$this->form_validation->set_rules('login_id', 'Username', 'trim|required|min_length[5]|max_length[12]');
-		$this->form_validation->set_rules('full_name', 'Fullname', 'trim|required');			
-		$this->form_validation->set_rules('email', 'Email', 'trim|required');		
-		$this->form_validation->set_rules('phone', 'Phone No', 'trim|regex_match[/^[0-9]{10}$/]');
-		$this->form_validation->set_rules('birthday', 'Birthday', 'trim');
-		
-
-		if ($this->form_validation->run() == TRUE) {
-			$image = '';
-			if (($_FILES['img-file']['size']==0)){
-				$image = $user_data['image'];
-				
-			} else {
-				$image= '/images/users/'.$_FILES['img-file']['name'];				
-				if ($this->do_upload() == false) {					
-					redirect('users/profile','refresh');
-				}
-			}
-			if(empty($this->input->post('password')) && empty($this->input->post('cpassword'))) {
-				
-				$data = array(
-					'login_id' => $this->input->post('login_id'),
-					'email' => $this->input->post('email'),
-					'full_name' => $this->input->post('full_name'),
-					'phone' => $this->input->post('phone'),
-					'birthday' => $this->input->post('birthday'),
-					'gender' => $this->input->post('gender'),
-					'address' => $this->input->post('address'),
-					'department' => $this->input->post('department'),
-					'position' => $this->input->post('position'),
-					'address' => $this->input->post('address'),
-					'last_change' => date('Y:m:d H:i:s'),
-					'image'=>$image,
-				);
-
-				$update = $this->model_users->edit($data, $id);
-				if($update == true) {
-					$this->session->set_flashdata('success', 'Successfully updated');					
-					redirect('users/profile', 'refresh');
-
-				}
-				else {
-					$this->session->set_flashdata('errors', 'Error occurred!!');
-					redirect('users/profile', 'refresh');
-				}
-			}
-			else {
-				$this->form_validation->set_rules('password', 'Password', 'trim|required|min_length[8]');
-				$this->form_validation->set_rules('cpassword', 'Confirm password', 'trim|required|matches[password]');
-
-				if($this->form_validation->run() == TRUE) {
-
-					$password = $this->password_hash($this->input->post('password'));
-
-					$data = array(
-						'login_id' => $this->input->post('login_id'),
-						'email' => $this->input->post('email'),
-						'full_name' => $this->input->post('full_name'),
-						'phone' => $this->input->post('phone'),
-						'birthday' => $this->input->post('birthday'),
-						'gender' => $this->input->post('gender'),
-						'address' => $this->input->post('address'),
-						'department' => $this->input->post('department'),
-						'position' => $this->input->post('position'),
-						'address' => $this->input->post('address'),
-						'last_change' => date('Y:m:d H:i:s'),
-						'password' => $password,
-						'image'=>$image,
-					);
-
-					$update = $this->model_users->edit($data, $id);
-					if($update == true) {
-						$this->session->set_flashdata('success', 'Successfully updated');						
-						redirect('users/profile', 'refresh');
-					}
-					else {
-						$this->session->set_flashdata('errors', 'Error occurred!!');
-						redirect('users/profile', 'refresh');
-					}
-				}
-				else {
-					// false case					
-					$this->session->set_userdata('currentPage', 'users/profile');
-					$this->render_template('users/profile', $this->data);	
-				}	
-			}
-		}
-		else {
-			$this->session->set_userdata('currentPage', 'users/profile');
-			// $cp = $this->session->userdata('currentPage');
-			// echo '<script>console.log("'.$cp.'")</script>' ;
-			$this->render_template('users/profile', $this->data);	
-		}
-        
+		$this->session->set_userdata('currentPage', 'profile');
+		$this->render_template('profile', $this->data);	
 	}
 
 }

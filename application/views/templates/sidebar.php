@@ -32,39 +32,68 @@
                 </li>
 
                 <!-- Timeline  -->
-                <li class="nav-item">
+                <!-- <li class="nav-item">
                     <a href="<?php echo base_url('timeline') ?>" id="timeline" class="nav-link">
                         <i class="nav-icon fas fa-heartbeat"></i>
                         <p>Timeline</p>
                     </a>
-                </li>
+                </li> -->
+
+                
 
                 <!-- Individual Task List  -->
-                <?php // if(in_array('viewMemberTasks', $user_permission) || in_array('editMemberTasks', $user_permission)): ?>
+                <?php  if(in_array('viewMemberTasks', $this->permission) || in_array('editMemberTasks', $this->permission)): ?>
                 <li class="nav-item">
                     <a href="<?php echo base_url('tasks/member_tasks/').$this->session->userdata("id") ?>" id="tasks-list" class="nav-link">
                         <i class="nav-icon fas fa-clipboard-check"></i>
                         <p>Personal Task List
-                            <span class="badge badge-danger badge-pill right" id="noti-task">3</span>
+                            <span class="badge badge-danger badge-pill right" id="noti-task"></span>
                         </p>
                     </a>
                 </li>
-                <?php // endif; ?>
+                <?php endif; ?>
+
+                <!-- Team goals  -->
+                <li class="nav-item">
+                    <a href="<?php echo base_url('team_goals') ?>" id="timeline" class="nav-link">
+                        <i class="nav-icon fas fa-bullseye"></i>
+                        <p>Team Goals</p>
+                    </a>
+                </li>
 
                 <!-- Team Task List  -->
-                <?php // if(in_array('viewTeamTasks', $user_permission) || in_array('approveTeamTasks', $user_permission)): ?>
+                <?php if(in_array('viewTeamTasks', $this->permission) || in_array('approveTeamTasks', $this->permission)): ?>
                 <li class="nav-item">
                     <a href="<?php echo base_url('tasks/team_tasks'); ?>" id="team-tasks-list" class="nav-link">
                         <i class="nav-icon fas fa-tasks"></i>
                         <p>Team Task List
-                            <span class="badge badge-danger badge-pill right" id="team-noti-task">3</span>
+                            <span class="badge badge-danger badge-pill right" id="team-noti-task"></span>
                         </p>
                     </a>
                 </li>
-                <?php // endif; ?>
+                <?php endif; ?>
+
+                <!-- Team Summary -->
+                <?php if(in_array('viewTeamTasks', $this->permission) || in_array('approveTeamTasks', $this->permission)): ?>
+                <li class="nav-item">
+                    <a href="<?php echo base_url('reports/team_reports'); ?>" id="team-reports" class="nav-link">
+                        <i class="nav-icon fas fa-chart-bar"></i>
+                        <p>Team Summary</p>
+                    </a>
+                </li>
+                <?php endif; ?>
+
+                <!-- Department Summary -->
+                <?php if(in_array('viewDeparmentTasks', $this->permission) || in_array('approveDepartmentTasks', $this->permission)): ?>
+                <li class="nav-item">
+                    <a href="<?php echo base_url('reports/department_reports'); ?>" id="department-reports" class="nav-link">
+                        <i class="nav-icon fas fa-trophy"></i>
+                        <p>Department Award</p>
+                    </a>
+                </li>
+                <?php endif; ?>
 
                 <!-- Admininstration Settings  -->
-                <?php // if(in_array('viewMemberTasks', $user_permission) || in_array('editMemberTasks', $user_permission)): ?>
                 <li class="nav-item has-treeview">
                     <a href="<?php echo base_url('tasks') ?>" id="settings" class="nav-link">
                         <i class="nav-icon fas fa-toolbox"></i>
@@ -72,7 +101,9 @@
                         <i class="fas fa-angle-left right"></i>
                         </p>
                     </a>
+
                     <ul class="nav nav-treeview" style="display:none;">
+                    <?php if(in_array('viewUserGroup', $this->permission) || in_array('editUserGroup', $this->permission)): ?>
                         <li class="nav-item">
                             <a href="<?php echo base_url('users'); ?>" id="user-list" class="nav-link">
                                 <i class="nav-icon far fa-address-book"></i>
@@ -86,7 +117,8 @@
                                 <p>Groups Config</p>
                             </a>
                         </li>
-
+                        <?php endif; ?>
+                        <?php if(in_array('viewOrganization', $this->permission) || in_array('editOrganization', $this->permission)): ?>
                         <li class="nav-item">
                             <a href="<?php echo base_url('departments') ?>" id="department-list" class="nav-link">
                                 <i class="nav-icon far fa-building"></i>
@@ -101,25 +133,11 @@
                             </a>
                         </li>
 
+                        <?php endif; ?>
+
                     </ul>
                 </li>
-                <?php // endif; ?>
-
-                <!-- Profile  -->
-                <li id="editProfile" class="nav-item">
-                    <a href="<?php echo base_url('users/profile') ?>" class="nav-link">
-                        <i class="nav-icon fa fa-user-check" class="nav-icon"></i>
-                        <p>My profile</p>
-                    </a>
-                </li>
-
-                <!-- Log out    -->
-                <li id="logout" class="nav-item">
-                    <a href="<?php echo base_url('auth/logout') ?>" class="nav-link">
-                        <i class="nav-icon  fa fa-sign-out-alt"></i>
-                        <p>Logout</p>
-                    </a>
-                </li>
+               
             </ul>
 
 

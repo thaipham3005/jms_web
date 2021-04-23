@@ -154,7 +154,7 @@
                                       <option value="7">Team Leader</option>
                                       <option value="8">Deputy Leader</option>
                                       <option value="9">Squad Leader</option>
-                                      <option value="8" selected>Member</option>
+                                      <option value="10" selected>Member</option>
                                   </select>
                               </div>
                               <div class="col-xl-3 col-lg-6 col-12 input-group-sm">
@@ -308,7 +308,7 @@
                                       <option value="7">Team Leader</option>
                                       <option value="8">Deputy Leader</option>
                                       <option value="9">Squad Leader</option>
-                                      <option value="8" selected>Member</option>
+                                      <option value="10" selected>Member</option>
                                   </select>
                               </div>
                               <div class="col-xl-3 col-lg-6 col-12 input-group-sm">
@@ -433,7 +433,7 @@
                       <!-- /.card-header -->
                       <div class="card-body">
                           <table id="userTable"
-                              class="table table-bordered table-striped dt-bootstrap4 text-center nowrap"
+                              class="table table-bordered table-striped table-sm dt-bootstrap4 text-center nowrap"
                               style="width:100%;">
                               <thead>
                                   <tr>
@@ -472,9 +472,9 @@
 
   <script type="text/javascript">
 
-let tableData = [];
-var targetId = 0;
-formType = "user";
+// let tableData = [];
+// var targetId = 0;
+
 const fields = ['login_id','full_name', 'short_name', 'password', 'gender', 'birthday', 'company_id', 'department_id', 'team_id', 'position', 'address', 'email', 'phone', 'skype', 'level', 'group_id', 'first_working_date', 'active'];
 
 
@@ -487,7 +487,6 @@ $(document).ready(function() {
             type: "POST",
             "deferRender": true,
             dataFilter: function(res) {
-                // do what you need to the data before it loads to the table
                 // console.log(res);
                 return res;
             }
@@ -504,9 +503,9 @@ $(document).ready(function() {
             [50, 100, "All"]
         ],
         "paging": true,
-        "scrollX": true,
+        // "scrollX": true,
         "scrollY": "57vh",
-        "scrollCollapse": true,
+        // "scrollCollapse": true,
         columnDefs: [{
             targets: [9],
             "visible": false,
@@ -551,15 +550,15 @@ $(document).ready(function() {
 
     // Assign function for form actions
     $('#removeBtn').on("click", function(e) {
-        removeByModal(targetId, "#userRemoveForm", ()=>table.ajax.reload(null, false));
+        removeByModal(targetId, "#userRemoveForm", ()=>table.ajax.reload(null, false),"user");
     });
 
     $('#addBtn').on("click", function(e) {
-        addByModal("#userAddForm", ()=> table.ajax.reload(null, false));
+        addByModal("#userAddForm", ()=> table.ajax.reload(null, false),"user");
     });
 
     $('#editBtn').on("click", function(e) {
-        editByModal(targetId, "#userEditForm", ()=>table.ajax.reload(null, false));
+        editByModal(targetId, "#userEditForm", ()=>table.ajax.reload(null, false),"user");
     });
 
     $('#userEditModal').on("shown.bs.modal", function(e) {
@@ -572,18 +571,6 @@ $(document).ready(function() {
 
     // Ajax call for form selects 
     // loadCompany(["#add_compnay", "#edit_company"]);
-    let disableOthers = {
-        'disableOthers': true,
-        'selectPreset': false
-    };
-    let selectPreset = {
-        'disableOthers': false,
-        'selectPreset': true
-    };
-    let presetWithDisableOthers = {
-        'disableOthers': false,
-        'selectPreset': true
-    };
     loadGroups(["#add_group", "#edit_group"]);
     loadCompany(["#add_company", "#edit_company", "#company"], myCompany, presetWithDisableOthers);
     loadDepartments(["#add_department", "#edit_department", "#departments"], myDept, selectPreset);

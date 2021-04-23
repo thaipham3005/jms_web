@@ -4,7 +4,6 @@
     <div class="modal-dialog" role="document">
       <div class="modal-content">
         <div class="modal-header">
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
           <h4 class="modal-title">Logging out</h4>
         </div>            
 
@@ -25,9 +24,9 @@
  
 <script>
     $(document).ready(function() {
-      $('#logout_btn').on('click', function(){
+      
         $('#logoutModal').modal('show');
-      });
+      
         
         $('#logoutModal').on('hide.bs.modal', function (e) {            
             window.location.href = '<?php echo base_url(). $this->session->userdata('currentPage') ?>'
