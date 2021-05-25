@@ -521,7 +521,11 @@ $(document).ready(function() {
             $(this).parents('form').find('[name="total_weight"]').val(_sumWeight);
         }
 
-    })
+    });
+
+    $('#taskAddBtn').on('click', function(e){
+        $('#taskAddForm').find('textarea').val("");
+    });
 
     $('#removeBtn').on("click", function(e) {
         removeByModal(targetId, "#taskRemoveForm", () => loadTaskRows(active_user, year, month));

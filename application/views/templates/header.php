@@ -250,7 +250,7 @@ function showSnackbar(status = 'normal', message = null, duration = 2000)
 }
 
 </script>
-<script src="<?php echo base_url('assets/js/jms-1.0.1.js') ?>"></script>
+<script src="<?php echo base_url('assets/js/jms-1.0.2.js') ?>"></script>
 
   
 

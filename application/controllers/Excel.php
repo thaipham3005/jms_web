@@ -71,7 +71,7 @@ class Excel extends Admin_Controller
         $base2 = 18;
         $spreadsheet->getActiveSheet()->setCellValue('B10', $fullname);
         $spreadsheet->getActiveSheet()->setCellValue('C10', $login_id);
-        $spreadsheet->getActiveSheet()->setCellValue('D10', $position);
+        $spreadsheet->getActiveSheet()->setCellValue('D10', $position." tổ ".$team);
         $spreadsheet->getActiveSheet()->setCellValue('F10', $department);
         $spreadsheet->getActiveSheet()->setCellValue('H10', $team);
         $spreadsheet->getActiveSheet()->setCellValue('A6', 'Tháng '.$month.' năm '.$year);
@@ -165,7 +165,7 @@ class Excel extends Admin_Controller
         //Generate content
         $spreadsheet->getActiveSheet()->setCellValue('C8', $fullname);
         $spreadsheet->getActiveSheet()->setCellValue('C9', $login_id);
-        $spreadsheet->getActiveSheet()->setCellValue('F8', $position);
+        $spreadsheet->getActiveSheet()->setCellValue('F8', $position." tổ ".$team);
         $spreadsheet->getActiveSheet()->setCellValue('F10', $department);
         $spreadsheet->getActiveSheet()->setCellValue('C10', $team);
         $spreadsheet->getActiveSheet()->setCellValue('F11', \PhpOffice\PhpSpreadsheet\Shared\Date::PHPToExcel(date($year.'-'.$month.'-'.cal_days_in_month(CAL_GREGORIAN, $month, $year))));
@@ -304,7 +304,7 @@ class Excel extends Admin_Controller
 
             $spreadsheet->getActiveSheet()->setCellValue('B10', $fullname);
             $spreadsheet->getActiveSheet()->setCellValue('C10', $login_id);
-            $spreadsheet->getActiveSheet()->setCellValue('D10', $position);
+            $spreadsheet->getActiveSheet()->setCellValue('D10', $position." tổ ".$team);
             $spreadsheet->getActiveSheet()->setCellValue('F10', $department);
             $spreadsheet->getActiveSheet()->setCellValue('H10', $team);
             $spreadsheet->getActiveSheet()->setCellValue('A6', 'Tháng '.$month.' năm '.$year);
@@ -423,7 +423,7 @@ class Excel extends Admin_Controller
             //Generate content
             $spreadsheet->getActiveSheet()->setCellValue('C8', $fullname);
             $spreadsheet->getActiveSheet()->setCellValue('C9', $login_id);
-            $spreadsheet->getActiveSheet()->setCellValue('F8', $position);
+            $spreadsheet->getActiveSheet()->setCellValue('F8', $position." tổ ".$team);
             $spreadsheet->getActiveSheet()->setCellValue('F10', $department);
             $spreadsheet->getActiveSheet()->setCellValue('C10', $team);
             $spreadsheet->getActiveSheet()->setCellValue('C11', \PhpOffice\PhpSpreadsheet\Shared\Date::PHPToExcel($first_day));
@@ -600,6 +600,7 @@ class Excel extends Admin_Controller
             $row = 9 + $i; 
             $fullname =  $users[$i]['full_name'];
             $position =  $users[$i]['position'];
+            $team =  $users[$i]['team'];
             $login_id =  $users[$i]['login_id'];
             $first_day =  $users[$i]['first_working_day'];            
 
@@ -608,7 +609,7 @@ class Excel extends Admin_Controller
             $spreadsheet->getActiveSheet()->setCellValue('B'.$row, $login_id);
             $spreadsheet->getActiveSheet()->setCellValue('C'.$row, $fullname);
             $spreadsheet->getActiveSheet()->mergeCells('C'.$row.':D'.$row);
-            $spreadsheet->getActiveSheet()->setCellValue('E'.$row, $position);
+            $spreadsheet->getActiveSheet()->setCellValue('E'.$row, $position." tổ ".$team);
             if ($first_day != null){
                 $spreadsheet->getActiveSheet()->setCellValue('F'.$row, \PhpOffice\PhpSpreadsheet\Shared\Date::PHPToExcel($first_day));
                 $spreadsheet->getActiveSheet()->getStyle('F'.$row)
@@ -659,6 +660,7 @@ class Excel extends Admin_Controller
                 $row = 9 + $i; 
                 $fullname =  $excellent_users[$i]['full_name'];
                 $position =  $excellent_users[$i]['position'];
+                $team =  $excellent_users[$i]['team'];
                 $login_id =  $excellent_users[$i]['login_id'];
                 $first_day =  $excellent_users[$i]['first_working_day'];            
     
@@ -667,7 +669,7 @@ class Excel extends Admin_Controller
                 $spreadsheet->getActiveSheet()->setCellValue('B'.$row, $login_id);
                 $spreadsheet->getActiveSheet()->setCellValue('C'.$row, $fullname);
                 $spreadsheet->getActiveSheet()->mergeCells('C'.$row.':D'.$row);
-                $spreadsheet->getActiveSheet()->setCellValue('E'.$row, $position);
+                $spreadsheet->getActiveSheet()->setCellValue('E'.$row, $position." tổ ".$team);
                 if ($first_day != null){
                     $spreadsheet->getActiveSheet()->setCellValue('F'.$row, \PhpOffice\PhpSpreadsheet\Shared\Date::PHPToExcel($first_day));
                     $spreadsheet->getActiveSheet()->getStyle('F'.$row)
@@ -716,6 +718,7 @@ class Excel extends Admin_Controller
                 $fullname =  $good_users[$i]['full_name'];
                 $position =  $good_users[$i]['position'];
                 $login_id =  $good_users[$i]['login_id'];
+                $team =  $good_users[$i]['team'];
                 $first_day =  $good_users[$i]['first_working_day'];            
     
                 //Generate content
@@ -723,7 +726,7 @@ class Excel extends Admin_Controller
                 $spreadsheet->getActiveSheet()->setCellValue('B'.$row, $login_id);
                 $spreadsheet->getActiveSheet()->setCellValue('C'.$row, $fullname);
                 $spreadsheet->getActiveSheet()->mergeCells('C'.$row.':D'.$row);
-                $spreadsheet->getActiveSheet()->setCellValue('E'.$row, $position);
+                $spreadsheet->getActiveSheet()->setCellValue('E'.$row, $position." tổ ".$team);
                 if ($first_day != null){
                     $spreadsheet->getActiveSheet()->setCellValue('F'.$row, \PhpOffice\PhpSpreadsheet\Shared\Date::PHPToExcel($first_day));
                     $spreadsheet->getActiveSheet()->getStyle('F'.$row)
@@ -768,8 +771,10 @@ class Excel extends Admin_Controller
             $spreadsheet->getActiveSheet()->insertNewRowBefore(10, count($normal)-1);
             for ($i = 0; $i < count($normal); $i++){   
                 $row = 9 + $i; 
+                
                 $fullname =  $normal_users[$i]['full_name'];
                 $position =  $normal_users[$i]['position'];
+                $team =  $normal_users[$i]['team'];
                 $login_id =  $normal_users[$i]['login_id'];
                 $first_day =  $normal_users[$i]['first_working_day'];            
     
@@ -778,7 +783,7 @@ class Excel extends Admin_Controller
                 $spreadsheet->getActiveSheet()->setCellValue('B'.$row, $login_id);
                 $spreadsheet->getActiveSheet()->setCellValue('C'.$row, $fullname);
                 $spreadsheet->getActiveSheet()->mergeCells('C'.$row.':D'.$row);
-                $spreadsheet->getActiveSheet()->setCellValue('E'.$row, $position);
+                $spreadsheet->getActiveSheet()->setCellValue('E'.$row, $position." tổ ".$team);
                 if ($first_day != null){
                     $spreadsheet->getActiveSheet()->setCellValue('F'.$row, \PhpOffice\PhpSpreadsheet\Shared\Date::PHPToExcel($first_day));
                     $spreadsheet->getActiveSheet()->getStyle('F'.$row)

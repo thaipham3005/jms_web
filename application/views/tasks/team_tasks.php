@@ -499,10 +499,11 @@ $(document).ready(function() {
     //Apply star rating
     $('#regulation-rating').barrating({
         theme: 'bars-movie',
-        readonly: true,
+        // readonly: true,
         onSelect: function(value, text, event) {
             if (typeof(event) !== 'undefined') {
                 summarizeMonth();
+                saveReport(active_user, year, month);
             }
         }
     });
