@@ -1,0 +1,9 @@
+{
+    "version": 3,
+    "mappings": "AACA,AAAA,GAAG,AAAA,iBAAiB,CAAC,KAAK,AAAA,UAAU;AACpC,GAAG,AAAA,kBAAkB,CAAC,KAAK,AAAA,UAAU,CAAC;EACrC,OAAO,EAAE,CAAC;CAKV;;AAPD,AAIC,GAJE,AAAA,iBAAiB,CAAC,KAAK,AAAA,UAAU,AAIlC,UAAU;AAHZ,GAAG,AAAA,kBAAkB,CAAC,KAAK,AAAA,UAAU,AAGnC,UAAU,CAAC;EACX,aAAa,EAAE,IAAI;CACnB;;AAKF,AAAA,GAAG,AAAA,aAAa,CAAC;EAChB,gBAAgB,EAAE,KAAK;CACvB",
+    "sources": [
+        "fixedColumns.jqueryui.scss"
+    ],
+    "names": [],
+    "file": "fixedColumns.jqueryui.css"
+}

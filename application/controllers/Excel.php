@@ -496,6 +496,10 @@ class Excel extends Admin_Controller
         $users = $this->model_users->getUserData($company_id, $department_id);
         $all_data = $this->model_reports->getReportByDepartment($department_id, $year, $month);
 
+        // echo 'All data: '.count($all_data), PHP_EOL, "\r\n";
+        // echo 'Users: '.count($users);
+        // echo ('Users: '.count($users));
+
         if (count($all_data) == 0){
             $this->session->set_flashdata('false', 'No tasks are available for this department');
             $response['success'] = false;
@@ -532,20 +536,20 @@ class Excel extends Admin_Controller
         $normal = array();
         $teams_total = array();
 
+        // echo 'Users '.$i.': ',$users[$i]['id'], ": ", $users[$i]['full_name'], '--';
+
         // Print out first worksheet
         for ($i=0; $i < count($users); $i++){ 
-            $found = array_search($users[$i]['id'], array_column($all_data, 'user_id'));
+            $found = in_array($users[$i]['id'], array_column($all_data, 'user_id'));
 
             if ($found){
-                $report = $all_data[$found];
-                $users_report[$i] = $report;
+                $users_report[$i] = $all_data[$found];
             }
             else{
                 $users_report[$i] = array();
             }
 
             if (!array_key_exists($users[$i]['team'], $teams_total)){
-
                 $teams_total[$users[$i]['team']] = 0;;
             } else {
                 $teams_total[$users[$i]['team']]++;
@@ -553,27 +557,24 @@ class Excel extends Admin_Controller
         }  
 
         for ($i=0; $i < count($all_data); $i++){
-            if ($all_data[$i]['award_id']=='1' || $all_data[$i]['award_id']=='2'){
-                $excellent[] = $all_data[$i];
-
+            if ($all_data[$i]['award_id']=='1' || $all_data[$i]['award_id']=='2'){  
                 $found = array_search($all_data[$i]['user_id'], array_column($users,'id'));
                 if ($found){
                     $excellent_users[] = $users[$found];
+                    $excellent[] = $all_data[$i];
                 }
 
             } else if ($all_data[$i]['award_id']=='3' || $all_data[$i]['award_id']=='4'){
-                $good[] = $all_data[$i];
-
                 $found = array_search($all_data[$i]['user_id'], array_column($users,'id'));
                 if ($found){
                     $good_users[] = $users[$found];
+                    $good[] = $all_data[$i];
                 }
             } else {
-                $normal[] = $all_data[$i];
-
                 $found = array_search($all_data[$i]['user_id'], array_column($users,'id'));
                 if ($found){
                     $normal_users[] = $users[$found];
+                    $normal[] = $all_data[$i];
                 }
             }
         }
@@ -583,10 +584,14 @@ class Excel extends Admin_Controller
         $spreadsheet->getActiveSheet()->setCellValue('E19', count($good));
         $spreadsheet->getActiveSheet()->setCellValue('E20', count($normal));
 
+        // echo "users: ".count($users);
+        // echo "excellent: ".count($excellent);
+        // echo "good: ".count($good);
+        // echo "normal: ".count($normal);
+
         $spreadsheet->getActiveSheet()->insertNewRowBefore(13, count($teams_total)-1);
         $row = 13;
         foreach ($teams_total as $key=>$value){
-
             $spreadsheet->getActiveSheet()->setCellValue('E'.$row, $key);
             $spreadsheet->getActiveSheet()->setCellValue('F'.$row, $value);
             $spreadsheet->getActiveSheet()->getStyle('F'.$row)
@@ -599,16 +604,24 @@ class Excel extends Admin_Controller
         for ($i = 0; $i < count($users_report); $i++){   
             $row = 9 + $i; 
             $fullname =  $users[$i]['full_name'];
+            $name_arr = explode(" ",$fullname);
+            // $last_name = $name_arr[count($name_arr) - 1];
+            $last_name = array_pop($name_arr);
+            $first_name = join(" ", $name_arr);
+
             $position =  $users[$i]['position'];
             $team =  $users[$i]['team'];
             $login_id =  $users[$i]['login_id'];
-            $first_day =  $users[$i]['first_working_day'];            
+            $first_day =  $users[$i]['first_working_day'];   
 
             //Generate content
             $spreadsheet->getActiveSheet()->setCellValue('A'.$row, $i + 1);
             $spreadsheet->getActiveSheet()->setCellValue('B'.$row, $login_id);
-            $spreadsheet->getActiveSheet()->setCellValue('C'.$row, $fullname);
-            $spreadsheet->getActiveSheet()->mergeCells('C'.$row.':D'.$row);
+            // $spreadsheet->getActiveSheet()->setCellValue('C'.$row, $fullname);
+            // $spreadsheet->getActiveSheet()->mergeCells('C'.$row.':D'.$row);
+            $spreadsheet->getActiveSheet()->setCellValue('C'.$row, $first_name);
+            $spreadsheet->getActiveSheet()->setCellValue('D'.$row, $last_name);
+
             $spreadsheet->getActiveSheet()->setCellValue('E'.$row, $position." tổ ".$team);
             if ($first_day != null){
                 $spreadsheet->getActiveSheet()->setCellValue('F'.$row, \PhpOffice\PhpSpreadsheet\Shared\Date::PHPToExcel($first_day));
@@ -622,6 +635,9 @@ class Excel extends Admin_Controller
             }  
             
             $month_score = $data['month_score'];
+
+            // echo 'Users '.$i.': '.$fullname, ' : ', $month_score , '--';
+
             $spreadsheet->getActiveSheet()->setCellValue('G'.$row, $month_score);
             $spreadsheet->getActiveSheet()->setCellValue('I'.$row, $data['remarks']);
 
@@ -659,16 +675,22 @@ class Excel extends Admin_Controller
             for ($i = 0; $i < count($excellent); $i++){   
                 $row = 9 + $i; 
                 $fullname =  $excellent_users[$i]['full_name'];
+                $name_arr = explode(" ",$fullname);
+                // $last_name = $name_arr[count($name_arr) - 1];
+                $last_name = array_pop($name_arr);
+                $first_name = join(" ", $name_arr);
                 $position =  $excellent_users[$i]['position'];
                 $team =  $excellent_users[$i]['team'];
                 $login_id =  $excellent_users[$i]['login_id'];
-                $first_day =  $excellent_users[$i]['first_working_day'];            
-    
+                $first_day =  $excellent_users[$i]['first_working_day'];
+                
                 //Generate content
                 $spreadsheet->getActiveSheet()->setCellValue('A'.$row, $i + 1);
                 $spreadsheet->getActiveSheet()->setCellValue('B'.$row, $login_id);
-                $spreadsheet->getActiveSheet()->setCellValue('C'.$row, $fullname);
-                $spreadsheet->getActiveSheet()->mergeCells('C'.$row.':D'.$row);
+                // $spreadsheet->getActiveSheet()->setCellValue('C'.$row, $fullname);
+                // $spreadsheet->getActiveSheet()->mergeCells('C'.$row.':D'.$row);
+                $spreadsheet->getActiveSheet()->setCellValue('C'.$row, $first_name);
+                $spreadsheet->getActiveSheet()->setCellValue('D'.$row, $last_name);
                 $spreadsheet->getActiveSheet()->setCellValue('E'.$row, $position." tổ ".$team);
                 if ($first_day != null){
                     $spreadsheet->getActiveSheet()->setCellValue('F'.$row, \PhpOffice\PhpSpreadsheet\Shared\Date::PHPToExcel($first_day));
@@ -716,6 +738,10 @@ class Excel extends Admin_Controller
             for ($i = 0; $i < count($good); $i++){   
                 $row = 9 + $i; 
                 $fullname =  $good_users[$i]['full_name'];
+                $name_arr = explode(" ",$fullname);
+                // $last_name = $name_arr[count($name_arr) - 1];
+                $last_name = array_pop($name_arr);
+                $first_name = join(" ", $name_arr);
                 $position =  $good_users[$i]['position'];
                 $login_id =  $good_users[$i]['login_id'];
                 $team =  $good_users[$i]['team'];
@@ -724,15 +750,17 @@ class Excel extends Admin_Controller
                 //Generate content
                 $spreadsheet->getActiveSheet()->setCellValue('A'.$row, $i + 1);
                 $spreadsheet->getActiveSheet()->setCellValue('B'.$row, $login_id);
-                $spreadsheet->getActiveSheet()->setCellValue('C'.$row, $fullname);
-                $spreadsheet->getActiveSheet()->mergeCells('C'.$row.':D'.$row);
+                // $spreadsheet->getActiveSheet()->setCellValue('C'.$row, $fullname);
+                // $spreadsheet->getActiveSheet()->mergeCells('C'.$row.':D'.$row);
+                $spreadsheet->getActiveSheet()->setCellValue('C'.$row, $first_name);
+                $spreadsheet->getActiveSheet()->setCellValue('D'.$row, $last_name);
                 $spreadsheet->getActiveSheet()->setCellValue('E'.$row, $position." tổ ".$team);
                 if ($first_day != null){
                     $spreadsheet->getActiveSheet()->setCellValue('F'.$row, \PhpOffice\PhpSpreadsheet\Shared\Date::PHPToExcel($first_day));
                     $spreadsheet->getActiveSheet()->getStyle('F'.$row)
                     ->getNumberFormat()->setFormatCode('dd/mm/yyyy');
                 }    
-               
+
                 $month_score = $good[$i]['month_score'];
                 $spreadsheet->getActiveSheet()->setCellValue('G'.$row, $month_score);
                 $spreadsheet->getActiveSheet()->setCellValue('I'.$row, $good[$i]['remarks']);
@@ -768,28 +796,38 @@ class Excel extends Admin_Controller
         $spreadsheet->getActiveSheet()->setCellValue('G12', 'Vũng Tàu, ngày '.cal_days_in_month(CAL_GREGORIAN, $month, $year).' tháng '.$month.' năm '.$year);
         
         if ( count($normal) > 0) {
+            
             $spreadsheet->getActiveSheet()->insertNewRowBefore(10, count($normal)-1);
             for ($i = 0; $i < count($normal); $i++){   
                 $row = 9 + $i; 
                 
                 $fullname =  $normal_users[$i]['full_name'];
+                $name_arr = explode(" ",$fullname);
+                // $last_name = $name_arr[count($name_arr) - 1];
+                $last_name = array_pop($name_arr);
+                $first_name = join(" ", $name_arr);
                 $position =  $normal_users[$i]['position'];
                 $team =  $normal_users[$i]['team'];
                 $login_id =  $normal_users[$i]['login_id'];
-                $first_day =  $normal_users[$i]['first_working_day'];            
+                $first_day =  $normal_users[$i]['first_working_day'];  
+                
+                // echo 'Normal '.$i.': '.$fullname, PHP_EOL, '--';
     
+                // echo json_encode($i. ': '. $normal_users[$i]['full_name']);
                 //Generate content
                 $spreadsheet->getActiveSheet()->setCellValue('A'.$row, $i + 1);
                 $spreadsheet->getActiveSheet()->setCellValue('B'.$row, $login_id);
-                $spreadsheet->getActiveSheet()->setCellValue('C'.$row, $fullname);
-                $spreadsheet->getActiveSheet()->mergeCells('C'.$row.':D'.$row);
+                // $spreadsheet->getActiveSheet()->setCellValue('C'.$row, $fullname);
+                // $spreadsheet->getActiveSheet()->mergeCells('C'.$row.':D'.$row);
+                $spreadsheet->getActiveSheet()->setCellValue('C'.$row, $first_name);
+                $spreadsheet->getActiveSheet()->setCellValue('D'.$row, $last_name);
                 $spreadsheet->getActiveSheet()->setCellValue('E'.$row, $position." tổ ".$team);
                 if ($first_day != null){
                     $spreadsheet->getActiveSheet()->setCellValue('F'.$row, \PhpOffice\PhpSpreadsheet\Shared\Date::PHPToExcel($first_day));
                     $spreadsheet->getActiveSheet()->getStyle('F'.$row)
                     ->getNumberFormat()->setFormatCode('dd/mm/yyyy');
                 }    
-               
+
                 $month_score = $normal[$i]['month_score'];
                 $spreadsheet->getActiveSheet()->setCellValue('G'.$row, $month_score);
                 $spreadsheet->getActiveSheet()->setCellValue('I'.$row, $normal[$i]['remarks']);

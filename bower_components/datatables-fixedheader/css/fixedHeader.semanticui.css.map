@@ -1,0 +1,9 @@
+{
+    "version": 3,
+    "mappings": "AAEA,AAAA,KAAK,AAAA,qBAAqB,CAAC;EAC1B,QAAQ,EAAE,gBAAgB;EAC1B,mBAAmB,EAAE,YAAY;CACjC;;AAED,AAAA,KAAK,AAAA,mBAAmB,CAAC;EACxB,QAAQ,EAAE,mBAAmB;CAC7B;;AAED,MAAM,CAAC,KAAK;EACR,AAAA,KAAK,AAAA,qBAAqB,CAAC;IACvB,OAAO,EAAE,IAAI;GAChB",
+    "sources": [
+        "fixedHeader.semanticui.scss"
+    ],
+    "names": [],
+    "file": "fixedHeader.semanticui.css"
+}
