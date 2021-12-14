@@ -56,18 +56,17 @@
             </li>
             <!-- PROFILE  -->
             <li class="nav-item dropdown">
-                <a class="nav-link py-0 px-2" data-toggle="dropdown" data-expanded="false"
-                    href="<?php echo base_url('users/profile') ?>">
+                <a class="nav-link py-0 px-2" data-toggle="dropdown" data-expanded="false" href="<?php echo base_url('users/profile') ?>">
                     <div class="image">
-                        <img src="<?php echo base_url($this->session->userdata('avatar')); ?>"
-                            class="img-circle elevation-1" style="width:2.5rem;">
+                        <!-- <img src="<?php echo base_url($this->session->userdata('avatar')); ?>" class="img-circle elevation-1" style="width:2.5rem;"> -->
+                        <img src="<?php echo $this->session->userdata('avatar'); ?>" class="img-circle elevation-1" style="width:2.5rem;">
                     </div>
                 </a>
                 <div class="dropdown-menu dropdown-menu-md dropdown-menu-right">
                     <div class="profile dropdown-item dropdown-header">
                         <div class="image mr-3 d-inline">
-                            <img src="<?php echo base_url($this->session->userdata('avatar')); ?>" class="img-circle"
-                                alt="User Image" style="width:3rem;">
+                            <!-- <img src="<?php echo base_url($this->session->userdata('avatar')); ?>" class="img-circle" alt="User Image" style="width:3rem;"> -->
+                            <img src="<?php echo $this->session->userdata('avatar'); ?>" class="img-circle" alt="User Image" style="width:3rem;">
                         </div>
                         <div class="full-name font-weight-bold d-inline">
                             <?php echo $this->session->userdata('full_name'); ?>

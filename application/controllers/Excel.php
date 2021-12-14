@@ -21,7 +21,7 @@ class Excel extends Admin_Controller
     function convertDateFromExcel($cellValue)
     {
         if ($cellValue != null && $cellValue != '') {
-            $temp_date =  round(($val - 25569) * 86400);
+            $temp_date =  round(($cellValue - 25569) * 86400);
             return (date('Y-m-d', $temp_date));
 
         }
@@ -540,9 +540,9 @@ class Excel extends Admin_Controller
 
         // Print out first worksheet
         for ($i=0; $i < count($users); $i++){ 
-            $found = in_array($users[$i]['id'], array_column($all_data, 'user_id'));
+            $found = array_search($users[$i]['id'], array_column($all_data, 'user_id'));
 
-            if ($found){
+            if ($found == true){
                 $users_report[$i] = $all_data[$found];
             }
             else{
@@ -550,11 +550,13 @@ class Excel extends Admin_Controller
             }
 
             if (!array_key_exists($users[$i]['team'], $teams_total)){
-                $teams_total[$users[$i]['team']] = 0;;
+                $teams_total[$users[$i]['team']] = 0;
             } else {
                 $teams_total[$users[$i]['team']]++;
             }
-        }  
+        }
+
+        // echo json_encode($users_report);
 
         for ($i=0; $i < count($all_data); $i++){
             if ($all_data[$i]['award_id']=='1' || $all_data[$i]['award_id']=='2'){  
@@ -635,8 +637,7 @@ class Excel extends Admin_Controller
             }  
             
             $month_score = $data['month_score'];
-
-            // echo 'Users '.$i.': '.$fullname, ' : ', $month_score , '--';
+            // echo $i. ' '. json_encode($users_report[$i]) . PHP_EOL;
 
             $spreadsheet->getActiveSheet()->setCellValue('G'.$row, $month_score);
             $spreadsheet->getActiveSheet()->setCellValue('I'.$row, $data['remarks']);
@@ -663,9 +664,10 @@ class Excel extends Admin_Controller
                 $spreadsheet->getActiveSheet()->setCellValue('H'.$row, 'Không hoàn thành');
             }
         }
+        
 
                         
-        // Print out secont worksheet
+        // Print out second worksheet
         $spreadsheet->setActiveSheetIndex(1);
         $spreadsheet->getActiveSheet()->setCellValue('A3', 'Tháng '.$month.' năm '.$year);
         $spreadsheet->getActiveSheet()->setCellValue('G12', 'Vũng Tàu, ngày '.cal_days_in_month(CAL_GREGORIAN, $month, $year).' tháng '.$month.' năm '.$year);
@@ -856,7 +858,7 @@ class Excel extends Admin_Controller
                 }
             }
         }
-        
+        // echo "users_report: " . json_encode($users_report);
 
         //Insert Header Footer
         // $spreadsheet->getActiveSheet()

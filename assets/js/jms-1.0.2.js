@@ -2009,7 +2009,7 @@ function genTask(task){
     }
     result += `<div class="task ${status}" task-id=${task['id']}>                
                 <div class="task-header ui-state-default">
-                        <img class="avatar" src="${base_url+task['pic_ava']}" >
+                        <img class="avatar" src="${task['pic_ava']}" >
                         <span class="full-name">${task['pic_name']}</span>
 
                         <span class="status d-none d-sm-inline ml-4">

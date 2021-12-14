@@ -80,7 +80,7 @@ class Tasks extends Admin_Controller
             // }
 
             
-            $pic = '<img class="avatar" src="'.base_url($value["avatar"]).'"></img><span>'.$value["full_name"].'</span>';
+            $pic = '<img class="avatar" src="'.$value["avatar"].'"></img><span>'.$value["full_name"].'</span>';
             $rating = '<select class="star-rating">
                 <option value="">Not rated</option>
                 <option value="0">Not comply</option>

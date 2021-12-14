@@ -346,7 +346,7 @@ class Users extends Admin_Controller
 
 		$list .= '<ul class="select-list">';
 		foreach ($data as $key => $value) {
-			$list .= '<li class="select-item p-1" user-id='.$value["id"].'><img class="avatar" src="'.base_url($value["avatar"]).'"></img>'.$value["full_name"].'</li>';
+			$list .= '<li class="select-item p-1" user-id='.$value["id"].'><img class="avatar" src="'.$value["avatar"].'"></img>'.$value["full_name"].'</li>';
 		} // /foreach	
 		$list .= '</ul>';
 

@@ -15,8 +15,7 @@
                 <div class="modal-content">
                     <div class="modal-header">
                         <h4 class="modal-title">Remove Task</h4>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"
-                            aria-hidden="true">&times;</button>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close" aria-hidden="true">&times;</button>
 
                     </div>
 
@@ -40,8 +39,7 @@
                 <div class="modal-content">
                     <div class="modal-header">
                         <h4 class="modal-title">Assign new Task</h4>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"
-                            aria-hidden="true">&times;</button>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close" aria-hidden="true">&times;</button>
 
                     </div>
                     <form role="form" action="<?php echo base_url('tasks/assign') ?>" method="post" id="taskAssignForm">
@@ -52,15 +50,13 @@
                                 </div>
                                 <div class="col-xl-4 col-lg-4 col-8 target-user" target-user="">
                                     <img src="" class="avatar">
-                                    <span class = "name"></span>
+                                    <span class="name"></span>
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="col-xl-12 col-lg-12 col-12 input-group-sm">
                                     <label for="assign_description">Description</label>
-                                    <textarea class="form-control custom-scrollbar" name="description"
-                                        id="assign_description"
-                                        oninput='this.style.height = "";this.style.height = this.scrollHeight + "px"'></textarea>
+                                    <textarea class="form-control custom-scrollbar" name="description" id="assign_description" oninput='this.style.height = "";this.style.height = this.scrollHeight + "px"'></textarea>
                                 </div>
                                 <div class="col-xl-3 col-lg-3 col-6 input-group-sm">
                                     <label for="assign_project">Project</label>
@@ -78,36 +74,30 @@
 
                                 <div class="col-xl-3 col-lg-3 col-6 input-group-sm">
                                     <label for="assign_weight">Weight</label>
-                                    <input type="number" class="form-control" name="weight" id="assign_weight" min="0"
-                                        max="100">
+                                    <input type="number" class="form-control" name="weight" id="assign_weight" min="0" max="100">
 
                                 </div>
                                 <div class="col-xl-3 col-lg-3 col-6 input-group-sm">
                                     <label for="assign_total_weight">Total Weight</label>
-                                    <input type="number" class="form-control" name="total_weight" id="assign_total_weight"
-                                        readonly>
+                                    <input type="number" class="form-control" name="total_weight" id="assign_total_weight" readonly>
                                 </div>
 
 
                                 <div class="col-xl-3 col-lg-6 col-6 input-group-sm">
                                     <label for="assign_plan_start">Plan Start date</label>
-                                    <input type="text" class="form-control date-picker" name="plan_start"
-                                        id="assign_plan_start" autocomplete="off">
+                                    <input type="text" class="form-control date-picker" name="plan_start" id="assign_plan_start" autocomplete="off">
                                 </div>
                                 <div class="col-xl-3 col-lg-6 col-6 input-group-sm">
                                     <label for="assign_plan_complete">Plan Complete date</label>
-                                    <input type="text" class="form-control date-picker" name="plan_complete"
-                                        id="assign_plan_complete" autocomplete="off">
+                                    <input type="text" class="form-control date-picker" name="plan_complete" id="assign_plan_complete" autocomplete="off">
                                 </div>
                                 <div class="col-xl-3 col-lg-6 col-6 input-group-sm">
                                     <label for="assign_deadline">Deadline</label>
-                                    <input type="name" class="form-control date-picker" name="deadline"
-                                        id="assign_deadline" autocomplete="off">
+                                    <input type="name" class="form-control date-picker" name="deadline" id="assign_deadline" autocomplete="off">
                                 </div>
                                 <div class="col-xl-3 col-lg-6 col-6 input-group-sm">
                                     <label for="assign_plan_duration">Plan duration</label>
-                                    <input type="text" class="form-control" name="duration" id="assign_plan_duration"
-                                        readonly>
+                                    <input type="text" class="form-control" name="duration" id="assign_plan_duration" readonly>
                                 </div>
                                 <div class="col-xl-12 col-lg-12 col-12 input-group-sm">
                                     <label for="assign_remarks">Remarks</label>
@@ -132,8 +122,7 @@
                 <div class="modal-content">
                     <div class="modal-header">
                         <h4 class="modal-title">Edit User</h4>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"
-                            aria-hidden="true">&times;</button>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close" aria-hidden="true">&times;</button>
 
                     </div>
                     <form role="form" action="<?php echo base_url('tasks/edit') ?>" method="post" id="taskEditForm">
@@ -141,9 +130,7 @@
                             <div class="row">
                                 <div class="col-xl-12 col-lg-12 col-12 input-group-sm">
                                     <label for="edit_description">Description</label>
-                                    <textarea class="form-control custom-scrollbar" name="description"
-                                        id="edit_description"
-                                        oninput='this.style.height = "";this.style.height = this.scrollHeight + "px"'></textarea>
+                                    <textarea class="form-control custom-scrollbar" name="description" id="edit_description" oninput='this.style.height = "";this.style.height = this.scrollHeight + "px"'></textarea>
                                 </div>
                                 <div class="col-xl-3 col-lg-3 col-6 input-group-sm">
                                     <label for="edit_project">Project</label>
@@ -161,58 +148,48 @@
 
                                 <div class="col-xl-3 col-lg-3 col-6 input-group-sm">
                                     <label for="edit_weight">Weight</label>
-                                    <input type="number" class="form-control" name="weight" id="edit_weight" min="0"
-                                        max="100">
+                                    <input type="number" class="form-control" name="weight" id="edit_weight" min="0" max="100">
                                 </div>
                                 <div class="col-xl-3 col-lg-3 col-6 input-group-sm">
                                     <label for="edit_total_weight">Total Weight</label>
-                                    <input type="number" step="5" class="form-control" name="total_weight"
-                                        id="edit_total_weight" readonly>
+                                    <input type="number" step="5" class="form-control" name="total_weight" id="edit_total_weight" readonly>
                                 </div>
 
 
                                 <div class="col-xl-3 col-lg-6 col-6 input-group-sm">
                                     <label for="edit_plan_start">Plan Start date</label>
-                                    <input type="text" class="form-control date-picker" name="plan_start"
-                                        id="edit_plan_start">
+                                    <input type="text" class="form-control date-picker" name="plan_start" id="edit_plan_start">
                                 </div>
                                 <div class="col-xl-3 col-lg-6 col-6 input-group-sm">
                                     <label for="edit_plan_complete">Plan Complete date</label>
-                                    <input type="text" class="form-control date-picker" name="plan_complete"
-                                        id="edit_plan_complete">
+                                    <input type="text" class="form-control date-picker" name="plan_complete" id="edit_plan_complete">
                                 </div>
                                 <div class="col-xl-3 col-lg-6 col-6 input-group-sm">
                                     <label for="edit_deadline">Deadline</label>
-                                    <input type="name" class="form-control date-picker" name="deadline"
-                                        id="edit_deadline">
+                                    <input type="name" class="form-control date-picker" name="deadline" id="edit_deadline">
                                 </div>
                                 <div class="col-xl-3 col-lg-6 col-6 input-group-sm">
                                     <label for="edit_plan_duration">Plan duration</label>
-                                    <input type="text" class="form-control" name="duration" id="edit_plan_duration"
-                                        readonly>
+                                    <input type="text" class="form-control" name="duration" id="edit_plan_duration" readonly>
                                 </div>
 
 
                                 <div class="col-xl-3 col-lg-6 col-6 input-group-sm">
                                     <label for="edit_assign_name">Assigned by</label>
-                                    <input type="text" class="form-control" name="assign_name" id="edit_assign_name"
-                                        readonly>
+                                    <input type="text" class="form-control" name="assign_name" id="edit_assign_name" readonly>
                                 </div>
                                 <div class="col-xl-3 col-lg-6 col-6 input-group-sm">
                                     <label for="edit_actual_start">Actual Start</label>
-                                    <input type="text" class="form-control date-picker" name="actual_start"
-                                        id="edit_actual_start" autocomplete="off">
+                                    <input type="text" class="form-control date-picker" name="actual_start" id="edit_actual_start" autocomplete="off">
                                 </div>
 
                                 <div class="col-xl-3 col-lg-6 col-6 input-group-sm">
                                     <label for="edit_actual_complete">Actual Complete</label>
-                                    <input type="text" class="form-control date-picker" name="actual_complete"
-                                        id="edit_actual_complete" autocomplete="off">
+                                    <input type="text" class="form-control date-picker" name="actual_complete" id="edit_actual_complete" autocomplete="off">
                                 </div>
                                 <div class="col-xl-3 col-lg-6 col-6 input-group-sm">
                                     <label for="edit_actual_duration">Actual duration</label>
-                                    <input type="number" class="form-control" name="actual_duration"
-                                        id="edit_actual_duration" readonly>
+                                    <input type="number" class="form-control" name="actual_duration" id="edit_actual_duration" readonly>
                                 </div>
                                 <div class="col-xl-12 col-lg-12 col-12 input-group-sm">
                                     <label for="edit_remarks">Remarks</label>
@@ -237,8 +214,7 @@
                                         <option value="6">Excellent (I)</option>
                                     </select>
                                 </div>
-                                <div class="score col-xl-4 col-lg-4 col-5 text-center"
-                                    style="font-size:1.7rem; font-weight:600;">
+                                <div class="score col-xl-4 col-lg-4 col-5 text-center" style="font-size:1.7rem; font-weight:600;">
                                     <span>-</span>
                                 </div>
                             </div>
@@ -332,8 +308,7 @@
                         <div class="card-header pt-1 pb-1">
                             <div class="card-title font-weight-bold">Department</div>
                             <div class="card-tools">
-                                <button type="button" class="btn btn-circle btn-sm" data-card-widget="collapse"
-                                    data-toggle="tooltip" title="Collapse">
+                                <button type="button" class="btn btn-circle btn-sm" data-card-widget="collapse" data-toggle="tooltip" title="Collapse">
                                     <i class="fas fa-minus"></i>
                                 </button>
                             </div>
@@ -348,8 +323,7 @@
                         <div class="card-header pt-1 pb-1">
                             <div class="card-title font-weight-bold">Team List</div>
                             <div class="card-tools">
-                                <button type="button" class="btn btn-circle btn-sm" data-card-widget="collapse"
-                                    data-toggle="tooltip" title="Collapse">
+                                <button type="button" class="btn btn-circle btn-sm" data-card-widget="collapse" data-toggle="tooltip" title="Collapse">
                                     <i class="fas fa-minus"></i>
                                 </button>
                             </div>
@@ -363,8 +337,7 @@
                         <div class="card-header pt-1 pb-1">
                             <div class="card-title font-weight-bold">Member List</div>
                             <div class="card-tools">
-                                <button type="button" class="btn btn-circle btn-sm" data-card-widget="collapse"
-                                    data-toggle="tooltip" title="Collapse">
+                                <button type="button" class="btn btn-circle btn-sm" data-card-widget="collapse" data-toggle="tooltip" title="Collapse">
                                     <i class="fas fa-minus"></i>
                                 </button>
                             </div>
@@ -380,16 +353,13 @@
                     <div class="card col-xs-12 col-lg-12 col-12 mb-3">
                         <div class="row p-1">
                             <div class="col-xl-3 col-lg-3 col-6 total-weight px-2 my-1">
-                                Total weight: <span class="badge badge-info"
-                                    style="font-size:1rem; font-weight:400;"></span>
+                                Total weight: <span class="badge badge-info" style="font-size:1rem; font-weight:400;"></span>
                             </div>
                             <div class="col-xl-3 col-lg-3 col-6 regulation-score px-2 my-1">
-                                Regulation: <span class="badge badge-info"
-                                    style="font-size:1rem; font-weight:400;"></span>
+                                Regulation: <span class="badge badge-info" style="font-size:1rem; font-weight:400;"></span>
                             </div>
                             <div class="col-xl-3 col-lg-3 col-6 overall-score px-2 my-1">
-                                Tasks score: <span class="badge badge-info"
-                                    style="font-size:1rem; font-weight:400;"></span>
+                                Tasks score: <span class="badge badge-info" style="font-size:1rem; font-weight:400;"></span>
                             </div>
                             <div class="col-xl-3 col-lg-3 col-6 month-score px-2 my-1">
                                 Overall: <span class="badge badge-info" style="font-size:1rem; font-weight:400;"></span>
@@ -443,7 +413,7 @@
                             <section class="tasks-container task-row sortable">
 
                             </section>
-                            
+
                         </div>
                     </div>
                 </div>
@@ -461,195 +431,197 @@
     <div id="snackbar"></div>
 
     <script type="text/javascript">
-    permission = <?php echo json_encode($user_permission) ?>;
-    today = new Date();
-    year = today.getFullYear();
-    month = today.getMonth() + 1;
+        permission = <?php echo json_encode($user_permission) ?>;
+        active_dept = <?php echo $this->session->userdata('department_id') ?>;
+        active_team = <?php echo $this->session->userdata('team_id') ?>;
+        today = new Date();
+        year = today.getFullYear();
+        month = today.getMonth() + 1;
 
-    type = 'team_tasks';
+        type = 'team_tasks';
 
-    $(document).ready(function() {
+        $(document).ready(function() {
 
-        // console.log(myCompany, myDept, myTeam)
-        loadDepartments(["#departments"], myDept, presetWithDisableOthers);
-        loadTeamList(['#team-list'], myDept, myCompany, myTeam, presetWithDisableOthers);
-        loadUserList(['#team-user-list'], myTeam, myDept, myCompany);
-        getReport(active_user, year, month); //to get regulation
+            // console.log(myCompany, myDept, myTeam)
+            loadDepartments(["#departments"], myDept, presetWithDisableOthers);
+            loadTeamList(['#team-list'], myDept, myCompany, myTeam, presetWithDisableOthers);
+            loadUserList(['#team-user-list'], myTeam, myDept, myCompany);
+            getReport(active_user, year, month); //to get regulation
 
 
-        //Apply daterange
-        // $('[name="dateFromTo"]').daterangepicker();
-        // $('[name="dateFromTo"]').on('apply.daterangepicker', function(ev, picker) {
-        //     $(this).val(picker.startDate.format('DD/MM/YYYY') + '  -  ' + picker.endDate.format(
-        //         'DD/MM/YYYY'));
-        // });
-        $('.date-picker').daterangepicker({
-            singleDatePicker: true,
-            autoApply: true,
-            autoUpdateInput: true,
-            defaultDate: '',
-            locale: {
-                format: 'DD/MM/YYYY',
-                cancelLabel: 'Clear'
-            }
-        }, function(start, end, label) {
-
-        });
-
-        //Apply star rating
-        $('#regulation-rating').barrating({
-            theme: 'bars-movie',
-            // readonly: true,
-            onSelect: function(value, text, event) {
-                if (typeof(event) !== 'undefined') {
-                    summarizeMonth();
-                    saveReport(active_user, year, month);
+            //Apply daterange
+            // $('[name="dateFromTo"]').daterangepicker();
+            // $('[name="dateFromTo"]').on('apply.daterangepicker', function(ev, picker) {
+            //     $(this).val(picker.startDate.format('DD/MM/YYYY') + '  -  ' + picker.endDate.format(
+            //         'DD/MM/YYYY'));
+            // });
+            $('.date-picker').daterangepicker({
+                singleDatePicker: true,
+                autoApply: true,
+                autoUpdateInput: true,
+                defaultDate: '',
+                locale: {
+                    format: 'DD/MM/YYYY',
+                    cancelLabel: 'Clear'
                 }
-            }
-        });
+            }, function(start, end, label) {
 
-        $('#taskEditModal').find('.star-rating').barrating({
-            theme: 'css-stars',
-            // readonly: true,
-            onSelect: function(value, text, event) {
-                if (typeof(event) !== 'undefined') {
-                    score_div = (this.$elem.parents('.row')).find('.score span');
+            });
 
-                    let taskId = targetId;
-                    let task = resultData.filter(x => x['id'] == targetId)[0];
-                    let ratings = taskRating(task, value);
-                    if (ratings['overall'] == null) {
-                        return false;
-                    }
-                    score_div.text(ratings['overall']);
-                    approveTask(taskId, ["rating", "productivity", "efficiency", "overall"],
-                        [value, ratings["productivity"], ratings["efficiency"], ratings["overall"]],
-                        () => refreshTask(targetId, "blast"));
-                }
-            }
-        });
-
-        //Apply jQueryUI sortable
-        $('.sortable').sortable({
-            helper: "clone",
-            axix: "y",
-            handle: ".task-header",
-            containment: ".tasks-container",
-            cursor: "move",
-        })
-
-        // Set active on sidebar menu
-        $("#team-tasks-list").addClass('active');
-
-        // Assign function for form actions
-        $('#removeBtn').on("click", function(e) {
-            removeByModal(targetId, "#taskRemoveForm", () => loadTaskRows(active_user, year, month));
-        });
-
-        $('#assignBtn').on("click", function(e) {
-            assignByModal("#taskAssignForm", () => loadTaskRows(active_user, year, month));
-        });
-
-        $('#editBtn').on("click", function(e) {
-            editByModal(targetId, "#taskEditForm", () => loadTaskRows(active_user, year, month));
-        });
-
-        $('#taskAssignModal').on('shown.bs.modal', function(){
-            $(this).find('.avatar').attr("src", active_user_info["avatar"]);
-            $(this).find('.name').text(active_user_info["name"]);
-            $(this).find('.target-user').attr("target-user", active_user);
-        })
-
-        // Assign function for form actions    
-        $('[data-target="#taskAssignModal"]').on("click", function(e) {
-            $('#taskAssignModal').find(`.date-picker`).val('');
-            $('#taskAssignModal').find(`input:not([name="total_weight"])`).val('');
-            $('#taskAssignModal').find(`input:not([readonly])`).css('background-color', '#fff');
-            $('#taskAssignModal').find(`textarea`).css('background-color', '#fff');
-        });
-
-        $('[data-target="#taskEditModal"]').on("click", function(e) {
-            $('#taskEditModal').find(`.date-picker`).val('');
-            $('#taskEditModal').find(`.star-rating`).val('');
-        });
-
-
-        $('form input, form textarea').on('input', function(e) {
-            $(this).css('background-color', '#fff');
-        });
-
-        $('[name="weight"]').on("change", function() {
-            let weight = parseInt($(this).val());
-            let _sumWeight = 0;
-            if ($(this).attr('id') == "assign_weight" || $(this).attr('id') == "add_weight") {
-                _sumWeight = sumWeight + weight;
-                if (_sumWeight > 100) {
-                    showSnackbar('error', 'Error! The weight of all task exceed 100%');
-                }
-                $(this).parents('form').find('[name="total_weight"]').val(_sumWeight);
-            } else if ($(this).attr('id') == "edit_weight") {
-
-                let origin_weight = resultData.filter(x => x['id'] == targetId)[0]["weight"];
-                _sumWeight = sumWeight - origin_weight + weight;
-
-                if (_sumWeight > 100) {
-                    showSnackbar('error', 'Error! The weight of all task exceed 100%');
-                }
-                $(this).parents('form').find('[name="total_weight"]').val(_sumWeight);
-            }
-
-        });
-
-        //Assign action for buttons
-        $('#month').find(`[value=${month}]`).attr('selected', true);
-        $('#year').find(`[value=${year}]`).attr('selected', true);
-
-        $('#year, #month').on('change', function() {
-            year = $('#year').val();
-            month = $('#month').val();
-
-            loadTaskRows(active_user, year, month);
-            getReport(active_user, year, month);
-        });
-
-        $('#printBM2').on("click", function() {
-            console.log(active_team, active_user);
-            if (active_team > 0){
-                window.location = `${base_url}excel/exportTeamBM2/${active_team}/${year}/${month}`;
-
-            }
-        });
-
-        $('#printBM3').on("click", function() {
-            console.log(active_team);
-            if (active_team > 0){
-            window.location =
-                `${base_url}excel/exportTeamBM3/${active_team}/${year}/${month}/`;
-            }
-        });
-
-        $('#printSummary').on("click", function() {
-            window.location =
-                `${base_url}excel/exportDeptSummary/${active_dept}/${year}/${month}`;
-        })
-
-        getLatestYears.done(
-            (data) => {
-                let options = '';
-                today = new Date();
-                for (let i = 0; i < data.length; i++) {
-                    let y = data[i];
-                    if (y == today.getFullYear()) {
-                        options += `<option value=${y} selected>${y}</option>`;
-                    } else {
-                        options += `<option value=${y}>${y}</option>`;
+            //Apply star rating
+            $('#regulation-rating').barrating({
+                theme: 'bars-movie',
+                // readonly: true,
+                onSelect: function(value, text, event) {
+                    if (typeof(event) !== 'undefined') {
+                        summarizeMonth();
+                        saveReport(active_user, year, month);
                     }
                 }
-                $('#year').html(options);
-            }
-        );
+            });
+
+            $('#taskEditModal').find('.star-rating').barrating({
+                theme: 'css-stars',
+                // readonly: true,
+                onSelect: function(value, text, event) {
+                    if (typeof(event) !== 'undefined') {
+                        score_div = (this.$elem.parents('.row')).find('.score span');
+
+                        let taskId = targetId;
+                        let task = resultData.filter(x => x['id'] == targetId)[0];
+                        let ratings = taskRating(task, value);
+                        if (ratings['overall'] == null) {
+                            return false;
+                        }
+                        score_div.text(ratings['overall']);
+                        approveTask(taskId, ["rating", "productivity", "efficiency", "overall"],
+                            [value, ratings["productivity"], ratings["efficiency"], ratings["overall"]],
+                            () => refreshTask(targetId, "blast"));
+                    }
+                }
+            });
+
+            //Apply jQueryUI sortable
+            $('.sortable').sortable({
+                helper: "clone",
+                axix: "y",
+                handle: ".task-header",
+                containment: ".tasks-container",
+                cursor: "move",
+            })
+
+            // Set active on sidebar menu
+            $("#team-tasks-list").addClass('active');
+
+            // Assign function for form actions
+            $('#removeBtn').on("click", function(e) {
+                removeByModal(targetId, "#taskRemoveForm", () => loadTaskRows(active_user, year, month));
+            });
+
+            $('#assignBtn').on("click", function(e) {
+                assignByModal("#taskAssignForm", () => loadTaskRows(active_user, year, month));
+            });
+
+            $('#editBtn').on("click", function(e) {
+                editByModal(targetId, "#taskEditForm", () => loadTaskRows(active_user, year, month));
+            });
+
+            $('#taskAssignModal').on('shown.bs.modal', function() {
+                $(this).find('.avatar').attr("src", active_user_info["avatar"]);
+                $(this).find('.name').text(active_user_info["name"]);
+                $(this).find('.target-user').attr("target-user", active_user);
+            })
+
+            // Assign function for form actions    
+            $('[data-target="#taskAssignModal"]').on("click", function(e) {
+                $('#taskAssignModal').find(`.date-picker`).val('');
+                $('#taskAssignModal').find(`input:not([name="total_weight"])`).val('');
+                $('#taskAssignModal').find(`input:not([readonly])`).css('background-color', '#fff');
+                $('#taskAssignModal').find(`textarea`).css('background-color', '#fff');
+            });
+
+            $('[data-target="#taskEditModal"]').on("click", function(e) {
+                $('#taskEditModal').find(`.date-picker`).val('');
+                $('#taskEditModal').find(`.star-rating`).val('');
+            });
+
+
+            $('form input, form textarea').on('input', function(e) {
+                $(this).css('background-color', '#fff');
+            });
+
+            $('[name="weight"]').on("change", function() {
+                let weight = parseInt($(this).val());
+                let _sumWeight = 0;
+                if ($(this).attr('id') == "assign_weight" || $(this).attr('id') == "add_weight") {
+                    _sumWeight = sumWeight + weight;
+                    if (_sumWeight > 100) {
+                        showSnackbar('error', 'Error! The weight of all task exceed 100%');
+                    }
+                    $(this).parents('form').find('[name="total_weight"]').val(_sumWeight);
+                } else if ($(this).attr('id') == "edit_weight") {
+
+                    let origin_weight = resultData.filter(x => x['id'] == targetId)[0]["weight"];
+                    _sumWeight = sumWeight - origin_weight + weight;
+
+                    if (_sumWeight > 100) {
+                        showSnackbar('error', 'Error! The weight of all task exceed 100%');
+                    }
+                    $(this).parents('form').find('[name="total_weight"]').val(_sumWeight);
+                }
+
+            });
+
+            //Assign action for buttons
+            $('#month').find(`[value=${month}]`).attr('selected', true);
+            $('#year').find(`[value=${year}]`).attr('selected', true);
+
+            $('#year, #month').on('change', function() {
+                year = $('#year').val();
+                month = $('#month').val();
+
+                loadTaskRows(active_user, year, month);
+                getReport(active_user, year, month);
+            });
+
+            $('#printBM2').on("click", function() {
+                console.log(active_team, active_user);
+                if (active_team > 0) {
+                    window.location = `${base_url}excel/exportTeamBM2/${active_team}/${year}/${month}`;
+
+                }
+            });
+
+            $('#printBM3').on("click", function() {
+                console.log(active_team);
+                if (active_team > 0) {
+                    window.location =
+                        `${base_url}excel/exportTeamBM3/${active_team}/${year}/${month}/`;
+                }
+            });
+
+            $('#printSummary').on("click", function() {
+                window.location =
+                    `${base_url}excel/exportDeptSummary/${active_dept}/${year}/${month}`;
+            })
+
+            getLatestYears.done(
+                (data) => {
+                    let options = '';
+                    today = new Date();
+                    for (let i = 0; i < data.length; i++) {
+                        let y = data[i];
+                        if (y == today.getFullYear()) {
+                            options += `<option value=${y} selected>${y}</option>`;
+                        } else {
+                            options += `<option value=${y}>${y}</option>`;
+                        }
+                    }
+                    $('#year').html(options);
+                }
+            );
 
 
 
-    });
+        });
     </script>
