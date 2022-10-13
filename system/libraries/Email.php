@@ -69,42 +69,42 @@ class CI_Email {
 	 *
 	 * @var	string	'mail', 'sendmail' or 'smtp'
 	 */
-	public $protocol	= 'mail';		// mail/sendmail/smtp
+	public $protocol	= 'smtp';		// mail/sendmail/smtp
 
 	/**
 	 * STMP Server host
 	 *
 	 * @var	string
 	 */
-	public $smtp_host	= '';
+	public $smtp_host	= 'omailmc.ptsc.com.vn';
 
 	/**
 	 * SMTP Username
 	 *
 	 * @var	string
 	 */
-	public $smtp_user	= '';
+	public $smtp_user	= 'thaipham@ptsc.com.vn';
 
 	/**
 	 * SMTP Password
 	 *
 	 * @var	string
 	 */
-	public $smtp_pass	= '';
+	public $smtp_pass	= 'ptscmc';
 
 	/**
 	 * SMTP Server port
 	 *
 	 * @var	int
 	 */
-	public $smtp_port	= 25;
+	public $smtp_port	= 465;
 
 	/**
 	 * SMTP connection timeout in seconds
 	 *
 	 * @var	int
 	 */
-	public $smtp_timeout	= 5;
+	public $smtp_timeout	= 15;
 
 	/**
 	 * SMTP persistent connection
@@ -118,7 +118,7 @@ class CI_Email {
 	 *
 	 * @var	string	empty, 'tls' or 'ssl'
 	 */
-	public $smtp_crypto	= '';
+	public $smtp_crypto	= 'ssl';
 
 	/**
 	 * Whether to apply word-wrapping to the message body.

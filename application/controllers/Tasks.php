@@ -450,6 +450,7 @@ class Tasks extends Admin_Controller
     {
         $result = $this->model_tasks->getLatestYears();
         $result_array = array();
+        $result_array[] =  $result[0]['year'] + 1;
         foreach($result as $key=>$value){
             $result_array[] = $value['year'];
         }
